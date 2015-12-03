@@ -16,6 +16,10 @@ public class GamePane extends JPanel implements Runnable{
 	private final int FPS = 30;
 	private double averageFPS = 0;
 
+	/**
+	 * Constructor of the GamePane class.
+	 * 
+	 */
 	public GamePane(){
 		super();
 		setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -39,8 +43,12 @@ public class GamePane extends JPanel implements Runnable{
 	
 	
 
+	/**
+	 * run the game thread
+	 */
 	public void run() {
 		
+		//---- field for the fps system ----//
 		long startTime = 0;
 		long URDTimeMillis;
 		long waitTime;
