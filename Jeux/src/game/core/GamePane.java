@@ -1,3 +1,4 @@
+package game.core;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
