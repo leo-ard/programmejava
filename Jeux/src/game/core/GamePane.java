@@ -3,6 +3,8 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
+import game.map.Map;
+
 public class GamePane extends JPanel implements Runnable{
 	
 	private static final long serialVersionUID = 1204454795981689683L;
@@ -11,10 +13,15 @@ public class GamePane extends JPanel implements Runnable{
 	
 	//essentials
 	private Thread thread;
+	private int WIDTH = 1280;
+	private int HEIGHT = 800;
 	
 	//frame
 	private final int FPS = 30;
 	private double averageFPS = 0;
+	
+	//map
+	Map map;
 
 	/**
 	 * Constructor of the GamePane class.
@@ -30,6 +37,8 @@ public class GamePane extends JPanel implements Runnable{
 	
 	public void initiate(){
 		//all fields for the game will be initiate here
+		map = new Map((long)2107564565);
+		map.Generate();
 	}
 	
 	public void addNotify(){
@@ -48,6 +57,10 @@ public class GamePane extends JPanel implements Runnable{
 	 */
 	public void run() {
 		
+		//---- Innitiation ----//
+		initiate();
+		
+		
 		//---- field for the fps system ----//
 		long startTime = 0;
 		long URDTimeMillis;
@@ -59,6 +72,7 @@ public class GamePane extends JPanel implements Runnable{
 		
 		long targetTime = 1000/FPS;
 		
+		//----Thread----//
 		while(true){
 			
 			
