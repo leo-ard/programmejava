@@ -23,8 +23,8 @@ public class GamePane extends JPanel implements Runnable{
 	
 	//essentials
 	private Thread thread;
-	private int WIDTH = 1280;
-	private int HEIGHT = 800;
+	public static int WIDTH = 1280;
+	public static int HEIGHT = 800;
 	private Listener l;
 	
 	//frame
