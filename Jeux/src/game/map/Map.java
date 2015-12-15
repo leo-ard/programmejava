@@ -1,37 +1,65 @@
 package game.map;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Map {
 	
-	public static Random randomNum;
-	ArrayList<ArrayList<Chunck>> chuncksXY = new ArrayList<ArrayList<Chunck>>();
-	ArrayList<ArrayList<Chunck>> chuncksMXY = new ArrayList<ArrayList<Chunck>>();
-	ArrayList<ArrayList<Chunck>> chuncksXMY = new ArrayList<ArrayList<Chunck>>();
-	ArrayList<ArrayList<Chunck>> chuncksMXMY = new ArrayList<ArrayList<Chunck>>();
+	public static int chuncksBlockWidth = 24;
+	public static int blockPixelHeight = 100;
+	public static int blockPixelWidth = 94;
 	
-	final int rayon = 4;
+	public static Random randomNum;
+	Chunck[][] chuncksXY;
+	Chunck[][] chuncksMXY;
+	Chunck[][] chuncksXMY;
+	Chunck[][] chuncksMXMY;
+	
+	Chunck[] chuncksX;
+	Chunck[] chuncksY;
+	Chunck[] chuncksMX;
+	Chunck[] chuncksMY;
+	
+	Chunck chunck0;
+	
 	long seed;
 	
-	public Map(long seed){
+	public Map(long seed, int max){
 		this.seed = seed;
 		randomNum = new Random(seed);
+		
+		chuncksXY = new Chunck[max][max];  
+		chuncksMXY = new Chunck[max][max]; 
+		chuncksXMY = new Chunck[max][max]; 
+		chuncksMXMY = new Chunck[max][max];
+		
+		chuncksX = new Chunck[max]; 
+		chuncksY = new Chunck[max]; 
+		chuncksMX = new Chunck[max];
+		chuncksMY = new Chunck[max];
 	}
 	
 	public void update(){
 		
 	}
 	
-	public void draw(Graphics2D g){
-		
+	public void draw(Graphics2D g, int x, int y){
+		int rayon = 1;
+		for(int i = -rayon; i < rayon; i+=2){
+			for(int j = -rayon; j < rayon; j+=2){
+				this.get(i, j).draw(g, x, y);
+				x += blockPixelWidth*chuncksBlockWidth;
+			}
+			y += blockPixelHeight*chuncksBlockWidth;
+			x = 0;
+		}
 	}
 	
-	public void Generate(){
+	public void firstGenerate(int rayon){
+		int x1 = 0;
+		int y1 =0;
 		for(int i = -rayon; i <= rayon; i++){
 			for(int j = -rayon; j <= rayon; j++){
-				System.out.println(i+" "+j);
 				this.add(new Chunck(i, j), i, j);
 				this.get(i, j).generate();
 			}
@@ -40,47 +68,65 @@ public class Map {
 	
 	public void add(Chunck c, int x, int y){
 		if(x==0 || y == 0){
-			return;
-		}
-		if(x < 0 && y < 0){
-			if(chuncksMXMY.isEmpty()){
-				chuncksMXMY.add(-x, new ArrayList<Chunck>());
+			if(x == 0&& y == 0){
+				chunck0 = c;
 			}
-			chuncksMXMY.get(x*-1).add(y*-1, c);
+			else if(x > 0){
+				chuncksX[x] = c;
+			}
+			else if(x < 0){
+				chuncksMX[-x] = c;
+			}
+			else if(y > 0){
+				chuncksY[y] = c;
+			}
+			else if(y < 0){
+				chuncksMY[-y] = c;
+			}
+		}
+		else if(x < 0 && y < 0){
+			chuncksMXMY[-x][-y] = c;
 		}
 		else if(x > 0 && y < 0){
-			if(chuncksXMY.get(x) == null){
-				chuncksXMY.add(x, new ArrayList<Chunck>());
-			}
-			chuncksXMY.get(x).add(y*-1, c);
+			chuncksXMY[x][-y] = c;
 		}
 		else if(x < 0 && y > 0){
-			if(chuncksMXY.get(x*-1) == null){
-				chuncksMXY.add(x*-1, new ArrayList<Chunck>());
-			}
-			chuncksMXY.get(x*-1).add(y, c);
+			chuncksMXY[-x][y] = c;
 		}
 		else if(x > 0 && y > 0){
-			if(chuncksXY.get(x) == null){
-				chuncksXY.add(x, new ArrayList<Chunck>());
-			}
-			chuncksXY.get(x).add(y, c);
+			chuncksXY[x][y] = c;
 		}
 	}
 	
 	public Chunck get(int x, int y){
-		if(x < 0 && y < 0){
-			return chuncksMXMY.get(x*-1).get(y*-1);
-
+		if(x==0 || y == 0){
+			if(x == 0&& y == 0){
+				return chunck0;
+			}
+			else if(x > 0){
+				return chuncksX[x];
+			}
+			else if(x < 0){
+				return chuncksMX[-x];
+			}
+			else if(y > 0){
+				return chuncksY[y];
+			}
+			else if(y < 0){
+				return chuncksMY[-y];
+			}
+		}
+		else if(x < 0 && y < 0){
+			return chuncksMXMY[-x][-y];
 		}
 		else if(x > 0 && y < 0){
-			return chuncksXMY.get(x).get(y*-1);
+			return chuncksXMY[x][-y];
 		}
 		else if(x < 0 && y > 0){
-			chuncksMXY.get(x*-1).get(y);
+			return chuncksMXY[-x][y];
 		}
 		else if(x > 0 && y > 0){
-			return chuncksXY.get(x).get(y);
+			return chuncksXY[x][y];
 		}
 		return null;
 	}

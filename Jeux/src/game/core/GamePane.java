@@ -1,6 +1,12 @@
 package game.core;
+import java.awt.Color;
 import java.awt.Dimension;
-
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import game.map.Map;
@@ -11,10 +17,15 @@ public class GamePane extends JPanel implements Runnable{
 	
 	//----FIELDS----// 
 	
+	//to delete
+	int x = 0;
+	int y = 0;
+	
 	//essentials
 	private Thread thread;
 	private int WIDTH = 1280;
 	private int HEIGHT = 800;
+	private Listener l;
 	
 	//frame
 	private final int FPS = 30;
@@ -22,6 +33,13 @@ public class GamePane extends JPanel implements Runnable{
 	
 	//map
 	Map map;
+	
+	//image
+	private Graphics2D g;
+	private BufferedImage image;
+	
+	//impoted images
+	public static Image[] texturesBlock = new Image[10];
 
 	/**
 	 * Constructor of the GamePane class.
@@ -31,14 +49,30 @@ public class GamePane extends JPanel implements Runnable{
 		super();
 		setPreferredSize(new Dimension(WIDTH,HEIGHT));
 		setFocusable(true);
+		l = new Listener();
 		
 		requestFocus();
 	}
 	
 	public void initiate(){
+		//import images
+		textureImport();
+		
 		//all fields for the game will be initiate here
-		map = new Map((long)2107564565);
-		map.Generate();
+		map = new Map((long)2107564565, 1_000);
+		map.firstGenerate(4);
+		
+		//Graphics
+		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		g = (Graphics2D) image.getGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		
+	}
+	
+	public void textureImport(){
+		texturesBlock[0] = new ImageIcon("assets/textures/map/green3.png").getImage();
+		texturesBlock[1] = new ImageIcon("assets/textures/map/waterFrame1.png").getImage();
 	}
 	
 	public void addNotify(){
@@ -48,6 +82,9 @@ public class GamePane extends JPanel implements Runnable{
 			thread.start();
 		}
 		//Initiate keylisteners here
+		this.addKeyListener(l);
+		this.addMouseListener(l);
+		this.addMouseWheelListener(l);
 	}
 	
 	
@@ -75,9 +112,23 @@ public class GamePane extends JPanel implements Runnable{
 		//----Thread----//
 		while(true){
 			
+			GameUpdate();
+			GameRender();
+			GameDraw();
 			
 			
-			
+			if(Listener.AOrLeft){
+				x+=10;
+			}
+			if(Listener.DOrRight){
+				x-=10;
+			}
+			if(Listener.SOrDown){
+				y-=10;
+			}
+			if(Listener.WOrUp){
+				y+=10;
+			}
 			
 			//---- System for the fps ----//
 			
@@ -102,6 +153,27 @@ public class GamePane extends JPanel implements Runnable{
 				totalTime = 0;
 			}
 		}
+		
+	}
+	
+	public void GameUpdate(){
+		
+	}
+	
+	public void GameRender(){
+		
+		g.setColor(Color.gray);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
+		
+		//map
+		map.draw(g, x, y);
+	}
+	
+	public void GameDraw(){
+		Graphics g2 = this.getGraphics();
+		g2.drawImage(image, 0,0, null);
+		
+		g2.dispose();
 		
 	}
 	
