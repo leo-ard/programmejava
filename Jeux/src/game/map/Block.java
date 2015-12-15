@@ -37,7 +37,9 @@ public class Block {
 	
 	public void draw(Graphics2D g, int x, int y){
 		//System.out.println(x+" "+y);
-		g.drawImage(GamePane.texturesBlock[id], x, y,Map.blockPixelWidth, Map.blockPixelHeight, null);
+		if(x > -Map.blockPixelWidth&&x < Map.WIDTH&&y > -Map.blockPixelHeight&&y < Map.HEIGHT)`{
+			g.drawImage(GamePane.texturesBlock[id], x, y,Map.blockPixelWidth, Map.blockPixelHeight, null);
+		}
 	}
 	
 	//----Getters and seeters ----//
