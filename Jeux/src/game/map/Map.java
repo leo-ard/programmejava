@@ -1,26 +1,18 @@
 package game.map;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Map {
 	
-	public static int chuncksBlockWidth = 24;
-	public static int blockPixelHeight = 100;
-	public static int blockPixelWidth = 94;
-	
 	public static Random randomNum;
-	Chunck[][] chuncksXY;
-	Chunck[][] chuncksMXY;
-	Chunck[][] chuncksXMY;
-	Chunck[][] chuncksMXMY;
+	java.util.Map<Dimension, Chunck> map;
 	
-	Chunck[] chuncksX;
-	Chunck[] chuncksY;
-	Chunck[] chuncksMX;
-	Chunck[] chuncksMY;
-	
-	Chunck chunck0;
+	private boolean isChangingChunck = false;
+	private int oldX = 0;
+	private int oldY = 0;
 	
 	long seed;
 	
@@ -28,111 +20,133 @@ public class Map {
 		this.seed = seed;
 		randomNum = new Random(seed);
 		
-		chuncksXY = new Chunck[max][max];  
-		chuncksMXY = new Chunck[max][max]; 
-		chuncksXMY = new Chunck[max][max]; 
-		chuncksMXMY = new Chunck[max][max];
-		
-		chuncksX = new Chunck[max]; 
-		chuncksY = new Chunck[max]; 
-		chuncksMX = new Chunck[max];
-		chuncksMY = new Chunck[max];
+		map = new HashMap<Dimension,Chunck>();
 	}
 	
 	public void update(){
+		if(this.isChangingChunck()){
+			Chunck c = this.getByPixel(View.x, View.y);
+			Generate(4, c.getX(), c.getY());
+		}
 		
 	}
 	
-	public void draw(Graphics2D g, int x, int y){
+	public void draw(Graphics2D g, int x, int y, int x1, int y1){
+		int baseX = x;
 		int rayon = 1;
-		for(int i = -rayon; i < rayon; i+=2){
-			for(int j = -rayon; j < rayon; j+=2){
-				this.get(i, j).draw(g, x, y);
-				x += blockPixelWidth*chuncksBlockWidth;
+		
+		x -= View.blockPixelWidth*View.chuncksBlockWidth*x1;
+		y -= View.blockPixelHeight*View.chuncksBlockWidth*.75*y1;
+		
+		System.out.println("---");
+		for(int i = -rayon+x1; i <= rayon+x1; i++){
+			for(int j = -rayon+y1; j <= rayon+y1; j++){
+				this.getByPosition(i, j).draw(g, x, y);
+				System.out.print(j + ":"+ i + " "+ x + ":"+ y + " ");
+				x += View.blockPixelWidth*View.chuncksBlockWidth;
 			}
-			y += blockPixelHeight*chuncksBlockWidth;
-			x = 0;
+			System.out.println();
+			x = baseX -  ( View.blockPixelWidth*View.chuncksBlockWidth)*x1;
+			y += View.blockPixelHeight*View.chuncksBlockWidth*.75;
 		}
 	}
 	
 	public void firstGenerate(int rayon){
-		int x1 = 0;
-		int y1 =0;
 		for(int i = -rayon; i <= rayon; i++){
 			for(int j = -rayon; j <= rayon; j++){
-				this.add(new Chunck(i, j), i, j);
-				this.get(i, j).generate();
+				this.add(new Chunck(j, i), j, i);
+				this.getByPosition(j, i).generate();
+			}
+			System.out.println( );
+		}
+	}
+	
+	/**
+	 * 
+	 * Generates the map
+	 * 
+	 * @param rayon
+	 * @param x of the chunck for the middle of the generation
+	 * @param y of the chunck for the middle of the generation
+	 */
+	public void Generate(int rayon, int x, int y){
+		//TODO a coriger
+		for(int i = -rayon+x; i <= rayon+x; i++){
+			for(int j = -rayon+y; j <= rayon+y; j++){
+				if(this.getByPosition(j, i) == null){
+					this.add(new Chunck(j, i), j, i);
+					this.getByPosition(j, i).generate();
+					
+				}
+				
 			}
 		}
 	}
 	
 	public void add(Chunck c, int x, int y){
-		if(x==0 || y == 0){
-			if(x == 0&& y == 0){
-				chunck0 = c;
-			}
-			else if(x > 0){
-				chuncksX[x] = c;
-			}
-			else if(x < 0){
-				chuncksMX[-x] = c;
-			}
-			else if(y > 0){
-				chuncksY[y] = c;
-			}
-			else if(y < 0){
-				chuncksMY[-y] = c;
-			}
-		}
-		else if(x < 0 && y < 0){
-			chuncksMXMY[-x][-y] = c;
-		}
-		else if(x > 0 && y < 0){
-			chuncksXMY[x][-y] = c;
-		}
-		else if(x < 0 && y > 0){
-			chuncksMXY[-x][y] = c;
-		}
-		else if(x > 0 && y > 0){
-			chuncksXY[x][y] = c;
-		}
+		map.put(new Dimension(x, y), c);
+		System.out.print(x+":"+y+" ");
 	}
 	
-	public Chunck get(int x, int y){
-		if(x==0 || y == 0){
-			if(x == 0&& y == 0){
-				return chunck0;
-			}
-			else if(x > 0){
-				return chuncksX[x];
-			}
-			else if(x < 0){
-				return chuncksMX[-x];
-			}
-			else if(y > 0){
-				return chuncksY[y];
-			}
-			else if(y < 0){
-				return chuncksMY[-y];
-			}
+	/**
+	 * @param x
+	 * @param y
+	 * @return The chunck at the position x, y
+	 */
+	public Chunck getByPosition(int x, int y){
+		return (Chunck) map.get(new Dimension(x, y));
+	}
+	
+	/**
+	 * 
+	 * @param d
+	 * @return the Chunck at the pixel x, y
+	 */
+	public Chunck getByPixel(int Width, int Height){
+		int x = 0;
+		int y = 0;
+		
+		if(Width < 0){
+			x = Width/(View.chuncksBlockWidth*View.blockPixelWidth);
 		}
-		else if(x < 0 && y < 0){
-			return chuncksMXMY[-x][-y];
+		else if(Width > 0){
+			x = Width/(View.chuncksBlockWidth*View.blockPixelWidth);
+			x++;
 		}
-		else if(x > 0 && y < 0){
-			return chuncksXMY[x][-y];
+		
+		if(Height < 0){
+			y = (int) (Height/(View.chuncksBlockWidth*View.blockPixelHeight*.75));
 		}
-		else if(x < 0 && y > 0){
-			return chuncksMXY[-x][y];
+		else if(Height > 0){
+			y = (int) (Height/(View.chuncksBlockWidth*View.blockPixelHeight*.75));
+			y++;
 		}
-		else if(x > 0 && y > 0){
-			return chuncksXY[x][y];
-		}
-		return null;
+		
+		return (Chunck) map.get(new Dimension(-x, -y));
 	}
 
 	public Random getRandomNum() {
 		return randomNum;
+	}
+
+	public boolean isChangingChunck() {
+		Chunck c = this.getByPixel(View.x, View.y);
+		
+		if(oldX != c.getX() || oldY != c.getY()){
+			this.setChangingChunck(true);
+			System.out.println(true);
+			oldX = c.getX();
+			oldY = c.getY();
+		}
+		else{
+			this.setChangingChunck(false);
+		}
+		
+		return isChangingChunck;
+	}
+
+	private void setChangingChunck(boolean isChangingChunck) {
+		this.isChangingChunck = isChangingChunck;
 	}
 
 }

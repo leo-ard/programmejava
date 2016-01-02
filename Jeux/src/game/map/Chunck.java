@@ -1,6 +1,7 @@
 package game.map;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 
 /**
@@ -14,6 +15,7 @@ public class Chunck {
 	
 	
 	private boolean isDisable;
+	private boolean isGenerated;
 	
 	private Block[][] blocks;
 	private Structure structure;
@@ -23,38 +25,41 @@ public class Chunck {
 	public Chunck(int x, int y){
 		this.x = x;
 		this.y = y;
-		blocks = new Block[Map.chuncksBlockWidth][Map.chuncksBlockWidth];
+		blocks = new Block[View.chuncksBlockWidth][View.chuncksBlockWidth];
 	}
 	
 	public void update(boolean isDisable){
 		this.isDisable = isDisable;
 	}
 	
-	public void draw(Graphics2D g, int x, int y){
+	public void draw(Graphics2D g, int x, int y){	
 		int x1 = 0;
 		int y1 = 0;
 		
-		for(int i = 0; i < Map.chuncksBlockWidth; i++){
-			for(int j = 0; j < Map.chuncksBlockWidth; j+=2){
+		for(int i = 0; i < View.chuncksBlockWidth; i++){
+			for(int j = 0; j < View.chuncksBlockWidth; j+=2){
 				blocks[i][j].draw(g, x+x1, y+y1);
-				y1 += Map.blockPixelHeight*1.5;
+				y1 += View.blockPixelHeight*1.5;
 			}
-			x1 += Map.blockPixelWidth;
+			x1 += View.blockPixelWidth;
 			y1 = 0;
 		}
 		
-		x1 =  Map.blockPixelWidth/2;
-		y1 =  (int)(Map.blockPixelHeight*.75);
+		x1 =  View.blockPixelWidth/2;
+		y1 =  (int)(View.blockPixelHeight*.75);
 		
-		for(int i = 1; i < Map.chuncksBlockWidth; i++){
-			for(int j = 0; j < Map.chuncksBlockWidth; j+=2){
-				/*g.setColor(Color.black);
-				g.drawString(i+" "+j, x+x1, (int)(y+y1));*/
+		g.setColor(Color.black);
+		g.setFont(new Font("Arial", 52, 52));
+		g.drawString(this.getX()+" "+this.getY(), x+x1, (int)(y+y1));
+		
+		for(int i = 0; i < View.chuncksBlockWidth; i++){
+			for(int j = 0; j < View.chuncksBlockWidth; j+=2){
+				
 				blocks[i][j].draw(g, x+x1, (int)(y+y1));
-				y1 += Map.blockPixelHeight*1.5;
+				y1 += View.blockPixelHeight*1.5;
 			}
-			x1 += Map.blockPixelWidth;
-			y1 = (int)(Map.blockPixelHeight*.75);
+			x1 += View.blockPixelWidth;
+			y1 = (int)(View.blockPixelHeight*.75);
 		}
 		
 			
@@ -62,8 +67,8 @@ public class Chunck {
 	}
 	
 	public void generate(){
-		for(int i = 0; i < Map.chuncksBlockWidth; i++){
-			for(int j = 0; j < Map.chuncksBlockWidth; j++){
+		for(int i = 0; i < View.chuncksBlockWidth; i++){
+			for(int j = 0; j < View.chuncksBlockWidth; j++){
 				if(Map.randomNum.nextBoolean()){
 					blocks[i][j] = new Block(Block.GRASS0);
 				}
@@ -74,6 +79,30 @@ public class Chunck {
 			}
 		}
 		Map.randomNum.nextBoolean();
+	}
+
+	public boolean isDisable() {
+		return isDisable;
+	}
+
+	public void setDisable(boolean isDisable) {
+		this.isDisable = isDisable;
+	}
+
+	public boolean isGenerated() {
+		return isGenerated;
+	}
+
+	public Block[][] getBlocks() {
+		return blocks;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
 	}
 	
 

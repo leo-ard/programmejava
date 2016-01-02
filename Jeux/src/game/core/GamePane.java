@@ -1,6 +1,7 @@
 package game.core;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -9,7 +10,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import game.map.Chunck;
 import game.map.Map;
+import game.map.View;
 
 public class GamePane extends JPanel implements Runnable{
 	
@@ -17,18 +20,15 @@ public class GamePane extends JPanel implements Runnable{
 	
 	//----FIELDS----// 
 	
-	//to delete
-	int x = 0;
-	int y = 0;
-	
 	//essentials
 	private Thread thread;
 	public static int WIDTH = 1280;
 	public static int HEIGHT = 800;
 	private Listener l;
+	private View v;
 	
 	//frame
-	private final int FPS = 30;
+	private final int FPS = 60;
 	private double averageFPS = 0;
 	
 	//map
@@ -59,7 +59,7 @@ public class GamePane extends JPanel implements Runnable{
 		textureImport();
 		
 		//all fields for the game will be initiate here
-		map = new Map((long)2107564565, 1_000);
+		map = new Map((long)2107554565, 1_000);
 		map.firstGenerate(4);
 		
 		//Graphics
@@ -67,6 +67,8 @@ public class GamePane extends JPanel implements Runnable{
 		g = (Graphics2D) image.getGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		
+		v = new View();
 		
 	}
 	
@@ -111,24 +113,11 @@ public class GamePane extends JPanel implements Runnable{
 		
 		//----Thread----//
 		while(true){
+			startTime = System.nanoTime();
 			
 			GameUpdate();
 			GameRender();
 			GameDraw();
-			
-			
-			if(Listener.AOrLeft){
-				x+=10;
-			}
-			if(Listener.DOrRight){
-				x-=10;
-			}
-			if(Listener.SOrDown){
-				y-=10;
-			}
-			if(Listener.WOrUp){
-				y+=10;
-			}
 			
 			//---- System for the fps ----//
 			
@@ -158,15 +147,45 @@ public class GamePane extends JPanel implements Runnable{
 	
 	public void GameUpdate(){
 		
+		int speed = 10;
+		
+		if(Listener.SHIFT){
+			speed = 50;
+		}
+		if(Listener.AOrLeft){
+			View.x += speed;
+		}
+		if(Listener.DOrRight){
+			View.x-=speed;
+		}
+		if(Listener.SOrDown){
+			View.y-=speed;
+		}
+		if(Listener.WOrUp){
+			View.y+=speed;
+		}
+		
+		v.zoom(Listener.getWhellRotation());
+		v.update();
+		
+		//---- Map Update ----//
+		map.update();
+		
 	}
 	
 	public void GameRender(){
-		
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		//map
-		map.draw(g, x, y);
+		Chunck c = map.getByPixel(View.x, View.y);
+		map.draw(g, View.x, View.y, 1/*c.getX()*/, 0/*c.getY()*/);
+		
+		//----INFO----//
+		g.setColor(Color.black);
+		g.setFont(new Font("Arial", 0, 20));
+		g.drawString("Pos: "+View.x+":"+View.y+" Chunck Pos: "+c.getX()+":"+c.getY(), 30, 30);
+		
 	}
 	
 	public void GameDraw(){

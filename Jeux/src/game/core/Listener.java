@@ -17,9 +17,15 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 	public static boolean LEFT_CLICK;
 	public static boolean RIGHT_CLICK;
 	
+	public static boolean SHIFT;
+	
+	public static int whellRotation = 0;
+	
 	//---- Mouse Wheel Listener ----//
 	@Override
-	public void mouseWheelMoved(MouseWheelEvent e) {}
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		whellRotation = e.getWheelRotation();
+	}
 
 	//---- Mouse Listener ----//
 	@Override
@@ -74,6 +80,10 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 		if(e.getKeyCode() == KeyEvent.VK_D||e.getKeyCode() == KeyEvent.VK_RIGHT){
 			DOrRight = true;
 		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_SHIFT){
+			SHIFT = true;
+		}
 	}
 
 	@Override
@@ -90,9 +100,19 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 		if(e.getKeyCode() == KeyEvent.VK_D||e.getKeyCode() == KeyEvent.VK_RIGHT){
 			DOrRight = false;
 		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_SHIFT){
+			SHIFT = false;
+		}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {}
+	
+	public static int getWhellRotation(){
+		int x = whellRotation;
+		whellRotation = 0;
+		return x;
+	}
 
 }
