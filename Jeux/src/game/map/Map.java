@@ -31,23 +31,15 @@ public class Map {
 		
 	}
 	
-	public void draw(Graphics2D g, int x, int y, int x1, int y1){
-		int baseX = x;
+	public void draw(Graphics2D g, int x1, int y1){
 		int rayon = 1;
 		
-		x -= View.blockPixelWidth*View.chuncksBlockWidth*x1;
-		y -= View.blockPixelHeight*View.chuncksBlockWidth*.75*y1;
 		
-		System.out.println("---");
 		for(int i = -rayon+x1; i <= rayon+x1; i++){
 			for(int j = -rayon+y1; j <= rayon+y1; j++){
-				this.getByPosition(i, j).draw(g, x, y);
-				System.out.print(j + ":"+ i + " "+ x + ":"+ y + " ");
-				x += View.blockPixelWidth*View.chuncksBlockWidth;
+				Chunck c = this.getByPosition(i, j);
+				c.draw(g, View.blockPixelWidth*View.chuncksBlockWidth*c.getX(), (int)(View.blockPixelHeight*View.chuncksBlockWidth*0.75*c.getY()));
 			}
-			System.out.println();
-			x = baseX -  ( View.blockPixelWidth*View.chuncksBlockWidth)*x1;
-			y += View.blockPixelHeight*View.chuncksBlockWidth*.75;
 		}
 	}
 	
@@ -73,9 +65,9 @@ public class Map {
 		//TODO a coriger
 		for(int i = -rayon+x; i <= rayon+x; i++){
 			for(int j = -rayon+y; j <= rayon+y; j++){
-				if(this.getByPosition(j, i) == null){
-					this.add(new Chunck(j, i), j, i);
-					this.getByPosition(j, i).generate();
+				if(this.getByPosition(i, j) == null){
+					this.add(new Chunck(i, j), i, j);
+					this.getByPosition(i, j).generate();
 					
 				}
 				

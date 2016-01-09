@@ -30,7 +30,7 @@ public class View {
 	}
 
 	public void zoom(int nb) {
-		int xx = 0;
+		/*int xx = 0;
 		int yy = 0;
 		
 		this.zoom -= nb;
@@ -46,7 +46,7 @@ public class View {
 			zoom = 5;
 			x-=xx;
 			y-=yy;
-		}
+		}*/
 	}
 
 	public static void setX(int x) {

@@ -177,14 +177,19 @@ public class GamePane extends JPanel implements Runnable{
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
+		g.translate(View.x, View.y);
+		
 		//map
 		Chunck c = map.getByPixel(View.x, View.y);
-		map.draw(g, View.x, View.y, 1/*c.getX()*/, 0/*c.getY()*/);
+		map.draw(g, c.getX(),c.getY());
 		
 		//----INFO----//
 		g.setColor(Color.black);
 		g.setFont(new Font("Arial", 0, 20));
 		g.drawString("Pos: "+View.x+":"+View.y+" Chunck Pos: "+c.getX()+":"+c.getY(), 30, 30);
+		System.out.println(c.getX()+" "+c.getY());
+		
+		g.translate(-g.getTransform().getTranslateX(), -g.getTransform().getTranslateY());
 		
 	}
 	

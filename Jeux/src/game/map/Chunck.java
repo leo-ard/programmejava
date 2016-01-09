@@ -35,7 +35,6 @@ public class Chunck {
 	public void draw(Graphics2D g, int x, int y){	
 		int x1 = 0;
 		int y1 = 0;
-		
 		for(int i = 0; i < View.chuncksBlockWidth; i++){
 			for(int j = 0; j < View.chuncksBlockWidth; j+=2){
 				blocks[i][j].draw(g, x+x1, y+y1);

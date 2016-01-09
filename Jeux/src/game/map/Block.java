@@ -36,8 +36,7 @@ public class Block {
 	}
 	
 	public void draw(Graphics2D g, int x, int y){
-		//System.out.println(x+" "+y);
-		if(x > -View.blockPixelWidth&&x < GamePane.WIDTH &&y > -View.blockPixelHeight&&y < GamePane.HEIGHT){
+		if(x > -View.x-View.blockPixelWidth&&x < -View.x+GamePane.WIDTH &&y > -View.y-View.blockPixelHeight&&y < -View.y+GamePane.HEIGHT){
 			g.drawImage(GamePane.texturesBlock[id], x, y,View.blockPixelWidth, View.blockPixelHeight, null);
 		}
 	}
