@@ -10,9 +10,11 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import game.map.Block;
 import game.map.Chunck;
 import game.map.Map;
 import game.map.View;
+import game.mobs.Player;
 
 public class GamePane extends JPanel implements Runnable{
 	
@@ -32,7 +34,7 @@ public class GamePane extends JPanel implements Runnable{
 	private double averageFPS = 0;
 	
 	//map
-	Map map;
+	private Map map;
 	
 	//image
 	private Graphics2D g;
@@ -40,6 +42,11 @@ public class GamePane extends JPanel implements Runnable{
 	
 	//impoted images
 	public static Image[] texturesBlock = new Image[10];
+	public static Image[] texturesGUI = new Image[2];
+	public static int curentLevel = 2;
+	
+	//player
+	public static Player player;
 
 	/**
 	 * Constructor of the GamePane class.
@@ -70,11 +77,16 @@ public class GamePane extends JPanel implements Runnable{
 		
 		v = new View();
 		
+		//TODO change the position by the saved one
+		player = new Player(0,0);
+		
 	}
 	
 	public void textureImport(){
-		texturesBlock[0] = new ImageIcon("assets/textures/map/green3.png").getImage();
-		texturesBlock[1] = new ImageIcon("assets/textures/map/waterFrame1.png").getImage();
+		texturesBlock[1] = new ImageIcon("assets/textures/map/green3.png").getImage();
+		texturesBlock[2] = new ImageIcon("assets/textures/map/waterFrame1.png").getImage();
+		
+		texturesGUI[0] = new ImageIcon("assets/textures/map/Selected.png").getImage();
 	}
 	
 	public void addNotify(){
@@ -147,30 +159,21 @@ public class GamePane extends JPanel implements Runnable{
 	
 	public void GameUpdate(){
 		
-		int speed = 10;
+		player.setSpeed(5);
 		
 		if(Listener.SHIFT){
-			speed = 50;
-		}
-		if(Listener.AOrLeft){
-			View.x += speed;
-		}
-		if(Listener.DOrRight){
-			View.x-=speed;
-		}
-		if(Listener.SOrDown){
-			View.y-=speed;
-		}
-		if(Listener.WOrUp){
-			View.y+=speed;
+			player.setSpeed(50);
 		}
 		
+		player.update();
 		v.zoom(Listener.getWhellRotation());
 		v.update();
 		
 		//---- Map Update ----//
 		map.update();
-		
+		Block c = map.getBlockByPosition(player.getX(), player.getY());
+		map.selectedBlock.setLocation(c.getX(), c.getY());
+		//System.out.println(map.selectedBlock.getX()+" "+map.selectedBlock.getX());
 	}
 	
 	public void GameRender(){
@@ -179,7 +182,7 @@ public class GamePane extends JPanel implements Runnable{
 		
 		g.translate(View.x, View.y);
 		
-		//map
+		//----MAP----//
 		Chunck c = map.getByPixel(View.x, View.y);
 		map.draw(g, c.getX(),c.getY());
 		
@@ -187,7 +190,9 @@ public class GamePane extends JPanel implements Runnable{
 		g.setColor(Color.black);
 		g.setFont(new Font("Arial", 0, 20));
 		g.drawString("Pos: "+View.x+":"+View.y+" Chunck Pos: "+c.getX()+":"+c.getY(), 30, 30);
-		System.out.println(c.getX()+" "+c.getY());
+		
+		//----PLAYER----//
+		player.draw(g);
 		
 		g.translate(-g.getTransform().getTranslateX(), -g.getTransform().getTranslateY());
 		

@@ -2,18 +2,26 @@ package game.mobs;
 
 public class Mob {
 
-	private int maxHP;
-	private int Hp;
-	private int speed;
-	private int domage;
-	private boolean isAlive = true;
+	protected int maxHP;
+	protected int Hp;
+	protected int domage;
 
-	protected Mob(int maxHP, int hp, int speed, int domage) {
+
+	protected int speed;
+	protected boolean isAlive = true;
+
+	protected int x, y;
+	protected int WIDTH, HEIGHT;
+	
+
+	protected Mob(int x, int y, int WIDTH, int HEIGHT, int maxHP, int hp, int speed, int domage) {
 		super();
 		this.maxHP = maxHP;
 		this.Hp = hp;
 		this.speed = speed;
 		this.domage = domage;
+		this.WIDTH = WIDTH;
+		this.HEIGHT = HEIGHT;
 	}
 	
 	/**
@@ -24,22 +32,6 @@ public class Mob {
 	 * @param y
 	 */
 	public void move(int x, int y){
-		
-	}
-	
-	
-	/**
-	 * 
-	 * Go to a point in a strait line. 
-	 *
-	 * x = 0 --> UP (W)
-	 * x = 1 --> RGIHT (D)
-	 * x = 2 --> DOWN (S)
-	 * x = 3 --> LEFT (A)
-	 * 
-	 * @param x
-	 */
-	public void go(byte x){
 		
 	}
 	
@@ -75,6 +67,30 @@ public class Mob {
 
 	public void setDomage(int domage) {
 		this.domage = domage;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public void setMaxHP(int maxHP) {
+		this.maxHP = maxHP;
+	}
+
+	public void setHp(int hp) {
+		Hp = hp;
 	}
 
 }

@@ -2,17 +2,20 @@ package game.map;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.Random;
 
 public class Map {
 	
 	public static Random randomNum;
-	java.util.Map<Dimension, Chunck> map;
+	public java.util.Map<Dimension, Chunck> map;
+	public static Point selectedBlock;
 	
 	private boolean isChangingChunck = false;
 	private int oldX = 0;
 	private int oldY = 0;
+	
 	
 	long seed;
 	
@@ -20,6 +23,7 @@ public class Map {
 		this.seed = seed;
 		randomNum = new Random(seed);
 		
+		selectedBlock = new Point();
 		map = new HashMap<Dimension,Chunck>();
 	}
 	
@@ -46,10 +50,9 @@ public class Map {
 	public void firstGenerate(int rayon){
 		for(int i = -rayon; i <= rayon; i++){
 			for(int j = -rayon; j <= rayon; j++){
-				this.add(new Chunck(j, i), j, i);
+				this.add(new Chunck(j, i, Biome.PLAINES1), j, i);
 				this.getByPosition(j, i).generate();
 			}
-			System.out.println( );
 		}
 	}
 	
@@ -62,11 +65,10 @@ public class Map {
 	 * @param y of the chunck for the middle of the generation
 	 */
 	public void Generate(int rayon, int x, int y){
-		//TODO a coriger
 		for(int i = -rayon+x; i <= rayon+x; i++){
 			for(int j = -rayon+y; j <= rayon+y; j++){
 				if(this.getByPosition(i, j) == null){
-					this.add(new Chunck(i, j), i, j);
+					this.add(new Chunck(i, j, Biome.PLAINES1), i, j);
 					this.getByPosition(i, j).generate();
 					
 				}
@@ -77,7 +79,6 @@ public class Map {
 	
 	public void add(Chunck c, int x, int y){
 		map.put(new Dimension(x, y), c);
-		System.out.print(x+":"+y+" ");
 	}
 	
 	/**
@@ -89,9 +90,37 @@ public class Map {
 		return (Chunck) map.get(new Dimension(x, y));
 	}
 	
-	/**
-	 * 
-	 * @param d
+	public Block getBlockByPosition(int x, int y){
+		 // Find the row and column of the box that the point falls in.
+	    int row = (int) (y / (View.blockPixelHeight*.75));
+	    int column;
+
+	    boolean rowIsOdd = row < 0?(-row %2 == 0):(row % 2 == 1);
+	    
+
+	    // Is the row an odd number?
+	    if (rowIsOdd)// Yes: Offset x to match the indent of the row
+	        column = (int) ((x - View.blockPixelWidth/2) / View.blockPixelWidth);
+	    else// No: Calculate normally
+	        column = (int) (x / View.blockPixelWidth);
+	    
+	    boolean IsXM1;
+	    /*if(x > -View.blockPixelWidth)*/
+	    
+	    double relY = y - (row * View.blockPixelHeight*75);
+	    double relX;
+
+	    if (rowIsOdd)
+	        relX = (x - (column * View.blockPixelWidth)) - View.blockPixelWidth/2;
+	    else
+	        relX = x - (column * View.blockPixelWidth);
+	    
+	 // Work out if the point is above either of the hexagon's top edges 
+	    return this.getByPosition(column<0?(column/24)-1:column/24, row<0?(row/24)-1:row/24).getBlocks()[3][column<0?(23-(column*-1%24)):column%24][row<0?23-(-row%24):row%24];
+	    
+	}
+	
+	/**	 * @param d
 	 * @return the Chunck at the pixel x, y
 	 */
 	public Chunck getByPixel(int Width, int Height){

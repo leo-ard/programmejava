@@ -23,6 +23,9 @@ public class View {
 	public void update(){
 		blockPixelHeight = (int) (double)(baseBlockPixelHeight*zoom/10);
 		blockPixelWidth = (int) (double)(baseBlockPixelWidth*zoom/10);
+		
+		x = -GamePane.player.getX()+GamePane.WIDTH/2;
+		y = -GamePane.player.getY()+GamePane.HEIGHT/2;
 	}
 
 	public double getZoom() {

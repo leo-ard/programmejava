@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
+import game.core.GamePane;
+
 /**
  * Classe de block de 24 par 24. 
  * 
@@ -17,15 +19,16 @@ public class Chunck {
 	private boolean isDisable;
 	private boolean isGenerated;
 	
-	private Block[][] blocks;
+	private Block[][][] blocks;
 	private Structure structure;
+	private Biome biome;
 	
 	private int x, y;
 	
-	public Chunck(int x, int y){
+	public Chunck(int x, int y, Biome b){
 		this.x = x;
 		this.y = y;
-		blocks = new Block[View.chuncksBlockWidth][View.chuncksBlockWidth];
+		blocks = new Block[5][View.chuncksBlockWidth][View.chuncksBlockWidth];
 	}
 	
 	public void update(boolean isDisable){
@@ -37,7 +40,7 @@ public class Chunck {
 		int y1 = 0;
 		for(int i = 0; i < View.chuncksBlockWidth; i++){
 			for(int j = 0; j < View.chuncksBlockWidth; j+=2){
-				blocks[i][j].draw(g, x+x1, y+y1);
+				blocks[GamePane.curentLevel][i][j].draw(g, x+x1, y+y1);
 				y1 += View.blockPixelHeight*1.5;
 			}
 			x1 += View.blockPixelWidth;
@@ -49,12 +52,11 @@ public class Chunck {
 		
 		g.setColor(Color.black);
 		g.setFont(new Font("Arial", 52, 52));
-		g.drawString(this.getX()+" "+this.getY(), x+x1, (int)(y+y1));
+		g.drawString(this.getX()+" "+this.getY(), x, (int)(y));
 		
 		for(int i = 0; i < View.chuncksBlockWidth; i++){
-			for(int j = 0; j < View.chuncksBlockWidth; j+=2){
-				
-				blocks[i][j].draw(g, x+x1, (int)(y+y1));
+			for(int j = 1; j < View.chuncksBlockWidth; j+=2){
+				blocks[GamePane.curentLevel][i][j].draw(g, x+x1, (int)(y+y1));
 				y1 += View.blockPixelHeight*1.5;
 			}
 			x1 += View.blockPixelWidth;
@@ -66,18 +68,22 @@ public class Chunck {
 	}
 	
 	public void generate(){
-		for(int i = 0; i < View.chuncksBlockWidth; i++){
-			for(int j = 0; j < View.chuncksBlockWidth; j++){
-				if(Map.randomNum.nextBoolean()){
-					blocks[i][j] = new Block(Block.GRASS0);
+		
+		int b = Map.randomNum.nextInt(Biome.nbBiome);
+		
+		this.biome = Biome.getBiomeById(b+1);
+		
+		for(int h = 0; h < 5; h++){
+			for(int i = 0; i < View.chuncksBlockWidth; i++){
+				for(int j = 0; j < View.chuncksBlockWidth; j++){
+					
+					this.blocks[h][i][j] = new Block(this.biome.getRandomBlock(h));
+					this.blocks[h][i][j].setXAndY(this.x*View.chuncksBlockWidth+i,this.y*View.chuncksBlockWidth+j);
+					
 				}
-				else{
-					blocks[i][j] = new Block(Block.GRASS1);
-				}
-				
 			}
 		}
-		Map.randomNum.nextBoolean();
+		
 	}
 
 	public boolean isDisable() {
@@ -92,7 +98,7 @@ public class Chunck {
 		return isGenerated;
 	}
 
-	public Block[][] getBlocks() {
+	public Block[][][] getBlocks() {
 		return blocks;
 	}
 
@@ -103,6 +109,4 @@ public class Chunck {
 	public int getY() {
 		return y;
 	}
-	
-
 }

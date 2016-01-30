@@ -1,26 +1,43 @@
 package game.map;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 
 import game.core.GamePane;
 
 public class Block {
 	
-	public static Block GRASS0 = new Block(0, "Grass", false, true, "grass.png");
-	public static Block GRASS1 = new Block(1, "Grass 2", false, true, "grass2.png");
+	public static Block VOID0 = new Block(0, "", false, false);
+	public static Block GRASS1 = new Block(1, "Grass", false, true);
+	public static Block WATER2 = new Block(2, "Water", false, true);
+	public static Block DIRT3 = new Block(3, "Dirt", false, true);
+	public static Block STONE4 = new Block(4, "Stone", false, true);
+	
+	public static Block getById(int id){
+		switch(id){
+		case 0: return VOID0;
+		case 1: return GRASS1;
+		case 2: return WATER2;
+		case 3: return DIRT3;
+		case 4: return STONE4;
+		default: System.out.println("--------------------------------\n====ERREUR Block introuvable====\n--------------------------------"); return VOID0;
+		}
+	}
 	
 	private int id;
 	private String name;
 	private boolean isSolid;
 	private boolean isTransparent;
-	private String textureName;
+	private boolean isSelected; 
+	private int x, y;
 	
-	public Block(int id, String name, boolean isSolid, boolean isTransparent, String textureName){
+	public Block(int id, String name, boolean isSolid, boolean isTransparent){
 		this.id = id;
 		this.name = name;
 		this.isSolid = isSolid;
 		this.isTransparent = isTransparent;
-		this.textureName = textureName;
 	}
 	
 	public Block(Block b){
@@ -28,7 +45,6 @@ public class Block {
 		this.name = b.name;
 		this.isSolid = b.isSolid;
 		this.isTransparent = b.isTransparent;
-		this.textureName = b.textureName;
 	}
 	
 	public void update(){
@@ -38,7 +54,18 @@ public class Block {
 	public void draw(Graphics2D g, int x, int y){
 		if(x > -View.x-View.blockPixelWidth&&x < -View.x+GamePane.WIDTH &&y > -View.y-View.blockPixelHeight&&y < -View.y+GamePane.HEIGHT){
 			g.drawImage(GamePane.texturesBlock[id], x, y,View.blockPixelWidth, View.blockPixelHeight, null);
+			
+			
 		}
+		if(this.x == Map.selectedBlock.getX()&&this.y == Map.selectedBlock.getY()){
+			g.drawImage(GamePane.texturesGUI[0], x, y,View.blockPixelWidth, View.blockPixelHeight, null);
+		}
+		
+		//----SHOW POSITION----///
+		g.setFont(new Font("Arial", 20, 20));
+		g.setColor(Color.BLACK);
+		
+		g.drawString(this.x+" "+this.y, x+View.blockPixelWidth/2, y+View.blockPixelHeight/2);
 	}
 	
 	//----Getters and seeters ----//
@@ -75,12 +102,25 @@ public class Block {
 		this.isTransparent = isTransparent;
 	}
 
-	public String getTextureName() {
-		return textureName;
+	public boolean isSelected() {
+		return isSelected;
 	}
 
-	public void setTextureName(String textureName) {
-		this.textureName = textureName;
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
+	}
+	
+	public void setXAndY(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
 	}
 
 }
