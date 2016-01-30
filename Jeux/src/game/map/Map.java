@@ -19,7 +19,7 @@ public class Map {
 	
 	long seed;
 	
-	public Map(long seed, int max){
+	public Map(long seed){
 		this.seed = seed;
 		randomNum = new Random(seed);
 		

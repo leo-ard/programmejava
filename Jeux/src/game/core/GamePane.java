@@ -66,7 +66,7 @@ public class GamePane extends JPanel implements Runnable{
 		textureImport();
 		
 		//all fields for the game will be initiate here
-		map = new Map((long)2107554565, 1_000);
+		map = new Map((long)2107554565);
 		map.firstGenerate(4);
 		
 		//Graphics

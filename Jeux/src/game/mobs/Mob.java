@@ -38,6 +38,10 @@ public class Mob {
 
 	//---- GETTERS AND SETTERS----//
 	
+	/**
+	 * 
+	 * @return max Health
+	 */
 	public int getMaxHP() {
 		return maxHP;
 	}
