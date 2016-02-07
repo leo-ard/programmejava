@@ -12,8 +12,6 @@ public class Main {
 	
 	public static void main(String Args[]){
 		
-		//Zach etais ici
-		
 		windows = new JFrame();
 		windows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		windows.setResizable(true);

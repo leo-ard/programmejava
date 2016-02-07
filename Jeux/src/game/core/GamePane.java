@@ -14,6 +14,7 @@ import game.map.Block;
 import game.map.Chunck;
 import game.map.Map;
 import game.map.View;
+import game.audio.*;
 import game.mobs.Player;
 
 public class GamePane extends JPanel implements Runnable{
@@ -47,6 +48,10 @@ public class GamePane extends JPanel implements Runnable{
 	public static Image[] texturesGUI = new Image[2];
 	public static int curentLevel = 2;
 	
+	//musique
+	public static musicPlayer mp;
+	
+	
 	//player
 	public static Player player;
 
@@ -66,6 +71,10 @@ public class GamePane extends JPanel implements Runnable{
 	public void initiate(){
 		//import images
 		textureImport();
+		
+		//music
+		mp = new musicPlayer(new String[]{"assets\\audio\\Concerto.mp3"}, true);
+		mp.play();
 		
 		//all fields for the game will be initiate here
 		map = new Map((long)2107554565);

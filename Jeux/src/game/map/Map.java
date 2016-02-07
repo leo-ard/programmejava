@@ -130,7 +130,7 @@ public class Map {
 	    	relY = View.blockPixelHeight*.75+relY;
 	    }
 	    
-	    System.out.println(relX+":"+relY);
+	    //System.out.println(relX+":"+relY);
 	    
 	   /* double c = (((View.blockPixelHeight*.75)/3));
 	    double m = (View.blockPixelHeight*.75-c)/(View.blockPixelWidth-View.blockPixelWidth/2);
