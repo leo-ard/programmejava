@@ -6,6 +6,9 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.Random;
 
+import game.core.GamePane;
+import game.core.Listener;
+
 public class Map {
 	
 	public static Random randomNum;
@@ -31,6 +34,12 @@ public class Map {
 		if(this.isChangingChunck()){
 			Chunck c = this.getByPixel(View.x, View.y);
 			Generate(4, c.getX(), c.getY());
+		}
+		
+		if(Listener.F1){
+			System.out.println("  "+this.getSelectedBlock().getHautGauche().getX()+":"+this.getSelectedBlock().getHautGauche().getY()+" "+this.getSelectedBlock().getHautDroit().getX()+":"+this.getSelectedBlock().getHautDroit().getY());
+			System.out.println(this.getSelectedBlock().getGauche().getX()+":"+this.getSelectedBlock().getGauche().getY()+" "+this.getSelectedBlock().getX()+":"+this.getSelectedBlock().getY()+" "+this.getSelectedBlock().getDroit().getX()+":"+this.getSelectedBlock().getDroit().getY());
+			System.out.println(" " +this.getSelectedBlock().getBasGauche().getX()+":"+this.getSelectedBlock().getBasGauche().getY()+" "+this.getSelectedBlock().getBasDroit().getX()+":"+this.getSelectedBlock().getBasDroit().getY());
 		}
 		
 	}
@@ -90,12 +99,13 @@ public class Map {
 		return (Chunck) map.get(new Dimension(x, y));
 	}
 	
-	public Block getBlockByPosition(int x, int y){
+	public Block getBlockByPixel(int x, int y){
 		 // Find the row and column of the box that the point falls in.
 	    int row = (int) (y / (View.blockPixelHeight*.75));
 	    int column;
 
 	    boolean rowIsOdd = row < 0?(-row %2 == 0):(row % 2 == 1);
+	    if(row == 0&&y < 0){rowIsOdd = true;}
 	    
 
 	    // Is the row an odd number?
@@ -104,10 +114,8 @@ public class Map {
 	    else// No: Calculate normally
 	        column = (int) (x / View.blockPixelWidth);
 	    
-	    boolean IsXM1;
-	    /*if(x > -View.blockPixelWidth)*/
-	    
-	    double relY = y - (row * View.blockPixelHeight*75);
+	    // Work out the position of the point relative to the box it is in
+	    double relY = y - (row * View.blockPixelHeight*.75);
 	    double relX;
 
 	    if (rowIsOdd)
@@ -115,9 +123,57 @@ public class Map {
 	    else
 	        relX = x - (column * View.blockPixelWidth);
 	    
-	 // Work out if the point is above either of the hexagon's top edges 
-	    return this.getByPosition(column<0?(column/24)-1:column/24, row<0?(row/24)-1:row/24).getBlocks()[3][column<0?(23-(column*-1%24)):column%24][row<0?23-(-row%24):row%24];
+	    if(relX < 0){
+	    	relX = View.blockPixelWidth+relX;
+	    }
+	    if(relY < 0){
+	    	relY = View.blockPixelHeight*.75+relY;
+	    }
 	    
+	    System.out.println(relX+":"+relY);
+	    
+	   /* double c = (((View.blockPixelHeight*.75)/3));
+	    double m = (View.blockPixelHeight*.75-c)/(View.blockPixelWidth-View.blockPixelWidth/2);
+	   
+	    
+	    System.out.println(m+" "+c);
+	    
+		if (relY < (-m * relX) + c) {// LEFT edge
+			
+			row--;
+			if (!rowIsOdd)
+				column--;
+			
+		} else if (relY < (m * relX) - c) { // RIGHT edge
+
+			row--;
+			if (rowIsOdd)
+				column++;
+		}*/
+
+		
+	    
+	    //see if on the edge
+	    
+	    //int m = ()/();
+	    
+	 // Work out if the point is above either of the hexagon's top edges 
+	    boolean bx = false;
+		boolean by = false;
+		if(x < 0){column--;bx = true;}
+		if(y < 0){row--;by = true;}
+		return getBlockByPosition(column, row);
+	    //return this.getByPosition(column<0?(column/24)-1:column/24, row<0?(row/24)-1:row/24).getBlocks()[GamePane.curentLevel][column<0?(24-(column*-1%24)):column%24][row<0?24-(-row%24):row%24];
+	    
+	}
+	
+	public Block getBlockByPosition(int x, int y){
+		boolean bx = false;
+		boolean by = false;
+		if(x < 0){x++;bx = true;}
+		if(y < 0){y++;by = true;}
+		Block b = map.get(new Dimension(x<0||bx?(x/24)-1:x/24,y<0||by?(y/24)-1:y/24)).getBlocks()[GamePane.curentLevel][x<0||bx?(23+((x)%24)):x%24][y<0||by?(23+(y%24)):y%24];
+		return b;
 	}
 	
 	/**	 * @param d
@@ -168,6 +224,10 @@ public class Map {
 
 	private void setChangingChunck(boolean isChangingChunck) {
 		this.isChangingChunck = isChangingChunck;
+	}
+	
+	private Block getSelectedBlock(){
+		return this.getBlockByPosition((int)(selectedBlock.getX()), ((int)selectedBlock.getY()));
 	}
 
 }

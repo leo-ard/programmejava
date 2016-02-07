@@ -33,6 +33,16 @@ public class Block {
 	private boolean isSelected; 
 	private int x, y;
 	
+	
+	/**
+	 * 
+	 * 
+	 * @author Léonard
+	 */
+	public Block(){
+		
+	}
+	
 	public Block(int id, String name, boolean isSolid, boolean isTransparent){
 		this.id = id;
 		this.name = name;
@@ -67,6 +77,50 @@ public class Block {
 		
 		g.drawString(this.x+" "+this.y, x+View.blockPixelWidth/2, y+View.blockPixelHeight/2);
 	}
+	
+	public Block getHautDroit(){
+		if(this.y%2 == 0||this.y == 0){
+			return GamePane.map.getBlockByPosition(x, y-1);
+		}
+		else{
+			return GamePane.map.getBlockByPosition(x+1, y-1);
+		}
+	}
+	public Block getBasDroit(){
+		if(this.y%2 == 0||this.y == 0){
+			return GamePane.map.getBlockByPosition(x, y+1);
+		}
+		else{
+			return GamePane.map.getBlockByPosition(x+1, y+1);
+		}
+		
+	}
+	public Block getHautGauche(){
+		if(this.y%2 == 0||this.y == 0){
+			return GamePane.map.getBlockByPosition(x-1, y-1);
+		}
+		else{
+			return GamePane.map.getBlockByPosition(x, y-1);
+		}
+		
+	}
+	public Block getBasGauche(){
+		if(this.y%2 == 0||this.y == 0){
+			return GamePane.map.getBlockByPosition(x-1, y+1);
+		}
+		else{
+			return GamePane.map.getBlockByPosition(x, y+1);
+		}
+		
+	}
+	public Block getDroit(){
+		return GamePane.map.getBlockByPosition(x+1, y);
+		
+	}
+	public Block getGauche(){
+		return GamePane.map.getBlockByPosition(x-1, y);
+	}
+	
 	
 	//----Getters and seeters ----//
 

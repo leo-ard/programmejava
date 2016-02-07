@@ -27,7 +27,7 @@ public class Biome {
 	//TODO change the 1 in the 2nd add to 3
 	public static Biome PLAINES1 = new Biome(1, new ArrayList<Integer>(), 33).add(2, 1, 100).add(1, 1, 100).add(0, 4, 100);
 	  public static Biome OCEAN2 = new Biome(2, new ArrayList<Integer>(), 33).add(2, 2, 100).add(1, 2, 100).add(0, 2, 100);
-	  public static Biome ROCHE3 = new Biome(3, new ArrayList<Integer>(), 34).add(2, 1, 100).add(1, 1, 100).add(0, 4, 100);
+	  public static Biome ROCHE3 = new Biome(3, new ArrayList<Integer>(), 34).add(2, 4, 100).add(1, 2, 100).add(0, 4, 100);
 	
 	public static Biome getBiomeById(int Id){
 		switch(Id){

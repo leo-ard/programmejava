@@ -21,6 +21,20 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 	
 	public static int whellRotation = 0;
 	
+	public static boolean F1;
+	public static boolean F2;
+	public static boolean F3;
+	public static boolean F4;
+	public static boolean F5;
+	public static boolean F6;
+	public static boolean F7;
+	public static boolean F8;
+	public static boolean F9;
+	public static boolean F10;
+	public static boolean F11;
+	public static boolean F12;
+	
+	
 	//---- Mouse Wheel Listener ----//
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
@@ -84,6 +98,43 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 		if(e.getKeyCode() == KeyEvent.VK_SHIFT){
 			SHIFT = true;
 		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_F1){
+			F1 = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F2){
+			F2 = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F3){
+			F3 = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F4){
+			F4 = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F5){
+			F5 = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F6){
+			F6 = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F7){
+			F7 = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F8){
+			F8 = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F9){
+			F9 = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F10){
+			F10 = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F11){
+			F11 = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F12){
+			F12 = true;
+		}
 	}
 
 	@Override
@@ -103,6 +154,43 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 		
 		if(e.getKeyCode() == KeyEvent.VK_SHIFT){
 			SHIFT = false;
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_F1){
+			F1 = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F2){
+			F2 = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F3){
+			F3 = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F4){
+			F4 = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F5){
+			F5 = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F6){
+			F6 = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F7){
+			F7 = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F8){
+			F8 = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F9){
+			F9 = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F10){
+			F10 = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F11){
+			F11 = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F12){
+			F12 = false;
 		}
 	}
 

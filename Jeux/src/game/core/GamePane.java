@@ -28,13 +28,15 @@ public class GamePane extends JPanel implements Runnable{
 	public static int HEIGHT = 800;
 	private Listener l;
 	private View v;
+	public static int mousePosX;
+	public static int mousePosY;
 	
 	//frame
 	private final int FPS = 60;
 	private double averageFPS = 0;
 	
 	//map
-	private Map map;
+	public static Map map;
 	
 	//image
 	private Graphics2D g;
@@ -86,6 +88,8 @@ public class GamePane extends JPanel implements Runnable{
 		texturesBlock[1] = new ImageIcon("assets/textures/map/green3.png").getImage();
 		texturesBlock[2] = new ImageIcon("assets/textures/map/waterFrame1.png").getImage();
 		
+		texturesBlock[4] = new ImageIcon("assets/textures/map/rock.png").getImage();
+		
 		texturesGUI[0] = new ImageIcon("assets/textures/map/Selected.png").getImage();
 	}
 	
@@ -126,6 +130,13 @@ public class GamePane extends JPanel implements Runnable{
 		//----Thread----//
 		while(true){
 			startTime = System.nanoTime();
+			
+			try{
+				mousePosX = this.getMousePosition().x;
+				mousePosY = this.getMousePosition().y;
+				mousePosX+=player.getX()-GamePane.WIDTH/2;
+				mousePosY+=player.getY()- GamePane.HEIGHT/2;
+				}catch(NullPointerException e){}
 			
 			GameUpdate();
 			GameRender();
@@ -170,9 +181,11 @@ public class GamePane extends JPanel implements Runnable{
 		v.update();
 		
 		//---- Map Update ----//
+		Block c = map.getBlockByPixel(mousePosX, mousePosY);
+		Map.selectedBlock.setLocation(c.getX(), c.getY());
 		map.update();
-		Block c = map.getBlockByPosition(player.getX(), player.getY());
-		map.selectedBlock.setLocation(c.getX(), c.getY());
+		
+		
 		//System.out.println(map.selectedBlock.getX()+" "+map.selectedBlock.getX());
 	}
 	
@@ -193,7 +206,6 @@ public class GamePane extends JPanel implements Runnable{
 		
 		//----PLAYER----//
 		player.draw(g);
-		
 		g.translate(-g.getTransform().getTranslateX(), -g.getTransform().getTranslateY());
 		
 	}
