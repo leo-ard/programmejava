@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.util.ArrayList;
 
 import game.core.GamePane;
 
@@ -55,6 +56,15 @@ public class Block {
 		this.name = b.name;
 		this.isSolid = b.isSolid;
 		this.isTransparent = b.isTransparent;
+		
+	}
+	
+	public void generate(){
+		if(this.isAtEdge() == false){
+			return;
+		}
+		if()
+		
 	}
 	
 	public void update(){
@@ -77,6 +87,42 @@ public class Block {
 		
 		g.drawString(this.x+" "+this.y, x+View.blockPixelWidth/2, y+View.blockPixelHeight/2);
 	}
+	
+	public boolean isAtEdge(){
+		if(this.getAbsoluteX()%24 == 0||this.getAbsoluteY()%24==0||this.getAbsoluteY()%24==1||this.getAbsoluteX()%24==1){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * returns
+	 * 0 for haut
+	 * 1 for droite
+	 * 2 for bas
+	 * 3 for gauche
+	 * 4 for haut droit
+	 * 5 for haut gauche
+	 * 6 for bas droit
+	 * 7 for bas gauche
+	 * 8 for nothing
+	 * 
+	 * @return 
+	 */
+	/*public int getEdge(){
+		if(this.isAtEdge() == false){
+			return 8;
+		}
+		
+		if(this.getAbsoluteX()%24 == 0||this.getAbsoluteX() ==1){
+			//if(){
+				
+			//}
+		}
+		else{
+			
+		}
+	}*/
 	
 	public Block getHautDroit(){
 		if(this.y%2 == 0||this.y == 0){
@@ -167,6 +213,20 @@ public class Block {
 	public void setXAndY(int x, int y){
 		this.x = x;
 		this.y = y;
+	}
+	
+	public int getAbsoluteX(){
+		if(this.x < 0){
+			return -x;
+		}
+		return x;
+	}
+	
+	public int getAbsoluteY(){
+		if(this.y < 0){
+			return -y;
+		}
+		return y;
 	}
 
 	public int getX() {

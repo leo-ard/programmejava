@@ -74,7 +74,7 @@ public class GamePane extends JPanel implements Runnable{
 		
 		//music
 		mp = new musicPlayer(new String[]{"assets\\audio\\Concerto.mp3"}, true);
-		mp.play();
+		//mp.play();
 		
 		//all fields for the game will be initiate here
 		map = new Map((long)2107554565);
@@ -194,6 +194,9 @@ public class GamePane extends JPanel implements Runnable{
 		Map.selectedBlock.setLocation(c.getX(), c.getY());
 		map.update();
 		
+		
+		//to delete
+		System.out.println(map.getSelectedBlock().isAtEdge());
 		
 		//System.out.println(map.selectedBlock.getX()+" "+map.selectedBlock.getX());
 	}
