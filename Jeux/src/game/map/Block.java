@@ -63,7 +63,7 @@ public class Block {
 		if(this.isAtEdge() == false){
 			return;
 		}
-		if()
+		//if()
 		
 	}
 	
