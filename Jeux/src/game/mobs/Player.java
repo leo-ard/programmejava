@@ -3,31 +3,42 @@ package game.mobs;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import game.core.GamePane;
 import game.core.Listener;
+import game.core.Main;
 
 public class Player extends Mob{
 	
-	private boolean attackMode;
+	private boolean running;
+	private final int RUNNING_SPEED = 50;
 
 	public Player(int x, int y) {
 		super(x, y, 30, 30, 100, 100, 5, 10);
-		setAttackMode(false);
+		
 	}
 	
 	public void update(){
-		if(!attackMode){
-			if(Listener.AOrLeft){
-				x-=this.speed;
-			}
-			if(Listener.DOrRight){
-				x+=this.speed;
-			}
-			if(Listener.SOrDown){
-				y+=this.speed;
-			}
-			if(Listener.WOrUp){
-				y-=this.speed;
-			}
+		if (Listener.SHIFT){
+			setRunning(true);
+		} else {
+			setRunning(false);
+		}
+		if(isRunning()){
+			this.setSpeed(RUNNING_SPEED);
+		} else {
+			setSpeed(getBaseSpeed());
+		}
+		if(Listener.AOrLeft){
+			x-=this.speed;
+		}
+		if(Listener.DOrRight){
+			x+=this.speed;
+		}
+		if(Listener.SOrDown){
+			y+=this.speed;
+		}
+		if(Listener.WOrUp){
+			y-=this.speed;
 		}
 	}
 	
@@ -36,14 +47,21 @@ public class Player extends Mob{
 		g.fillOval(x-WIDTH/2, y-(HEIGHT)/2, WIDTH, HEIGHT);
 		
 	}
-
-	public boolean isAttackMode() {
-		return attackMode;
+	
+	public boolean isRunning(){
+		return this.running;
+	}
+	
+	public void setRunning(boolean bool){
+		if (bool){
+			this.running = true;
+			Main.windows.getContentPane().setCursor(GamePane.BLANK_CURSOR);
+		} else {
+			this.running = false;
+			Main.windows.getContentPane().setCursor(GamePane.DEFAULT_CURSOR);
+		}
 	}
 
-	public void setAttackMode(boolean attackMode) {
-		this.attackMode = attackMode;
-	}
 	
 
 }

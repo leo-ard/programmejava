@@ -67,7 +67,7 @@ public class Block {
 			
 			
 		}
-		if(this.x == Map.selectedBlock.getX()&&this.y == Map.selectedBlock.getY()){
+		if(this.x == Map.selectedBlock.getX()&&this.y == Map.selectedBlock.getY() && !GamePane.player.isRunning()){
 			g.drawImage(GamePane.texturesGUI[0], x, y,View.blockPixelWidth, View.blockPixelHeight, null);
 		}
 		

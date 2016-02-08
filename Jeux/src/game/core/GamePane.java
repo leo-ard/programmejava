@@ -1,12 +1,7 @@
 package game.core;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -43,14 +38,21 @@ public class GamePane extends JPanel implements Runnable{
 	private Graphics2D g;
 	private BufferedImage image;
 	
-	//impoted images
+	//imported images
 	public static Image[] texturesBlock = new Image[10];
 	public static Image[] texturesGUI = new Image[2];
 	public static int curentLevel = 2;
 	
-	//musique
+	//music
 	public static musicPlayer mp;
 	
+	//cursor
+	// Transparent 16 x 16 pixel cursor image.
+	static BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+	// Create a new blank cursor.
+	public static final Cursor BLANK_CURSOR = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
+	public static final Cursor DEFAULT_CURSOR = Cursor.getDefaultCursor();
+
 	
 	//player
 	public static Player player;
@@ -74,7 +76,7 @@ public class GamePane extends JPanel implements Runnable{
 		
 		//music
 		mp = new musicPlayer(new String[]{"assets\\audio\\Concerto.mp3"}, true);
-		mp.play();
+		//mp.play();
 		
 		//all fields for the game will be initiate here
 		map = new Map((long)2107554565);
@@ -178,12 +180,6 @@ public class GamePane extends JPanel implements Runnable{
 	}
 	
 	public void GameUpdate(){
-		
-		player.setSpeed(5);
-		
-		if(Listener.SHIFT){
-			player.setSpeed(50);
-		}
 		
 		player.update();
 		v.zoom(Listener.getWhellRotation());

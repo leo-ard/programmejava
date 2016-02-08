@@ -65,3 +65,5 @@ public class View {
 	}
 
 }
+
+//TODO move Cursor from GamePane to View

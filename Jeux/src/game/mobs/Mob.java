@@ -7,6 +7,7 @@ public class Mob {
 	protected int domage;
 
 
+	protected int baseSpeed;
 	protected int speed;
 	protected boolean isAlive = true;
 
@@ -14,11 +15,11 @@ public class Mob {
 	protected int WIDTH, HEIGHT;
 	
 
-	protected Mob(int x, int y, int WIDTH, int HEIGHT, int maxHP, int hp, int speed, int domage) {
-		super();
+	protected Mob(int x, int y, int WIDTH, int HEIGHT, int maxHP, int hp, int baseSpeed, int domage) {
 		this.maxHP = maxHP;
 		this.Hp = hp;
-		this.speed = speed;
+		this.baseSpeed = baseSpeed;
+		this.speed = baseSpeed;
 		this.domage = domage;
 		this.WIDTH = WIDTH;
 		this.HEIGHT = HEIGHT;
@@ -55,6 +56,10 @@ public class Mob {
 		if(Hp <= 0){
 			isAlive = false;
 		}
+	}
+	
+	public int getBaseSpeed() {
+		return baseSpeed;
 	}
 
 	public int getSpeed() {
