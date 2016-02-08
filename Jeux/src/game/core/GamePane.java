@@ -191,6 +191,9 @@ public class GamePane extends JPanel implements Runnable{
 		map.update();
 		
 		
+		//to delete
+		System.out.println(map.getSelectedBlock().isAtEdge());
+		
 		//System.out.println(map.selectedBlock.getX()+" "+map.selectedBlock.getX());
 	}
 	

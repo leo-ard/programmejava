@@ -226,7 +226,7 @@ public class Map {
 		this.isChangingChunck = isChangingChunck;
 	}
 	
-	private Block getSelectedBlock(){
+	public Block getSelectedBlock(){
 		return this.getBlockByPosition((int)(selectedBlock.getX()), ((int)selectedBlock.getY()));
 	}
 

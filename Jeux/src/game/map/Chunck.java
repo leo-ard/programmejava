@@ -78,6 +78,7 @@ public class Chunck {
 				for(int j = 0; j < View.chuncksBlockWidth; j++){
 					
 					this.blocks[h][i][j] = new Block(this.biome.getRandomBlock(h));
+					this.blocks[h][i][j].generate();
 					this.blocks[h][i][j].setXAndY(this.x*View.chuncksBlockWidth+i,this.y*View.chuncksBlockWidth+j);
 					
 				}
