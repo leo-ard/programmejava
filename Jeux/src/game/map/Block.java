@@ -238,3 +238,5 @@ public class Block {
 	}
 
 }
+
+//TODO reparer le bug de la selection de (0;0) a (-1;0)

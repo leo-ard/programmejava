@@ -5,12 +5,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import game.map.Block;
-import game.map.Chunck;
-import game.map.Map;
-import game.map.View;
-import game.audio.*;
-import game.mobs.Player;
+import game.audio.musicPlayer;
+import game.map.*;
+import game.mobs.*;
 
 public class GamePane extends JPanel implements Runnable{
 	
@@ -54,7 +51,7 @@ public class GamePane extends JPanel implements Runnable{
 	public static final Cursor DEFAULT_CURSOR = Cursor.getDefaultCursor();
 
 	
-	//player
+	//mobs
 	public static Player player;
 
 	/**
@@ -76,7 +73,7 @@ public class GamePane extends JPanel implements Runnable{
 		
 		//music
 		mp = new musicPlayer(new String[]{"assets\\audio\\Concerto.mp3"}, true);
-		//mp.play();
+		mp.play();
 		
 		//all fields for the game will be initiate here
 		map = new Map((long)2107554565);
@@ -212,9 +209,10 @@ public class GamePane extends JPanel implements Runnable{
 		g.setFont(new Font("Arial", 0, 20));
 		g.drawString("Pos: "+View.x+":"+View.y+" Chunck Pos: "+c.getX()+":"+c.getY(), 30, 30);
 		
-		//----PLAYER----//
+		//----MOBS----//
 		player.draw(g);
 		g.translate(-g.getTransform().getTranslateX(), -g.getTransform().getTranslateY());
+		//TODO graphics pour corrompu
 		
 	}
 	

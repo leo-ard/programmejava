@@ -3,8 +3,9 @@ package game.mobs;
 public class Mob {
 
 	protected int maxHP;
-	protected int Hp;
-	protected int domage;
+	protected int hp;
+	protected int baseDommage;
+	protected int dommage;
 
 
 	protected int baseSpeed;
@@ -15,26 +16,25 @@ public class Mob {
 	protected int WIDTH, HEIGHT;
 	
 
-	protected Mob(int x, int y, int WIDTH, int HEIGHT, int maxHP, int hp, int baseSpeed, int domage) {
+	protected Mob(int x, int y, int WIDTH, int HEIGHT, int maxHP, int baseSpeed, int baseDommage) {
 		this.maxHP = maxHP;
-		this.Hp = hp;
+		this.hp = maxHP;
 		this.baseSpeed = baseSpeed;
 		this.speed = baseSpeed;
-		this.domage = domage;
+		this.baseDommage = baseDommage;
+		this.dommage = baseDommage;
 		this.WIDTH = WIDTH;
 		this.HEIGHT = HEIGHT;
 	}
 	
 	/**
 	 * 
-	 * Move the mob to the point(x,y) using AI
+	 * Move the mob to the point(x,y) using AI, to be overriden
 	 * 
 	 * @param x
 	 * @param y
 	 */
-	public void move(int x, int y){
-		
-	}
+	private void move(int x, int y){}
 	
 
 	//---- GETTERS AND SETTERS----//
@@ -48,12 +48,12 @@ public class Mob {
 	}
 
 	public int getHp() {
-		return Hp;
+		return hp;
 	}
 
-	public void hit(int domage) {
-		Hp -= domage;
-		if(Hp <= 0){
+	public void hit(int dommage) {
+		hp -= dommage;
+		if(hp <= 0){
 			isAlive = false;
 		}
 	}
@@ -69,13 +69,17 @@ public class Mob {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-
-	public int getDomage() {
-		return domage;
+	
+	public int getBaseDamage(){
+		return baseDommage;
 	}
 
-	public void setDomage(int domage) {
-		this.domage = domage;
+	public int getDommage() {
+		return dommage;
+	}
+
+	public void setDommage(int dommage) {
+		this.dommage = dommage;
 	}
 
 	public int getX() {
@@ -99,7 +103,7 @@ public class Mob {
 	}
 
 	public void setHp(int hp) {
-		Hp = hp;
+		this.hp = hp;
 	}
 
 }
