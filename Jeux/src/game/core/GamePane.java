@@ -32,7 +32,8 @@ public class GamePane extends JPanel implements Runnable{
 	public static Map map;
 	
 	//image
-	private Graphics2D g;
+	private Graphics2D gGame;
+	private Graphics2D gUI;
 	private BufferedImage image;
 	
 	//imported images
@@ -81,9 +82,12 @@ public class GamePane extends JPanel implements Runnable{
 		
 		//Graphics
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		g = (Graphics2D) image.getGraphics();
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		gGame = (Graphics2D) image.getGraphics();
+		gUI = (Graphics2D) image.getGraphics();
+		gGame.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		gGame.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		gUI.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		gUI.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		
 		v = new View();
 		
@@ -195,24 +199,28 @@ public class GamePane extends JPanel implements Runnable{
 	}
 	
 	public void GameRender(){
-		g.setColor(Color.gray);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
+		gGame.setColor(Color.gray);
+		gGame.fillRect(0, 0, WIDTH, HEIGHT);
 		
-		g.translate(View.x, View.y);
+		
+		
+		gGame.translate(View.x, View.y);
 		
 		//----MAP----//
 		Chunck c = map.getChunckByPixel(View.x, View.y);
-		map.draw(g, c.getX(),c.getY());
+		map.draw(gGame, c.getX(),c.getY());
 		
 		//----INFO----//
-		g.setColor(Color.black);
-		g.setFont(new Font("Arial", 0, 20));
-		g.drawString("Pos: "+View.x+":"+View.y+" Chunck Pos: "+c.getX()+":"+c.getY(), 30, 30);
+		gGame.setColor(Color.black);
+		gGame.setFont(new Font("Arial", 0, 20));
+		gGame.drawString("Pos: "+View.x+":"+View.y+" Chunck Pos: "+c.getX()+":"+c.getY(), 30, 30);
 		
 		//----MOBS----//
-		player.draw(g);
-		g.translate(-g.getTransform().getTranslateX(), -g.getTransform().getTranslateY());
+		player.draw(gGame);
+		gGame.translate(-gGame.getTransform().getTranslateX(), -gGame.getTransform().getTranslateY());
 		//TODO graphics pour corrompu
+		
+		gUI.drawString("FPS: "+averageFPS, 0, 10);
 		
 	}
 	
