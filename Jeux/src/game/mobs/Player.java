@@ -14,7 +14,7 @@ public class Player extends Mob{
 	private final int RUNNING_SPEED = 50;
 
 	public Player(int x, int y) {
-		super(x, y, 30, 30, 100, 100, 5, 10);
+		super(x, y, 30, 30, 100, 5, 10);
 		
 	}
 	
@@ -41,16 +41,21 @@ public class Player extends Mob{
 		if(Listener.WOrUp){
 			y-=this.speed;
 		}
-		
 		if(Listener.RIGHT_CLICK){
 			GamePane.map.getSelectedBlock().destroy();
 		}
+		//this.move(x, y);
 	}
 	
 	public void draw(Graphics2D g){
 		g.setColor(Color.black);
 		g.fillOval(x-WIDTH/2, y-(HEIGHT)/2, WIDTH, HEIGHT);
 		
+	}
+	
+	private void move(int x, int y){
+		//TODO move if(listener) to move
+		//TODO make mouvements more fluid (pas juste les lignes droites, ameliorer les tournants)
 	}
 	
 	public boolean isRunning(){
