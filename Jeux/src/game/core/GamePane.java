@@ -79,8 +79,8 @@ public class GamePane extends JPanel implements Runnable{
 		//mp.play();
 		
 		//all fields for the game will be initiate here
-		map = new Map((long)2107554565);
-		map.firstGenerate(4);
+		map = new Map((long)2107554563);
+		map.Generate(4, 0, 0);
 		
 		//Graphics
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
@@ -96,7 +96,7 @@ public class GamePane extends JPanel implements Runnable{
 	}
 	
 	public void textureImport(){
-		texturesBlock[1] = new ImageIcon("assets/textures/map/green3.png").getImage();
+		texturesBlock[1] = new ImageIcon("assets/textures/map/grass.png").getImage();
 		texturesBlock[2] = new ImageIcon("assets/textures/map/waterFrame1.png").getImage();
 		
 		texturesBlock[4] = new ImageIcon("assets/textures/map/rock.png").getImage();
@@ -182,7 +182,7 @@ public class GamePane extends JPanel implements Runnable{
 	public void GameUpdate(){
 		
 		player.update();
-		v.zoom(Listener.getWhellRotation());
+		//v.zoom(Listener.getWhellRotation());
 		v.update();
 		
 		//---- Map Update ----//
@@ -192,7 +192,7 @@ public class GamePane extends JPanel implements Runnable{
 		
 		
 		//to delete
-		System.out.println(map.getSelectedBlock().isAtEdge());
+		//System.out.println(map.getSelectedBlock().getEdge());
 		
 		//System.out.println(map.selectedBlock.getX()+" "+map.selectedBlock.getX());
 	}
@@ -204,7 +204,7 @@ public class GamePane extends JPanel implements Runnable{
 		g.translate(View.x, View.y);
 		
 		//----MAP----//
-		Chunck c = map.getByPixel(View.x, View.y);
+		Chunck c = map.getChunckByPixel(View.x, View.y);
 		map.draw(g, c.getX(),c.getY());
 		
 		//----INFO----//

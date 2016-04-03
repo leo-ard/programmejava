@@ -55,6 +55,7 @@ public class Biome {
 		Niv4 = new ArrayList<Pourcentage>();
 		
 		this.prob = prob;
+		this.id = id;
 		
 		Exeptions = exeptions;
 	}
@@ -100,6 +101,18 @@ public class Biome {
 
 	public int getProb() {
 		return prob;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setProb(int prob) {
+		this.prob = prob;
 	}
 
 }

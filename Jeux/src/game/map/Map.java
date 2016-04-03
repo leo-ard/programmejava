@@ -3,6 +3,7 @@ package game.map;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -32,7 +33,8 @@ public class Map {
 	
 	public void update(){
 		if(this.isChangingChunck()){
-			Chunck c = this.getByPixel(View.x, View.y);
+			System.out.println("Hi");
+			Chunck c = this.getChunckByPixel(View.x, View.y);
 			Generate(4, c.getX(), c.getY());
 		}
 		
@@ -50,20 +52,26 @@ public class Map {
 		
 		for(int i = -rayon+x1; i <= rayon+x1; i++){
 			for(int j = -rayon+y1; j <= rayon+y1; j++){
-				Chunck c = this.getByPosition(i, j);
+				Chunck c = this.getChunckByPosition(i, j);
 				c.draw(g, View.blockPixelWidth*View.chuncksBlockWidth*c.getX(), (int)(View.blockPixelHeight*View.chuncksBlockWidth*0.75*c.getY()));
 			}
 		}
 	}
 	
-	public void firstGenerate(int rayon){
+	/*public void firstGenerate(int rayon){
 		for(int i = -rayon; i <= rayon; i++){
 			for(int j = -rayon; j <= rayon; j++){
-				this.add(new Chunck(j, i, Biome.PLAINES1), j, i);
-				this.getByPosition(j, i).generate();
+				this.add(new Chunck(i, j), i, j);
+				this.getChunckByPosition(i, j).generate();
 			}
 		}
-	}
+		
+		/*for(int i = -rayon; i <= rayon; i++){
+			for(int j = -rayon; j <= rayon; j++){
+				this.getChunckByPosition(i, j).arondit();
+			}
+		}
+	}*/
 	
 	/**
 	 * 
@@ -74,16 +82,63 @@ public class Map {
 	 * @param y of the chunck for the middle of the generation
 	 */
 	public void Generate(int rayon, int x, int y){
+		//ArrayList<Chunck> b = new ArrayList<Chunck>();
 		for(int i = -rayon+x; i <= rayon+x; i++){
 			for(int j = -rayon+y; j <= rayon+y; j++){
-				if(this.getByPosition(i, j) == null){
-					this.add(new Chunck(i, j, Biome.PLAINES1), i, j);
-					this.getByPosition(i, j).generate();
-					
+				if(this.getChunckByPosition(i, j) == null){
+					this.add(new Chunck(i, j), i, j);
+					this.getChunckByPosition(i, j).generate(null);
 				}
 				
+				/*if(this.getChunckByPosition(i, j) == null){
+					
+					
+					b = findEdges(i,j);
+					if(b.size() == 0){
+						
+						this.getChunckByPosition(i, j).generate(Biome.PLAINES1, 1);			
+					}
+					else{
+						int generated = 4;
+						int id = 0;
+						for(int k = 0; k < b.size(); k++){
+							
+							if(b.get(k).getGenerateNumber() < generated){
+								id = k;
+								generated = b.get(k).getGenerateNumber();
+							}
+						}
+						System.out.println(generated);
+						if(generated < 4){
+							this.getChunckByPosition(i, j).generate(b.get(id).getBiome(), generated+1);
+						}
+						else{
+							this.getChunckByPosition(i, j).generate(Biome.getBiomeById(Map.randomNum.nextInt(Biome.nbBiome)+1), 1);
+						}
+							
+					}
+				}*/
 			}
 		}
+		
+		/*for(int i = -rayon+x; i <= rayon+x; i++){
+			for(int j = -rayon+y; j <= rayon+y; j++){
+					this.getChunckByPosition(i, j).arondit();
+				
+			}
+		}*/
+		
+	}
+	
+	public ArrayList<Chunck> findEdges(int x, int y){
+		ArrayList<Chunck> b = new ArrayList<Chunck>();
+		
+		if(this.getChunckByPosition(x+1, y) != null)b.add(this.getChunckByPosition(x+1, y));
+		if(this.getChunckByPosition(x-1, y) != null)b.add(this.getChunckByPosition(x-1, y));
+		if(this.getChunckByPosition(x, y+1) != null)b.add(this.getChunckByPosition(x, y+1));
+		if(this.getChunckByPosition(x, y-1) != null)b.add(this.getChunckByPosition(x, y-1));
+		
+		return b;
 	}
 	
 	public void add(Chunck c, int x, int y){
@@ -95,8 +150,13 @@ public class Map {
 	 * @param y
 	 * @return The chunck at the position x, y
 	 */
-	public Chunck getByPosition(int x, int y){
-		return (Chunck) map.get(new Dimension(x, y));
+	public Chunck getChunckByPosition(int x, int y){
+		try{
+			return (Chunck) map.get(new Dimension(x, y));
+		}
+		catch(NullPointerException e){
+			return null;
+		}
 	}
 	
 	public Block getBlockByPixel(int x, int y){
@@ -172,14 +232,20 @@ public class Map {
 		boolean by = false;
 		if(x < 0){x++;bx = true;}
 		if(y < 0){y++;by = true;}
-		Block b = map.get(new Dimension(x<0||bx?(x/24)-1:x/24,y<0||by?(y/24)-1:y/24)).getBlocks()[GamePane.curentLevel][x<0||bx?(23+((x)%24)):x%24][y<0||by?(23+(y%24)):y%24];
-		return b;
+		try{
+			Block b = map.get(new Dimension(x<0||bx?(x/24)-1:x/24,y<0||by?(y/24)-1:y/24)).getBlocks()[GamePane.curentLevel][x<0||bx?(23+((x)%24)):x%24][y<0||by?(23+(y%24)):y%24];
+			return b;
+		}
+		catch(NullPointerException e){
+			return new Block();
+		}
+		
 	}
 	
 	/**	 * @param d
 	 * @return the Chunck at the pixel x, y
 	 */
-	public Chunck getByPixel(int Width, int Height){
+	public Chunck getChunckByPixel(int Width, int Height){
 		int x = 0;
 		int y = 0;
 		
@@ -201,13 +267,19 @@ public class Map {
 		
 		return (Chunck) map.get(new Dimension(-x, -y));
 	}
+	
+	public Chunck getChunckByBlock(int x, int y){
+		//System.out.println(x+" "+y);
+		
+		return map.get(new Dimension((int)(x<0?(x%24==0?x/24:x/24-1):x/24), (int)(y<0?(y%24==0?y/24:y/24-1):y/24)));
+	}
 
 	public Random getRandomNum() {
 		return randomNum;
 	}
 
 	public boolean isChangingChunck() {
-		Chunck c = this.getByPixel(View.x, View.y);
+		Chunck c = this.getChunckByPixel(View.x, View.y);
 		
 		if(oldX != c.getX() || oldY != c.getY()){
 			this.setChangingChunck(true);

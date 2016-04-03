@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import game.core.GamePane;
 import game.core.Listener;
 import game.core.Main;
+import game.map.Map;
 
 public class Player extends Mob{
 	
@@ -39,6 +40,10 @@ public class Player extends Mob{
 		}
 		if(Listener.WOrUp){
 			y-=this.speed;
+		}
+		
+		if(Listener.RIGHT_CLICK){
+			GamePane.map.getSelectedBlock().destroy();
 		}
 	}
 	
