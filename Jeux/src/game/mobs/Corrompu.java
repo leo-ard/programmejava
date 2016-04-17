@@ -29,7 +29,7 @@ public class Corrompu extends Mob{
 			this.dommage = baseDommage;
 			setSpeed(baseSpeed);
 		}
-		this.move(x,y); 	//TODO AI des mouvements du mob en overridant la methode .move() de Mob
+		x--; 	//TODO AI des mouvements du mob en overridant la methode .move() de Mob
 	}
 	
 	public void draw(Graphics2D g){

@@ -1,6 +1,7 @@
 package game.core;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -54,6 +55,7 @@ public class GamePane extends JPanel implements Runnable{
 	
 	//mobs
 	public static Player player;
+	public ArrayList<Corrompu> corrompus;
 
 	/**
 	 * Constructor of the GamePane class.
@@ -93,6 +95,8 @@ public class GamePane extends JPanel implements Runnable{
 		
 		//TODO change the position by the saved one
 		player = new Player(0,0);
+		corrompus = new ArrayList<Corrompu>();
+		corrompus.add(new Corrompu(0,0));
 		
 	}
 	
@@ -191,6 +195,10 @@ public class GamePane extends JPanel implements Runnable{
 		Map.selectedBlock.setLocation(c.getX(), c.getY());
 		map.update();
 		
+		for(int i = 0; i< corrompus.size(); i++){
+			corrompus.get(i).update();
+		}
+		
 		
 		//to delete
 		//System.out.println(map.getSelectedBlock().getEdge());
@@ -217,9 +225,14 @@ public class GamePane extends JPanel implements Runnable{
 		
 		//----MOBS----//
 		player.draw(gGame);
-		gGame.translate(-gGame.getTransform().getTranslateX(), -gGame.getTransform().getTranslateY());
-		//TODO graphics pour corrompu
+		for(int i = 0; i< corrompus.size(); i++){
+			corrompus.get(i).draw(gGame);
+		}
 		
+		
+		
+		
+		gGame.translate(-gGame.getTransform().getTranslateX(), -gGame.getTransform().getTranslateY());
 		gUI.drawString("FPS: "+averageFPS, 0, 10);
 		
 	}
