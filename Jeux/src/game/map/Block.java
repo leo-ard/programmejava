@@ -3,18 +3,26 @@ package game.map;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import game.core.GamePane;
+import game.core.Main;
 
 public class Block {
 	
-	public static Block VOID0 = new Block(0, "", false, false, 0);
-	public static Block GRASS1 = new Block(1, "Grass", false, true, 100);
-	public static Block WATER2 = new Block(2, "Water", false, true, 100000);
-	public static Block DIRT3 = new Block(3, "Dirt", false, true, 100);
-	public static Block STONE4 = new Block(4, "Stone", false, true, 10);
+	public static int hauteur = 50;
+	public static Block VOID0 = new Block(0, "", false, false);
+	public static Block GRASS1 = new Block(1, "Grass", false, true);
+	public static Block WATER2 = new Block(2, "Water", true, true);
+	public static Block DIRT3 = new Block(3, "Dirt", false, true);
+	public static Block STONE4 = new Block(4, "Stone", false, true);
+	
+	public static ArrayList<Block> toDrawAfter = new ArrayList<Block>();
+	
+	public static int tryingthings  = 200;
 	
 	public static Block getById(int id){
 		switch(id){
@@ -30,7 +38,7 @@ public class Block {
 	private static int nbBlocks = 4;
 	
 	public static Block getRandomBlock(){
-		int b = (int)(1+(Math.random()*nbBlocks));
+		int b = (int)(1+(Map.randomNum.nextInt(nbBlocks)));
 		return Block.getById(b==3?1:b);
 	}
 	
@@ -41,10 +49,10 @@ public class Block {
 	private boolean isSelected; 
 	private int x, y;
 	private int GenerateNumber;
-	private Biome b;
-	private boolean hasEdges;
-	private int durability;
 	public boolean exist;
+	private int show;
+	public boolean isPortal;
+	private Portal portal;
 	
 	
 	/**
@@ -55,16 +63,17 @@ public class Block {
 	public Block(){
 		exist = false;
 		this.GenerateNumber = 0;
+		this.isPortal = false;
 	}
 	
-	public Block(int id, String name, boolean isSolid, boolean isTransparent, int durabi){
+	public Block(int id, String name, boolean isSolid, boolean isTransparent){
 		this.id = id;
 		this.name = name;
 		this.isSolid = isSolid;
 		this.isTransparent = isTransparent;
 		this.exist = true;
 		this.GenerateNumber = 0;
-		this.durability = durabi;
+		this.isPortal = false;
 	}
 	
 	public Block(int x, int y){
@@ -72,6 +81,7 @@ public class Block {
 		this.GenerateNumber = 0;
 		this.x = x;
 		this.y = y;
+		this.isPortal = false;
 	}
 	
 	public Block(Block b, int x, int y){
@@ -79,78 +89,15 @@ public class Block {
 		this.x = x;
 		this.y = y;
 		this.GenerateNumber = 0;
+		this.isPortal = false;
 	}
 	
-	public void generate(Biome b){
-		/*
-		Block blo = new Block();
-		Block maybeBlock = new Block();
-		int maybeGen = 0;
-		
-		for(int i = 0; i < 6; i ++){
-			try{
-				switch(i){
-				case 0: blo = this.getBasDroit();
-				case 1: blo = this.getBasGauche();
-				case 2: blo = this.getHautDroit();
-				case 3: blo = this.getHautGauche();
-				case 4: blo = this.getGauche();
-				case 5: blo = this.getDroit();
-				}
-				
-			}catch(NullPointerException e ){}
-			
-			if(blo != null){
-				if(maybeGen < blo.getGenerateNumber()){
-					maybeGen = blo.getGenerateNumber();
-					maybeBlock = blo;
-				}
-			}
-		}
-
-		if(maybeBlock != null){
-			this.GenerateNumber = 150;
-			this.b = Biome.getBiomeById(Map.randomNum.nextInt(Biome.nbBiome+1));
-			this.change(this.b.getRandomBlock(2));
-		}
-		else{
-			this.GenerateNumber = maybeGen-1;
-			this.b = blo.getB();
-			this.change(this.b.getRandomBlock(2));
-		}
-		
-		/*
-		for(int i = 0; i < a.size();i++){
-			try{
-				if(a.get(i).GenerateNumber > this.GenerateNumber){
-					System.out.println(this.GenerateNumber);
-					this.GenerateNumber = a.get(i).GenerateNumber-1;
-					this.b = a.get(i).b;
-				}
-			}catch(NullPointerException e){};
-		}
-		if(this.b == null){
-			this.GenerateNumber = 150;
-			this.b = Biome.getBiomeById(Map.randomNum.nextInt(Biome.nbBiome+1));
-		}
-		
-		this.change(this.b.getRandomBlock(2));*/
-		
-	}
-	
-	public void change(Block b){
+	public Block change(Block b){
 		this.id = b.id;
 		this.name = b.name;
 		this.isSolid = b.isSolid;
 		this.isTransparent = b.isTransparent;
-		this.durability = b.durability;
-	}
-	
-	public void destroy(){
-		durability--;
-		if(durability < 0){
-			this.erase();
-		}
+		return this;
 	}
 	
 	public void erase(){
@@ -165,21 +112,128 @@ public class Block {
 	}
 	
 	public void draw(Graphics2D g, int x, int y){
+		if(!this.isSolid){
+			if(x > -View.x-View.blockPixelWidth&&x < -View.x+GamePane.WIDTH &&y > -View.y-View.blockPixelHeight&&y < -View.y+GamePane.HEIGHT){
+				//System.out.println(this.getId());
+				g.drawImage(GamePane.texturesBlock[id], x, y,View.blockPixelWidth, View.blockPixelHeight, null);
+			}
+			if(this.x == Map.selectedBlock.getX()&&this.y == Map.selectedBlock.getY() && !GamePane.player.isRunning()){
+				g.drawImage(GamePane.texturesGUI[0], x, y,View.blockPixelWidth, View.blockPixelHeight, null);
+			}
+			if(Map.isRedSelection&&this.x == Map.redSelectedBlock.getX()&&this.y == Map.redSelectedBlock.getY() && !GamePane.player.isRunning()){
+				g.drawImage(GamePane.texturesGUI[1], x, y,View.blockPixelWidth, View.blockPixelHeight, null);
+			}
+		}
+		else{
+			if(x > -View.x-View.blockPixelWidth&&x < -View.x+GamePane.WIDTH &&y > -View.y-View.blockPixelHeight&&y < -View.y+GamePane.HEIGHT){
+				g.drawImage(GamePane.texturesBlock[id], x, y,View.blockPixelWidth, View.blockPixelHeight, null);
+				Block.toDrawAfter.add(this);
+			}
+			
+		}
+	
+	}
+	
+	public void drawAfter(Graphics2D g){
+		g.setColor(Color.darkGray);
+		//Haut Gauche
+		Point HG = this.getPoint(0, 0, this.hauteur);
+		g.drawLine(this.x*View.blockPixelWidth, this.y*View.blockPixelHeight,(int)HG.getX(), (int)HG.getY());
+		
+		//Haut droite
+		Point HD = this.getPoint(1, 0,this.hauteur);
+		g.drawLine((this.x+1)*View.blockPixelWidth, this.y*View.blockPixelHeight,(int)HD.getX(), (int)HD.getY());
+		
+		
+		//bas gauche
+		Point BG = this.getPoint(1, 1,this.hauteur);
+		g.drawLine((this.x+1)*View.blockPixelWidth, (this.y+1)*View.blockPixelHeight,(int)BG.getX(), (int)BG.getY());
+		
+		//bas droite
+		Point BD = this.getPoint(0, 1,this.hauteur);
+		g.drawLine(this.x*View.blockPixelWidth, (this.y+1)*View.blockPixelHeight,(int)BD.getX(), (int)BD.getY());
+		
+		Polygon p = new Polygon();
+		/*p.addPoint((int)HG.getX(), (int)HG.getY());
+		p.addPoint((int)HD.getX(), (int)HD.getY());
+		p.addPoint((int)BG.getX(), (int)BG.getY());
+		p.addPoint((int)BD.getX(), (int)BD.getY());*/
+		
+		//multiple de 4
+		int nbDePoints = 64;
+		double nbParLigne = nbDePoints/4;
+		
+		/*//----MUR BAS----//
+		g.setColor(new Color(100,100,100));
+		for(int i = 0; i < nbParLigne; i++){
+			Point pt;
+			pt = this.getPoint((1.0/nbParLigne)*i, 0,this.hauteur);				
+			p.addPoint((int)pt.getX(), (int)pt.getY());
+		}
+		p.addPoint((int)this.getPoint(1,0,this.hauteur).getX(),(int)this.getPoint(1,0,this.hauteur).getY());
+		p.addPoint((this.x+1)*View.blockPixelWidth,(this.y)*View.blockPixelHeight);
+		p.addPoint(this.x*View.blockPixelWidth,(this.y)*View.blockPixelHeight);
+		g.fillPolygon(p);
+		p = new Polygon();
+		*/
+		//----TOIT----//
+		g.setColor(Color.darkGray);
+		for(int i = 0; i < nbDePoints; i++){
+			Point pt;
+			if(i<nbParLigne){
+				pt = this.getPoint((1.0/nbParLigne)*i, 0,this.hauteur);
+			}
+			else if(i<nbParLigne*2){
+				pt = this.getPoint(1, (1.0/nbParLigne)*(i-nbParLigne),this.hauteur);
+				
+			}
+			else if(i<nbParLigne*3){
+				pt = this.getPoint(1-(1.0/nbParLigne)*(i-nbParLigne*2), 1,this.hauteur);
+			}
+			else{
+				pt = this.getPoint(0, 1-(1.0/nbParLigne)*(i-nbParLigne*3),this.hauteur);
+			}
+			p.addPoint((int)pt.getX(), (int)pt.getY());
+		}
+		g.fillPolygon(p);
+	}
+	
+	public Point getPoint(double mx, double my, int hauteur){
+		
+		double rad = Math.toRadians(GamePane.getAngle((this.x+mx)*View.blockPixelWidth, (this.y+my)*View.blockPixelHeight,GamePane.player.getX(),GamePane.player.getY()));
+		double dx = (int)(Math.cos(rad)*hauteur);
+		double dy = (int)(Math.sin(rad)*hauteur);
+		return new Point((int)((this.x+mx)*View.blockPixelWidth+dx), (int)((this.y+my)*View.blockPixelHeight+dy));
+		//g.drawLine((this.x+mx)*View.blockPixelWidth, (this.y+my)*View.blockPixelHeight,(this.x)*View.blockPixelWidth+dx, (this.y)*View.blockPixelHeight+dy);
+	}
+	
+	public void editorDraw(Graphics2D g, int x, int y){
 		if(x > -View.x-View.blockPixelWidth&&x < -View.x+GamePane.WIDTH &&y > -View.y-View.blockPixelHeight&&y < -View.y+GamePane.HEIGHT){
 			//System.out.println(this.getId());
-			g.drawImage(GamePane.texturesBlock[id], x, y,View.blockPixelWidth, View.blockPixelHeight, null);
-			
-			
+			g.drawImage(GamePane.texturesBlock[show != 0?show:id], x, y,View.blockPixelWidth, View.blockPixelHeight, null);
+		}
+		if(show != 0){
+			show = 0;
 		}
 		if(this.x == Map.selectedBlock.getX()&&this.y == Map.selectedBlock.getY() && !GamePane.player.isRunning()){
 			g.drawImage(GamePane.texturesGUI[0], x, y,View.blockPixelWidth, View.blockPixelHeight, null);
 		}
-		
+		if(Map.isRedSelection&&this.x == Map.redSelectedBlock.getX()&&this.y == Map.redSelectedBlock.getY() && !GamePane.player.isRunning()){
+			g.drawImage(GamePane.texturesGUI[1], x, y,View.blockPixelWidth, View.blockPixelHeight, null);
+		}
 		//----SHOW POSITION----///
-		g.setFont(new Font("Arial", 20, 20));
-		g.setColor(Color.BLACK);
-		
-		g.drawString(this.x+":"+this.y+" "+this.GenerateNumber, x, y+View.blockPixelHeight/2);
+		if(Main.windows.cShowPosition.isSelected()){
+			if(Main.windows.cShowPosition.isSelected()){
+				g.setFont(new Font("Arial", 20, 20));
+				g.setColor(Color.BLACK);
+				g.drawString(this.x+":"+this.y, x+View.blockPixelWidth/2-15, y+View.blockPixelHeight/2+8);
+			}
+		}
+		if(this.isPortal){
+			g.setFont(new Font("Arial", Font.BOLD, 20));
+			g.setColor(Color.green);
+			g.drawString("P", x, y+15);
+		}
 	}
 	
 	public boolean isAtEdge(){
@@ -188,157 +242,10 @@ public class Block {
 		}
 		return false;
 	}
-	
-	/**
-	 * returns
-	 * 1 for haut
-	 * 2 for bas
-	 * 3 for doite
-	 * 4 for gauche
-	 * 13 for haut droit
-	 * 14 for haut gauche
-	 * 23 for bas droit
-	 * 24 for bas gauche
-	 * 0 for nothing
-	 * 
-	 * @return 
-	 */
-	/*public byte getEdge(){
-		if(this.isAtEdge() == false){
-			return 0;
-		}
-		
-		if(x%24 == 0){
-			if(y%24 == 0){
-				return 14;
-			}
-			else if(y%24 == -1||y%24 == 23){
-				return 24;
-			}
-			else
-				return 4;
-		}
-		else if(x%24 == -1||x%24==23){
-			if(y%24 == 0){
-				return 13;
-			}
-			else if(y%24 == -1||y%24 == 23){
-				return 23;
-			}
-			else
-				return 3;
-		}
-		else if(y%24 == 0){
-			return 1;
-		}
-		else if(y%24 == -1||y%24==23){
-			return 2;
-		}
-		
-		return 0;
-	}*/
-	
-	public void firstBlock(Biome b2) {
-		System.out.println(this.x+" "+this.y);
-	}
-	
-	public ArrayList<Block> getEdges(){
-		ArrayList<Block> a = new ArrayList<Block>();
-		int nb = 0;
-		for(int i = 0; i < 6; i++){
-			Block bl = null;
-			if(i == 0)
-				bl = this.getHautDroit();
-			
-			if(i == 1)
-				bl = this.getHautGauche();
-				
-			if(i == 2)
-				bl = this.getBasDroit();
-				
-			if(i == 3)
-				bl = this.getBasGauche();
-						
-			if(i == 4)
-				bl = this.getDroit();
-							
-			if(i == 5)
-				bl = this.getGauche();
-			
-			//try{
-				if(bl != null&&bl.id != 0){
-					a.add(bl);
-				}
-				else
-					nb++;
-			//}catch(NullPointerException e){}
-			
-		}
-		if(nb == 6)
-			this.hasEdges = false;
-		else
-			this.hasEdges = true;
-		
-		return a;
-	}
-	
-	public Block getHautDroit(){
-		try{
-			if(this.y%2 == 0||this.y == 0){
-				return GamePane.map.getBlockByPosition(x, y-1);
-			}
-			else{
-				return GamePane.map.getBlockByPosition(x+1, y-1);
-			}
-		}catch(NullPointerException e){return new Block();}
-	}
-	public Block getBasDroit(){
-		
-		try{
-			if(this.y%2 == 0||this.y == 0){
-				return GamePane.map.getBlockByPosition(x, y+1);
-			}
-			else{
-				return GamePane.map.getBlockByPosition(x+1, y+1);
-			}
-		}catch(NullPointerException e){e.printStackTrace();return new Block();}
-	}
-	public Block getHautGauche(){
-		try{
-			if(this.y%2 == 0||this.y == 0){
-				return GamePane.map.getBlockByPosition(x-1, y-1);
-			}
-			else{
-				return GamePane.map.getBlockByPosition(x, y-1);
-			}
-		}catch(NullPointerException e){return new Block();}
-		
-	}
-	public Block getBasGauche(){
-		try{
-			if(this.y%2 == 0||this.y == 0){
-				return GamePane.map.getBlockByPosition(x-1, y+1);
-			}
-			else{
-				return GamePane.map.getBlockByPosition(x, y+1);
-			}
-		}catch(NullPointerException e){return new Block();}
-		
-	}
-	public Block getDroit(){
-		try{
-			return GamePane.map.getBlockByPosition(x+1, y);
-		}catch(NullPointerException e){return new Block();}
-		
-	}
-	public Block getGauche(){
-		//try{
-			return GamePane.map.getBlockByPosition(x-1, y);
-		//}catch(NullPointerException e){return new Block();}
-	}
+	//----positions----//
 	
 	
-	//----Getters and seeters ----//
+	//----Getters and setters ----//
 
 	public int getId() {
 		return id;
@@ -420,16 +327,18 @@ public class Block {
 		GenerateNumber = generateNumber;
 	}
 
-	public Biome getBiome() {
-		return b;
+	public boolean isPortal() {
+		return isPortal;
 	}
 
-	public void setBiome(Biome b) {
-		this.b = b;
+	public void setPortal(Portal p) {
+		portal = p;
+		this.isPortal = true;
 	}
 
-	
-
+	public Portal getPortal() {
+		return portal;
+	}
 }
 
 //TODO reparer le bug de la selection de (0;0) a (-1;0)

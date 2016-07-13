@@ -7,33 +7,40 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import game.armes.Gun;
+import game.map.Block;
+import game.map.Weather;
+
 public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 
-	public static boolean WOrUp;
-	public static boolean AOrLeft;
-	public static boolean SOrDown;
-	public static boolean DOrRight;
+	public boolean WOrUp;
+	public boolean AOrLeft;
+	public boolean SOrDown;
+	public boolean DOrRight;
 	
-	public static boolean LEFT_CLICK;
-	public static boolean RIGHT_CLICK;
+	public boolean LEFT_CLICK;
+	public boolean RIGHT_CLICK;
 	
-	public static boolean SHIFT;
+	public boolean SHIFT;
 	
-	public static int whellRotation = 0;
+	public int whellRotation = 0;
 	
-	public static boolean F1;
-	public static boolean F2;
-	public static boolean F3;
-	public static boolean F4;
-	public static boolean F5;
-	public static boolean F6;
-	public static boolean F7;
-	public static boolean F8;
-	public static boolean F9;
-	public static boolean F10;
-	public static boolean F11;
-	public static boolean F12;
+	public boolean F1;
+	public boolean F2;
+	public boolean F3;
+	public boolean F4;
+	public boolean F5;
+	public boolean F6;
+	public boolean F7;
+	public boolean F8;
+	public boolean F9;
+	public boolean F10;
+	public boolean F11;
+	public boolean F12;
 	
+	public Listener(){
+		super();
+	}
 	
 	//---- Mouse Wheel Listener ----//
 	@Override
@@ -47,6 +54,7 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 		//Right Click
 		if(e.getButton() == MouseEvent.BUTTON1){
 			RIGHT_CLICK = true;
+			GamePane.player.getGun().canshoot = true;
 		}
 		
 		//left click
@@ -101,9 +109,11 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 		
 		if(e.getKeyCode() == KeyEvent.VK_F1){
 			F1 = true;
+			Main.windows.gp.pause();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_F2){
 			F2 = true;
+			Main.windows.gp.resume();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_F3){
 			F3 = true;
@@ -122,18 +132,36 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 		}
 		if(e.getKeyCode() == KeyEvent.VK_F8){
 			F8 = true;
+			GamePane.map.getWeather().change(Weather.CLEAR);
 		}
 		if(e.getKeyCode() == KeyEvent.VK_F9){
 			F9 = true;
+			GamePane.map.getWeather().change(Weather.RAINNING);
 		}
 		if(e.getKeyCode() == KeyEvent.VK_F10){
 			F10 = true;
 		}
 		if(e.getKeyCode() == KeyEvent.VK_F11){
 			F11 = true;
+			Block.hauteur--;
 		}
 		if(e.getKeyCode() == KeyEvent.VK_F12){
 			F12 = true;
+			Block.hauteur++;
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+			if(Main.windows.pPause.isShowing() == true){
+				Main.windows.gp.resume();
+				Main.windows.pPause.show(false);
+				
+			}
+			else{
+				Main.windows.gp.pause();
+				Main.windows.pPause.show(true);
+				
+			}
+			
 		}
 	}
 
@@ -197,7 +225,7 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 	@Override
 	public void keyTyped(KeyEvent e) {}
 	
-	public static int getWhellRotation(){
+	public int getWhellRotation(){
 		int x = whellRotation;
 		whellRotation = 0;
 		return x;

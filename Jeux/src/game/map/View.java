@@ -6,11 +6,11 @@ public class View {
 	
 	private int zoom;
 	private final int baseBlockPixelHeight = 100;
-	private final int baseBlockPixelWidth = 94;  
+	private final int baseBlockPixelWidth = 100;  
 	
 	public static int chuncksBlockWidth = 24;
 	public static int blockPixelHeight = 100;
-	public static int blockPixelWidth = 94;
+	public static int blockPixelWidth = 100;
 	
 	public static int x = 0;
 	public static int y = 0;
@@ -25,6 +25,14 @@ public class View {
 		blockPixelWidth = (int) (double)(baseBlockPixelWidth*zoom/10);
 		
 		x = -GamePane.player.getX()+GamePane.WIDTH/2;
+		y = -GamePane.player.getY()+GamePane.HEIGHT/2;
+	}
+	
+	public void editorUpdate(){
+		blockPixelHeight = (int) (double)(baseBlockPixelHeight*zoom/10);
+		blockPixelWidth = (int) (double)(baseBlockPixelWidth*zoom/10);
+		
+		x = -GamePane.player.getX()+GamePane.WIDTH/2-200;
 		y = -GamePane.player.getY()+GamePane.HEIGHT/2;
 	}
 

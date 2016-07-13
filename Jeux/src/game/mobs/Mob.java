@@ -1,6 +1,11 @@
 package game.mobs;
 
-public class Mob {
+import java.awt.Graphics2D;
+import java.util.ArrayList;
+
+import game.armes.Bullet;
+
+public abstract class Mob extends Entity{
 
 	protected int maxHP;
 	protected int hp;
@@ -12,19 +17,14 @@ public class Mob {
 	protected int speed;
 	protected boolean isAlive = true;
 
-	protected int x, y;
-	protected int WIDTH, HEIGHT;
-	
-
-	protected Mob(int x, int y, int WIDTH, int HEIGHT, int maxHP, int baseSpeed, int baseDommage) {
+	protected Mob(int x, int y, int WIDTH, int HEIGHT,int maxHP, int baseSpeed, int baseDommage) {
+		super(x, y, WIDTH, HEIGHT);
 		this.maxHP = maxHP;
 		this.hp = maxHP;
 		this.baseSpeed = baseSpeed;
 		this.speed = baseSpeed;
 		this.baseDommage = baseDommage;
 		this.dommage = baseDommage;
-		this.WIDTH = WIDTH;
-		this.HEIGHT = HEIGHT;
 	}
 	
 	/**
