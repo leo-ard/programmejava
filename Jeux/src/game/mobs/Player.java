@@ -145,14 +145,7 @@ public class Player extends Mob{
 	}
 	
 	public void draw(Graphics2D g){
-		g.setColor(Color.black);	
-		g.fillOval(x-WIDTH/2, y-(HEIGHT)/2, WIDTH, HEIGHT);
-		/*double rad = Math.toRadians(GamePane.getAngleOfTheMouseAndThePlayer());
-		int dx = (int)(Math.cos(rad)*100);
-		int dy = (int)(Math.sin(rad)*100);
-		g.drawLine(this.x, this.y, this.x+dx, this.y+dy);*/
-		
-		
+		g.drawImage(GamePane.personnageTexture[0], x-this.WIDTH/2, y-this.HEIGHT/2,this.WIDTH, this.HEIGHT, null);
 	}
 	
 	public void editorDraw(Graphics2D g){

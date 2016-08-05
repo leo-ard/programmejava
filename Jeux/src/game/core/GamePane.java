@@ -48,6 +48,10 @@ public class GamePane extends JPanel implements Runnable{
 	 * 2 : pauseMenu
 	 */
 	public static Image[] texturesGUI = new Image[3];
+	/**
+	 * 
+	 */
+	public static Image[] personnageTexture = new Image[10];
 	public static int curentLevel = 2;
 	
 	//music
@@ -140,6 +144,8 @@ public class GamePane extends JPanel implements Runnable{
 		texturesGUI[0] = new ImageIcon("assets/textures/gui/Selected.png").getImage();
 		texturesGUI[1] = new ImageIcon("assets/textures/gui/redSelection.png").getImage();
 		texturesGUI[2] = new ImageIcon("assets/textures/gui/pauseMenu.png").getImage();
+		
+		personnageTexture[0] = new ImageIcon("assets/textures/player/tetes.png").getImage();
 	}
 	
 	public void addNotify(){

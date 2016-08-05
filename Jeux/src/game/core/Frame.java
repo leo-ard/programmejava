@@ -526,7 +526,7 @@ public class Frame {
 		((CardLayout) westPanel.getLayout()).show(westPanel, "unselectedPanel");
 		
 		
-		JLabel lNameOfGame = new JLabel("THE BEST GAME OF ALL");
+		JLabel lNameOfGame = new JLabel("THE BEST GAME OF 'EM ALL");
 		lNameOfGame.setHorizontalAlignment(SwingConstants.CENTER);
 		lNameOfGame.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lNameOfGame.setFont(new Font("Tahoma", Font.PLAIN, 50));
