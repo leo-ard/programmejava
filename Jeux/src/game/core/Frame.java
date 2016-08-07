@@ -29,22 +29,22 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileNotFoundException;
+//import java.io.FileNotFoundException;
 
 import javax.swing.JCheckBox;
-import java.awt.FlowLayout;
+//import java.awt.FlowLayout;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-import javax.swing.border.BevelBorder;
+//import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
-import javax.swing.JList;
+//import javax.swing.JList;
 import java.awt.List;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Window;
-import javax.swing.border.CompoundBorder;
+//import java.awt.Rectangle;
+//import java.awt.RenderingHints;
+//import java.awt.Window;
+//import javax.swing.border.CompoundBorder;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
@@ -109,7 +109,7 @@ public class Frame {
 	public JPanel pGame;
 	public PauseMenu pPause;
 	private JLabel lblPause;
-	private JPanel sm;
+	//private JPanel sm;
 	private JPanel EastPanel;
 	private JButton btnGunTest;
 	public List armeList;
@@ -155,7 +155,7 @@ public class Frame {
 				
 			}
 		});
-		FlowLayout flowLayout = (FlowLayout) edi.getLayout();
+		//FlowLayout flowLayout = (FlowLayout) edi.getLayout();
 		edi.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent paramMouseEvent) {
@@ -526,7 +526,7 @@ public class Frame {
 		((CardLayout) westPanel.getLayout()).show(westPanel, "unselectedPanel");
 		
 		
-		JLabel lNameOfGame = new JLabel("THE BEST GAME OF ALL");
+		JLabel lNameOfGame = new JLabel("THE BEST GAME OF 'EM ALL");
 		lNameOfGame.setHorizontalAlignment(SwingConstants.CENTER);
 		lNameOfGame.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lNameOfGame.setFont(new Font("Tahoma", Font.PLAIN, 50));
@@ -583,7 +583,7 @@ public class Frame {
 		pChoseMap.add(bLoad);
 		
 		ListOfmaps = new List();
-		ListOfmaps.setMultipleSelections(false);
+		ListOfmaps.setMultipleMode(false);
 		ListOfmaps.setBounds(431, 236, 375, 244);
 		pChoseMap.add(ListOfmaps);
 		
@@ -652,7 +652,7 @@ public class Frame {
 					.addContainerGap(594, Short.MAX_VALUE))
 		);
 		pPause.setLayout(gl_pPause);
-		pPause.show(false);
+		pPause.setVisible(false);
 		gp = new GamePane();
 		pGame.add(gp);
 		gp.thread.interrupt();
@@ -854,22 +854,22 @@ public class Frame {
 		});
 		bOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				edi.map.save();
+				GamePane.map.save();
 				edi.thread.stop();
 				cardLayout.show(card,"choseMap");
 			}
 		});
 		tName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				edi.map.setName(tName.getText());
+				GamePane.map.setName(tName.getText());
 			}
 		});
 		tFileName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(Map.isAvalableInIndex(tFileName.getText())){
-					Map.changeThisByThatInIndex(edi.map.getFileName(), tFileName.getText());
-					edi.map.setFileName(tFileName.getText());
-					edi.map.save();
+					Map.changeThisByThatInIndex(GamePane.map.getFileName(), tFileName.getText());
+					GamePane.map.setFileName(tFileName.getText());
+					GamePane.map.save();
 				}else{
 					JOptionPane.showMessageDialog(Frame.frame, "\""+tFileName.getText()+"\""+" is not avalaible");
 				}

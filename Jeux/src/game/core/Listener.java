@@ -7,7 +7,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-import game.armes.Gun;
 import game.map.Block;
 import game.map.Weather;
 
@@ -109,11 +108,11 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 		
 		if(e.getKeyCode() == KeyEvent.VK_F1){
 			F1 = true;
-			Main.windows.gp.pause();
+			Frame.gp.pause();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_F2){
 			F2 = true;
-			Main.windows.gp.resume();
+			Frame.gp.resume();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_F3){
 			F3 = true;
@@ -152,13 +151,13 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 		
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			if(Main.windows.pPause.isShowing() == true){
-				Main.windows.gp.resume();
-				Main.windows.pPause.show(false);
+				Frame.gp.resume();
+				Main.windows.pPause.setVisible(false);
 				
 			}
 			else{
-				Main.windows.gp.pause();
-				Main.windows.pPause.show(true);
+				Frame.gp.pause();
+				Main.windows.pPause.setVisible(true);
 				
 			}
 			
