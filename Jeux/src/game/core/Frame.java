@@ -705,7 +705,7 @@ public class Frame {
 		lblNewLabel.setBounds(10, 340, 55, 16);
 		EastPanel.add(lblNewLabel);
 		
-		label_3 = new JLabel("Knokback");
+		label_3 = new JLabel("Knockback");
 		label_3.setBounds(10, 368, 66, 16);
 		EastPanel.add(label_3);
 		
@@ -954,6 +954,12 @@ public class Frame {
 		});
 		btnSaveGun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				for(int i = 0; i < Gun.GUNS.size();i++){
+					if(Gun.GUNS.get(i).getNom().equals(Gun.GUNS.get(Gun.loaded).getNom())){
+						JOptionPane.showConfirmDialog(null, "KELI WAS HERE");
+						return;
+					}
+				}
 				Gun.GUNS.get(Gun.loaded).setNom(tGunName.getText());
 				Gun.GUNS.get(Gun.loaded).setType(tGunType.getText());
 				Gun.GUNS.get(Gun.loaded).setDomage((int)sDomage.getValue());
