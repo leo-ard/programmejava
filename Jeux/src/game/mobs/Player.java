@@ -5,16 +5,14 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 import game.armes.Arme;
-import game.armes.Bullet;
 import game.armes.Gun;
 import game.core.Frame;
 import game.core.GamePane;
 import game.core.Main;
-import game.map.Block;
 import game.map.Map;
 import game.map.View;
 
-public class Player extends Mob{
+public class Player extends Character{
 	
 	private boolean running;
 	private final int RUNNING_SPEED = 20;
@@ -169,7 +167,7 @@ public class Player extends Mob{
 		Point a3 = new Point(xOld-this.WIDTH/2, yOld+this.HEIGHT/2);
 		Point a4 = new Point(xOld+this.WIDTH/2, yOld+this.HEIGHT/2);
 		
-		Point b = new Point(this.x, this.y);
+		//Point b = new Point(this.x, this.y);
 		Point b1 = new Point(this.x-this.WIDTH/2, yOld-this.HEIGHT/2);
 		Point b2 = new Point(this.x+this.WIDTH/2, yOld-this.HEIGHT/2);
 		Point b3 = new Point(this.x-this.WIDTH/2, yOld+this.HEIGHT/2);
@@ -251,8 +249,8 @@ public class Player extends Mob{
 	
 	public void portal(Point b){
 		if(GamePane.map.getBlockByPixel(b).isPortal){
-			if(Main.windows.edi.isShowing())
-				Main.windows.edi.map.save();
+			if(Frame.edi.isShowing())
+				GamePane.map.save();
 			this.tp(GamePane.map.getBlockByPixel(b).getPortal().getPointB().x*View.blockPixelWidth+View.blockPixelWidth/2, GamePane.map.getBlockByPixel(b).getPortal().getPointB().y*View.blockPixelHeight+View.blockPixelHeight/2, GamePane.map.getBlockByPixel(b).getPortal().getName());
 		}
 	}
@@ -268,8 +266,8 @@ public class Player extends Mob{
 		this.y = y;
 	}
 	
-	private void move(int x, int y){
-		//TODO move if(Main.l.) to move
+	protected void move(int x, int y){
+		//TODO move code from Player.update() to Player.move
 		//TODO make mouvements more fluid (pas juste les lignes droites, ameliorer les tournants)
 	}
 	
@@ -280,10 +278,10 @@ public class Player extends Mob{
 	public void setRunning(boolean bool){
 		if (bool){
 			this.running = true;
-			Main.windows.frame.getContentPane().setCursor(GamePane.BLANK_CURSOR);
+			Frame.frame.getContentPane().setCursor(GamePane.BLANK_CURSOR);
 		} else {
 			this.running = false;
-			Main.windows.frame.getContentPane().setCursor(GamePane.DEFAULT_CURSOR);
+			Frame.frame.getContentPane().setCursor(GamePane.DEFAULT_CURSOR);
 		}
 	}
 

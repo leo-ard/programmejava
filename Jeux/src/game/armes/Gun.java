@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import game.core.GamePane;
 import game.core.Main;
 import game.editeur.ArmeTester;
-import game.mobs.Mob;
 
 public class Gun extends Arme{
 	
@@ -98,7 +97,7 @@ public class Gun extends Arme{
 	private int durabilite;
 	private double knockback;
 	private boolean explosif;
-	private Mob shooter;
+	//private Mob shooter;
 	private boolean auto;
 	
 	public boolean canshoot;

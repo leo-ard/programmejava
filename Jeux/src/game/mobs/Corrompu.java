@@ -12,10 +12,15 @@ public class Corrompu extends Mob{
 
 	public Corrompu(int x, int y) {
 		super(x, y, 15, 15, 50, 5, 5);
-		this.angerDamage = dommage*2;
+		this.angerDamage = damage*2;
 	}
 	
-	//
+	//TODO AI des mouvements du mob en overridant la methode .move() de Mob
+	@Override
+	protected void move(int x, int y){
+		
+	}
+	
 	public void update(){
 		if (hp < maxHP/4){
 			setAngered(true);
@@ -23,23 +28,18 @@ public class Corrompu extends Mob{
 			setAngered(false);
 		}
 		if(isAngered()){
-			this.dommage = angerDamage;
+			this.damage = angerDamage;
 			this.setSpeed(RUNNING_SPEED);
 		} else {
-			this.dommage = baseDommage;
+			this.damage = baseDamage;
 			setSpeed(baseSpeed);
 		}
-		x--; 	//TODO AI des mouvements du mob en overridant la methode .move() de Mob
 	}
 	
 	public void draw(Graphics2D g){
 		g.setColor(Color.black);
 		g.fillOval(x-WIDTH/2, y-(HEIGHT)/2, WIDTH, HEIGHT);
 		
-	}
-	
-	private void move(int x, int y){
-		//TODO seeking player AI
 	}
 	
 	public boolean isAngered(){

@@ -11,8 +11,10 @@ import game.mobs.Entity;
 public class Bullet extends Entity{
 	
 
+	@SuppressWarnings("unused")
 	private double angle;
 	
+	@SuppressWarnings("unused")
 	private Gun gun;
 	
 	private int dx;
@@ -70,6 +72,10 @@ public class Bullet extends Entity{
 		return false;
 	}
 	
+	protected void move(int x, int y){
+		//TODO put all movements in move method
+	}
+	
 	public void draw(Graphics2D g){
 		g.setColor(Color.yellow);
 		g.fillOval((int)this.x-this.r, (int)this.y-this.r, this.r*2 , this.r*2);
@@ -95,7 +101,7 @@ public class Bullet extends Entity{
 		Point a3 = new Point(xOld-this.WIDTH/2, yOld+this.HEIGHT/2);
 		Point a4 = new Point(xOld+this.WIDTH/2, yOld+this.HEIGHT/2);
 		
-		Point b = new Point(this.x, this.y);
+		//Point b = new Point(this.x, this.y);
 		Point b1 = new Point(this.x-this.WIDTH/2, yOld-this.HEIGHT/2);
 		Point b2 = new Point(this.x+this.WIDTH/2, yOld-this.HEIGHT/2);
 		Point b3 = new Point(this.x-this.WIDTH/2, yOld+this.HEIGHT/2);

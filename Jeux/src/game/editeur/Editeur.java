@@ -3,7 +3,7 @@ package game.editeur;
 import game.core.GamePane;
 import game.core.Main;
 
-import java.awt.*;
+/*import java.awt.*;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -12,11 +12,13 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import game.audio.musicPlayer;
+import game.audio.musicPlayer;*/
 import game.map.*;
 import game.mobs.*;
 
 public class Editeur extends GamePane{
+	
+	private static final long serialVersionUID = 7444834570208804767L;
 	
 	public String strMapToLoad;
 	public Map mapToLoad; 

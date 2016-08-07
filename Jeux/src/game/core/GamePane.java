@@ -13,7 +13,7 @@ import game.mobs.*;
 
 public class GamePane extends JPanel implements Runnable{
 	
-	protected static final long serialVersionUID = 1204454795981689683L;
+	private static final long serialVersionUID = 1204454795981689683L;
 	
 	//----FIELDS----// 
 	
@@ -115,7 +115,7 @@ public class GamePane extends JPanel implements Runnable{
 		//TODO change the position by the saved one
 		player = new Player(0,0);
 		corrompus = new ArrayList<Corrompu>();
-		corrompus.add(new Corrompu(0,0));
+		corrompus.add(new Corrompu(100,100));
 		running = true;
 		
 	}
@@ -279,7 +279,7 @@ public class GamePane extends JPanel implements Runnable{
 		//----MAP----//
 		map.draw(gGame);
 		gGame.setColor(new Color(0,0,0));
-		gGame.fillRect(this.mousePosX, this.mousePosY, 2, 2);;
+		gGame.fillRect(GamePane.mousePosX, GamePane.mousePosY, 2, 2);;
 		//----INFO----//
 		//gGame.drawString("Pos: "+View.x+":"+View.y+" Chunck Pos: "+c.getX()+":"+c.getY(), 30, 30);
 		
@@ -291,7 +291,7 @@ public class GamePane extends JPanel implements Runnable{
 		
 		map.drawAfter(gGame);
 		gUI.setColor(filtre);
-		gUI.fillRect(0, 0, this.WIDTH, this.HEIGHT);
+		gUI.fillRect(0, 0, GamePane.WIDTH, GamePane.HEIGHT);
 	}
 	
 	public void GameDraw(){

@@ -13,7 +13,9 @@ import game.mobs.Corrompu;
 import game.mobs.Player;
 
 public class ArmeTester extends GamePane{
-	
+
+	private static final long serialVersionUID = 8465215469790306178L;
+
 	public void initiate(){
 			textureImport();
 			filtre = new Color(0,0,0,0);
