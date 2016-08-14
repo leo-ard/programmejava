@@ -9,8 +9,8 @@ import game.core.GamePane;
 import game.core.Main;
 import game.map.Map;
 import game.map.View;
-import game.mobs.Corrompu;
 import game.mobs.Player;
+import game.mobs.enemies.Corrompu;
 
 public class ArmeTester extends GamePane{
 

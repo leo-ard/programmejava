@@ -19,7 +19,7 @@ public class Player extends Character{
 	private Arme Arme;
 
 	public Player(int x, int y) {
-		super(x, y, 30, 30, 100, 5, 10);
+		super(x, y, 30, 22, 100, 5, 10);
 		Arme = Gun.HANDGUN;
 	}
 	
@@ -167,7 +167,7 @@ public class Player extends Character{
 		Point a3 = new Point(xOld-this.WIDTH/2, yOld+this.HEIGHT/2);
 		Point a4 = new Point(xOld+this.WIDTH/2, yOld+this.HEIGHT/2);
 		
-		//Point b = new Point(this.x, this.y);
+		Point b = new Point(this.x, this.y);
 		Point b1 = new Point(this.x-this.WIDTH/2, yOld-this.HEIGHT/2);
 		Point b2 = new Point(this.x+this.WIDTH/2, yOld-this.HEIGHT/2);
 		Point b3 = new Point(this.x-this.WIDTH/2, yOld+this.HEIGHT/2);
@@ -252,6 +252,7 @@ public class Player extends Character{
 			if(Frame.edi.isShowing())
 				GamePane.map.save();
 			this.tp(GamePane.map.getBlockByPixel(b).getPortal().getPointB().x*View.blockPixelWidth+View.blockPixelWidth/2, GamePane.map.getBlockByPixel(b).getPortal().getPointB().y*View.blockPixelHeight+View.blockPixelHeight/2, GamePane.map.getBlockByPixel(b).getPortal().getName());
+			System.out.println(GamePane.map.getBlockByPixel(b).getPortal().getPointB().x*View.blockPixelWidth+View.blockPixelWidth/2+" "+ GamePane.map.getBlockByPixel(b).getPortal().getPointB().y*View.blockPixelHeight+View.blockPixelHeight/2+" "+ GamePane.map.getBlockByPixel(b).getPortal().getName());
 		}
 	}
 	

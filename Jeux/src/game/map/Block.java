@@ -3,17 +3,23 @@ package game.map;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.TexturePaint;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 //import java.util.Vector;
 
 import game.core.GamePane;
 import game.core.Main;
+import game.mobs.Line;
 
 public class Block {
 	
-	public static int hauteur = 50;
+	public static int hauteur = 10;
 	public static Block VOID0 = new Block(0, "", false, false);
 	public static Block GRASS1 = new Block(1, "Grass", false, true);
 	public static Block WATER2 = new Block(2, "Water", true, true);
@@ -195,14 +201,26 @@ public class Block {
 			}
 			p.addPoint((int)pt.getX(), (int)pt.getY());
 		}
-		g.fillPolygon(p);
+		g.fill(p);
+		//g.setPaint(new TexturePaint(GamePane.texturesBlock, null));
+		//ImagePartern ip = new ImagePartern();
+		//TexturePaint tp = new TexturePaint(GamePane.texturesBlock[1], p);
+		//g.drawImage
+		//g.setClip(p);
+		//g.setPaint(new TexturePaint(Block.toBufferedImage(GamePane.texturesBlock[3]), (new Rectangle(this.x, this.y, View.blockPixelHeight, View.blockPixelHeight))));
+		//g.fill(p);
 	}
 	
 	public Point getPoint(double mx, double my, int hauteur){
-		
 		double rad = Math.toRadians(GamePane.getAngle((this.x+mx)*View.blockPixelWidth, (this.y+my)*View.blockPixelHeight,GamePane.player.getX(),GamePane.player.getY()));
-		double dx = (int)(Math.cos(rad)*hauteur);
-		double dy = (int)(Math.sin(rad)*hauteur);
+		//Line l = new Line((int)((this.x+mx)*View.blockPixelWidth), (int)(this.y+my)*View.blockPixelHeight, GamePane.player.getX(), GamePane.player.getY());
+		
+		//hauteur = (int) Math.pow(l.lenght(), 1.0/3.0)*this.hauteur;
+		//hauteur = (int) (Math.cos(rad)/this.hauteur);
+		//System.out.println(rad);
+		double dx = (int)((double)Math.cos(rad)*(double)this.hauteur);
+		double dy = (int)((double)Math.sin(rad)*(double)this.hauteur);
+		
 		return new Point((int)((this.x+mx)*View.blockPixelWidth+dx), (int)((this.y+my)*View.blockPixelHeight+dy));
 		//g.drawLine((this.x+mx)*View.blockPixelWidth, (this.y+my)*View.blockPixelHeight,(this.x)*View.blockPixelWidth+dx, (this.y)*View.blockPixelHeight+dy);
 	}
@@ -339,6 +357,26 @@ public class Block {
 	public Portal getPortal() {
 		return portal;
 	}
+	
+	public static BufferedImage toBufferedImage(Image img){
+	    if (img instanceof BufferedImage)
+	    {
+	        return (BufferedImage) img;
+	    }
+
+	    // Create a buffered image with transparency
+	    BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+	    // Draw the image on to the buffered image
+	    Graphics2D bGr = bimage.createGraphics();
+	    bGr.drawImage(img, 0, 0, null);
+	    bGr.dispose();
+
+	    // Return the buffered image
+	    return bimage;
+	}
 }
+
+
 
 //TODO reparer le bug de la selection de (0;0) a (-1;0)

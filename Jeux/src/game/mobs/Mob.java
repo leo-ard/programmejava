@@ -1,5 +1,8 @@
 package game.mobs;
 
+import game.core.GamePane;
+import game.core.Main;
+
 public abstract class Mob extends Character{
 
 
@@ -15,5 +18,18 @@ public abstract class Mob extends Character{
 	 * @param y
 	 */
 	protected abstract void move(int x, int y);
+	
+	public boolean isSeeingThePlayer(){
+		/*Line l = new Line(this.x, this.y, GamePane.player.getX(), GamePane.player.getY());
+		System.out.println(l.lenght());
+		if(l.lenght() < 10){
+			System.out.println("TRUE");
+			return true;
+		}
+		else{
+			return false;
+		}*/
+		return false;
+	}
 
 }

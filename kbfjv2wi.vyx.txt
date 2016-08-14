@@ -1,0 +1,23 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is behind 'origin/master' by 1 commit, and can be fast-forwarded.
+#   (use "git pull" to update your local branch)
+#
+# Changes to be committed:
+#	modified:   .recommenders/index/http___download_eclipse_org_recommenders_models_mars_/segments.gen
+#	modified:   Jeux/assets/maps/Map21
+#	modified:   Jeux/assets/maps/start
+#	modified:   Jeux/assets/textures/gui/pauseMenu.png
+#	modified:   Jeux/assets/textures/player/tetes.png
+#	modified:   Jeux/src/game/core/Frame.java
+#	modified:   Jeux/src/game/core/GamePane.java
+#	modified:   Jeux/src/game/editeur/ArmeTester.java
+#	modified:   Jeux/src/game/map/Block.java
+#	new file:   Jeux/src/game/mobs/Line.java
+#	modified:   Jeux/src/game/mobs/Mob.java
+#	modified:   Jeux/src/game/mobs/Player.java
+#	renamed:    Jeux/src/game/mobs/Corrompu.java -> Jeux/src/game/mobs/enemies/Corrompu.java
+#
+

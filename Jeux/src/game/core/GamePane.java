@@ -10,6 +10,7 @@ import game.armes.Gun;
 import game.audio.musicPlayer;
 import game.map.*;
 import game.mobs.*;
+import game.mobs.enemies.Corrompu;
 
 public class GamePane extends JPanel implements Runnable{
 	

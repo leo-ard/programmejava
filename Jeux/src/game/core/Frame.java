@@ -914,10 +914,12 @@ public class Frame {
 			public void actionPerformed(ActionEvent arg0) {
 				if(Map.isRedSelection){
 					if(!cJustOneWay.isSelected()){
+						try{
 						Portal p = GamePane.map.getPortal((int)Map.redSelectedBlock.getX(), (int)Map.redSelectedBlock.getY());
 						Map m = new Map(p.getName());
 						m.removePortal((int)p.getPointB().getX(), (int)p.getPointB().getY());
 						m.save();
+						}catch(NullPointerException e){};
 					}
 					GamePane.map.removePortal((int)Map.redSelectedBlock.getX(), (int)Map.redSelectedBlock.getY());
 					
