@@ -20,12 +20,6 @@ public class Main {
 		gameSave.load();
 		
 		
-		
-		
-		
-		
-		
-		
 	}
 
 }
