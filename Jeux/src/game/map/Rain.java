@@ -64,9 +64,9 @@ public class Rain {
 			return true;
 		if(y < 0)
 			return true;
-		if(x > GamePane.map.getSizeX()*View.blockPixelWidth)
+		if(x > GamePane.map.getSizeX()*GamePane.v.blockPixelWidth)
 			return true;
-		if(y > GamePane.map.getSizeY()*View.blockPixelHeight)
+		if(y > GamePane.map.getSizeY()*GamePane.v.blockPixelHeight)
 			return true;
 		return false;
 	}

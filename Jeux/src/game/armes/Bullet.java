@@ -66,7 +66,7 @@ public class Bullet extends Entity{
 			}
 		}catch(NullPointerException e){};
 		
-		if(this.x < 0||this.y < 0||this.x > GamePane.map.getSizeX()*View.blockPixelWidth||this.y > GamePane.map.getSizeY()*View.blockPixelHeight)
+		if(this.x < 0||this.y < 0||this.x > GamePane.map.getSizeX()*GamePane.v.blockPixelWidth||this.y > GamePane.map.getSizeY()*GamePane.v.blockPixelHeight)
 			return true;
 		
 		return false;

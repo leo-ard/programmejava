@@ -186,10 +186,10 @@ public class Map {
 	public void draw(Graphics2D g){
 		//this.getBlockByPosition(2, 2).draw(g, 0, 0);
 		
-		for(int i = GamePane.player.getX()/View.blockPixelWidth-10; i < GamePane.player.getX()/View.blockPixelWidth+10&&i<sizeX; i++){
-			for(int j = GamePane.player.getY()/View.blockPixelWidth-10; j < GamePane.player.getY()/View.blockPixelWidth+10&&j<sizeY; j++){
+		for(int i = GamePane.player.getX()/GamePane.v.blockPixelWidth-10; i < GamePane.player.getX()/GamePane.v.blockPixelWidth+10&&i<sizeX; i++){
+			for(int j = GamePane.player.getY()/GamePane.v.blockPixelWidth-10; j < GamePane.player.getY()/GamePane.v.blockPixelWidth+10&&j<sizeY; j++){
 				if(this.getBlockByPosition(i,j) != null)
-					this.getBlockByPosition(i,j).draw(g,i*View.blockPixelWidth,j*View.blockPixelHeight);
+					this.getBlockByPosition(i,j).draw(g,i*GamePane.v.blockPixelWidth,j*GamePane.v.blockPixelHeight);
 			}
 		}
 		
@@ -208,10 +208,10 @@ public class Map {
 	}
 	
 	public void editorDraw(Graphics2D g){
-		for(int i = GamePane.player.getX()/View.blockPixelWidth-10; i < GamePane.player.getX()/View.blockPixelWidth+10&&i<sizeX; i++){
-			for(int j = GamePane.player.getY()/View.blockPixelWidth-10; j < GamePane.player.getY()/View.blockPixelWidth+10&&j<sizeY; j++){
+		for(int i = GamePane.player.getX()/GamePane.v.blockPixelWidth-10; i < GamePane.player.getX()/GamePane.v.blockPixelWidth+10&&i<sizeX; i++){
+			for(int j = GamePane.player.getY()/GamePane.v.blockPixelWidth-10; j < GamePane.player.getY()/GamePane.v.blockPixelWidth+10&&j<sizeY; j++){
 				if(this.getBlockByPosition(i,j) != null)
-					this.getBlockByPosition(i,j).editorDraw(g,i*View.blockPixelWidth,j*View.blockPixelHeight);
+					this.getBlockByPosition(i,j).editorDraw(g,i*GamePane.v.blockPixelWidth,j*GamePane.v.blockPixelHeight);
 			}
 		}
 	}
@@ -350,11 +350,11 @@ public class Map {
 	}
 	
 	public Block getBlockByPixel(int x, int y){
-		return this.getBlockByPosition(x/View.blockPixelWidth, y/View.blockPixelHeight);
+		return this.getBlockByPosition(x/GamePane.v.blockPixelWidth, y/GamePane.v.blockPixelHeight);
 	}
 	
 	public Block getBlockByPixel(Point t){
-		return this.getBlockByPosition((int)t.getX()/View.blockPixelWidth, (int)t.getY()/View.blockPixelHeight);
+		return this.getBlockByPosition((int)t.getX()/GamePane.v.blockPixelWidth, (int)t.getY()/GamePane.v.blockPixelHeight);
 	}
 
 	/**
@@ -362,8 +362,8 @@ public class Map {
 	 * @param x and y are the position of the mouse
 	 */
 	public void setSelectedBlock(int x, int y){
-		int x1 = x/View.blockPixelWidth;
-		int y1 = y/View.blockPixelHeight;
+		int x1 = x/GamePane.v.blockPixelWidth;
+		int y1 = y/GamePane.v.blockPixelHeight;
 		
 		if(x1 < 0){
 			x1 = 0;

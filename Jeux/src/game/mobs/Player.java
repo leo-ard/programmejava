@@ -10,7 +10,6 @@ import game.core.Frame;
 import game.core.GamePane;
 import game.core.Main;
 import game.map.Map;
-import game.map.View;
 
 public class Player extends Character{
 	
@@ -59,11 +58,11 @@ public class Player extends Character{
 		if(this.y < HEIGHT/2){
 			this.y = HEIGHT/2;
 		}
-		if(this.x > GamePane.map.getSizeX()*View.blockPixelWidth-WIDTH/2){
-			this.x = GamePane.map.getSizeX()*View.blockPixelWidth-WIDTH/2;
+		if(this.x > GamePane.map.getSizeX()*GamePane.v.blockPixelWidth-WIDTH/2){
+			this.x = GamePane.map.getSizeX()*GamePane.v.blockPixelWidth-WIDTH/2;
 		}
-		if(this.y > GamePane.map.getSizeY()*View.blockPixelHeight-HEIGHT/2){
-			this.y = GamePane.map.getSizeY()*View.blockPixelHeight-HEIGHT/2;
+		if(this.y > GamePane.map.getSizeY()*GamePane.v.blockPixelHeight-HEIGHT/2){
+			this.y = GamePane.map.getSizeY()*GamePane.v.blockPixelHeight-HEIGHT/2;
 		}
 		
 		if(speedX == 1  || speedY == 1 || speedX == -1||speedY == -1){
@@ -119,11 +118,11 @@ public class Player extends Character{
 		if(this.y < HEIGHT/2){
 			this.y = HEIGHT/2;
 		}
-		if(this.x > GamePane.map.getSizeX()*View.blockPixelWidth-WIDTH/2){
-			this.x = GamePane.map.getSizeX()*View.blockPixelWidth-WIDTH/2;
+		if(this.x > GamePane.map.getSizeX()*GamePane.v.blockPixelWidth-WIDTH/2){
+			this.x = GamePane.map.getSizeX()*GamePane.v.blockPixelWidth-WIDTH/2;
 		}
-		if(this.y > GamePane.map.getSizeY()*View.blockPixelHeight-HEIGHT/2){
-			this.y = GamePane.map.getSizeY()*View.blockPixelHeight-HEIGHT/2;
+		if(this.y > GamePane.map.getSizeY()*GamePane.v.blockPixelHeight-HEIGHT/2){
+			this.y = GamePane.map.getSizeY()*GamePane.v.blockPixelHeight-HEIGHT/2;
 		}
 		if(speedX == 1  || speedY == 1 || speedX == -1||speedY == -1){
 			if(GamePane.l.F10){
@@ -176,14 +175,14 @@ public class Player extends Character{
 		if(speedX == 1){
 			if(GamePane.getXOfMapByPixel(a1) != GamePane.getXOfMapByPixel(b2)){
 				if(GamePane.map.getBlockByPixel(b2).isSolid()){
-					this.x = GamePane.getXOfMapByPixel(b2)*View.blockPixelWidth-this.WIDTH/2-1;
+					this.x = GamePane.getXOfMapByPixel(b2)*GamePane.v.blockPixelWidth-this.WIDTH/2-1;
 				}
 				portal(b2);
 			}
 			
 			if(GamePane.getXOfMapByPixel(a3) != GamePane.getXOfMapByPixel(b4)){
 				if(GamePane.map.getBlockByPixel(b4).isSolid()){
-					this.x = GamePane.getXOfMapByPixel(b4)*View.blockPixelWidth-this.WIDTH/2-1;
+					this.x = GamePane.getXOfMapByPixel(b4)*GamePane.v.blockPixelWidth-this.WIDTH/2-1;
 				}
 				portal(b4);
 			}
@@ -191,13 +190,13 @@ public class Player extends Character{
 		if(speedX == -1){
 			if(GamePane.getXOfMapByPixel(a2) != GamePane.getXOfMapByPixel(b1)){
 				if(GamePane.map.getBlockByPixel(b1).isSolid()){
-					this.x = (GamePane.getXOfMapByPixel(b1)+1)*View.blockPixelWidth+this.WIDTH/2;
+					this.x = (GamePane.getXOfMapByPixel(b1)+1)*GamePane.v.blockPixelWidth+this.WIDTH/2;
 				}
 				portal(b1);
 			}
 			if(GamePane.getXOfMapByPixel(a4) != GamePane.getXOfMapByPixel(b3)){
 				if(GamePane.map.getBlockByPixel(b3).isSolid()){
-					this.x = (GamePane.getXOfMapByPixel(b3)+1)*View.blockPixelWidth+this.WIDTH/2;
+					this.x = (GamePane.getXOfMapByPixel(b3)+1)*GamePane.v.blockPixelWidth+this.WIDTH/2;
 				}
 				portal(b3);
 			}
@@ -216,14 +215,14 @@ public class Player extends Character{
 		if(speedY == 1){
 			if(GamePane.getYOfMapByPixel(a1) != GamePane.getYOfMapByPixel(b3)){
 				if(GamePane.map.getBlockByPixel(b3).isSolid()){
-					this.y = GamePane.getYOfMapByPixel(b3)*View.blockPixelHeight-this.HEIGHT/2-1;
+					this.y = GamePane.getYOfMapByPixel(b3)*GamePane.v.blockPixelHeight-this.HEIGHT/2-1;
 				}
 				portal(b3);
 			}
 			
 			if(GamePane.getYOfMapByPixel(a2) != GamePane.getYOfMapByPixel(b4)){
 				if(GamePane.map.getBlockByPixel(b4).isSolid()){
-					this.y = GamePane.getYOfMapByPixel(b4)*View.blockPixelHeight-this.HEIGHT/2-1;
+					this.y = GamePane.getYOfMapByPixel(b4)*GamePane.v.blockPixelHeight-this.HEIGHT/2-1;
 				}
 				portal(b4);
 			}
@@ -231,14 +230,14 @@ public class Player extends Character{
 		if(speedY == -1){
 			if(GamePane.getYOfMapByPixel(a3) != GamePane.getYOfMapByPixel(b1)){
 				if(GamePane.map.getBlockByPixel(b1).isSolid()){
-					this.y = (GamePane.getYOfMapByPixel(b1)+1)*View.blockPixelHeight+this.HEIGHT/2;
+					this.y = (GamePane.getYOfMapByPixel(b1)+1)*GamePane.v.blockPixelHeight+this.HEIGHT/2;
 				}
 				portal(b1);
 			}
 			
 			if(GamePane.getYOfMapByPixel(a4) != GamePane.getYOfMapByPixel(b2)){
 				if(GamePane.map.getBlockByPixel(b2).isSolid()){
-					this.y = (GamePane.getYOfMapByPixel(b2)+1)*View.blockPixelHeight+this.HEIGHT/2;
+					this.y = (GamePane.getYOfMapByPixel(b2)+1)*GamePane.v.blockPixelHeight+this.HEIGHT/2;
 				}
 				portal(b2);
 			}
@@ -252,10 +251,10 @@ public class Player extends Character{
 			if(Frame.edi.isShowing())
 				GamePane.map.save();
 			if(GamePane.map.getBlockByPixel(b).getPortal().getName().equals(GamePane.map.getFileName())){
-				this.tp(GamePane.map.getBlockByPixel(b).getPortal().getPointB().x*View.blockPixelWidth+View.blockPixelWidth/2, GamePane.map.getBlockByPixel(b).getPortal().getPointB().y*View.blockPixelHeight+View.blockPixelHeight/2);
+				this.tp(GamePane.map.getBlockByPixel(b).getPortal().getPointB().x*GamePane.v.blockPixelWidth+GamePane.v.blockPixelWidth/2, GamePane.map.getBlockByPixel(b).getPortal().getPointB().y*GamePane.v.blockPixelHeight+GamePane.v.blockPixelHeight/2);
 			}
 			else{
-				this.tp(GamePane.map.getBlockByPixel(b).getPortal().getPointB().x*View.blockPixelWidth+View.blockPixelWidth/2, GamePane.map.getBlockByPixel(b).getPortal().getPointB().y*View.blockPixelHeight+View.blockPixelHeight/2, GamePane.map.getBlockByPixel(b).getPortal().getName());
+				this.tp(GamePane.map.getBlockByPixel(b).getPortal().getPointB().x*GamePane.v.blockPixelWidth+GamePane.v.blockPixelWidth/2, GamePane.map.getBlockByPixel(b).getPortal().getPointB().y*GamePane.v.blockPixelHeight+GamePane.v.blockPixelHeight/2, GamePane.map.getBlockByPixel(b).getPortal().getName());
 			}
 		}
 	}

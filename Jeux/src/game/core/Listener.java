@@ -117,11 +117,9 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 		}
 		if(e.getKeyCode() == KeyEvent.VK_F3){
 			F3 = true;
-			View.zoomIn();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_F4){
 			F4 = true;
-			View.zoomOut();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_F5){
 			F5 = true;

@@ -263,7 +263,7 @@ public class GamePane extends JPanel implements Runnable{
 		gGame.setColor(Color.gray);
 		gGame.fillRect(0, 0, WIDTH, HEIGHT);
 		
-		gGame.translate(View.x, View.y);
+		gGame.translate(v.x, v.y);
 		
 		GameRender();
 		
