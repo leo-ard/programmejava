@@ -33,6 +33,7 @@ public class Weather {
 	public Weather(int weather){
 		this.weather = weather;
 		rain = new ArrayList<Rain>();
+		isChanging = false;
 	}
 	
 	public void update(){
@@ -74,6 +75,7 @@ public class Weather {
 		this.weatherToChange = w;
 		isChanging = true;
 		iForChange =0;
+		
 	}
 	
 	public boolean transition(){

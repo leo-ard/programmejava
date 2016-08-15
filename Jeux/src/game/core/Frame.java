@@ -109,7 +109,6 @@ public class Frame {
 	public JPanel pGame;
 	public PauseMenu pPause;
 	private JLabel lblPause;
-	//private JPanel sm;
 	private JPanel EastPanel;
 	private JButton btnGunTest;
 	public List armeList;

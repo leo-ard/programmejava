@@ -22,7 +22,7 @@ public class GamePane extends JPanel implements Runnable{
 	protected Thread thread;
 	public static int WIDTH = 1280;
 	public static int HEIGHT = 800;
-	protected View v;
+	public static View v;
 	public static int mousePosX;
 	public static int mousePosY;
 	
@@ -279,7 +279,7 @@ public class GamePane extends JPanel implements Runnable{
 		//----MAP----//
 		map.draw(gGame);
 		gGame.setColor(new Color(0,0,0));
-		gGame.fillRect(GamePane.mousePosX, GamePane.mousePosY, 2, 2);;
+		gGame.fillRect(GamePane.mousePosX, GamePane.mousePosY, 2, 2);
 		//----INFO----//
 		//gGame.drawString("Pos: "+View.x+":"+View.y+" Chunck Pos: "+c.getX()+":"+c.getY(), 30, 30);
 		

@@ -251,8 +251,12 @@ public class Player extends Character{
 		if(GamePane.map.getBlockByPixel(b).isPortal){
 			if(Frame.edi.isShowing())
 				GamePane.map.save();
-			this.tp(GamePane.map.getBlockByPixel(b).getPortal().getPointB().x*View.blockPixelWidth+View.blockPixelWidth/2, GamePane.map.getBlockByPixel(b).getPortal().getPointB().y*View.blockPixelHeight+View.blockPixelHeight/2, GamePane.map.getBlockByPixel(b).getPortal().getName());
-			System.out.println(GamePane.map.getBlockByPixel(b).getPortal().getPointB().x*View.blockPixelWidth+View.blockPixelWidth/2+" "+ GamePane.map.getBlockByPixel(b).getPortal().getPointB().y*View.blockPixelHeight+View.blockPixelHeight/2+" "+ GamePane.map.getBlockByPixel(b).getPortal().getName());
+			if(GamePane.map.getBlockByPixel(b).getPortal().getName().equals(GamePane.map.getFileName())){
+				this.tp(GamePane.map.getBlockByPixel(b).getPortal().getPointB().x*View.blockPixelWidth+View.blockPixelWidth/2, GamePane.map.getBlockByPixel(b).getPortal().getPointB().y*View.blockPixelHeight+View.blockPixelHeight/2);
+			}
+			else{
+				this.tp(GamePane.map.getBlockByPixel(b).getPortal().getPointB().x*View.blockPixelWidth+View.blockPixelWidth/2, GamePane.map.getBlockByPixel(b).getPortal().getPointB().y*View.blockPixelHeight+View.blockPixelHeight/2, GamePane.map.getBlockByPixel(b).getPortal().getName());
+			}
 		}
 	}
 	

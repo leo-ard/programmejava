@@ -4,7 +4,7 @@ import game.core.GamePane;
 
 public class View {
 	
-	private int zoom;
+	public int zoom;
 	private final int baseBlockPixelHeight = 100;
 	private final int baseBlockPixelWidth = 100;  
 	
@@ -71,7 +71,41 @@ public class View {
 	public static void setY(int y) {
 		View.y = y;
 	}
+	
+	public static double putInRationX(int nb){
+		return (double)nb/(double)View.blockPixelWidth;
+	}
+	
+	public static double putInRationY(int nb){
+		return (double)nb/(double)View.blockPixelHeight;
+	}
 
+	
+	public static int getFromRationX(double nb){
+		return (int) ((double)nb*(double)View.blockPixelWidth);
+	}
+	
+	public static int getFromRationY(double nb){
+		return (int) ((double)nb*(double)View.blockPixelHeight);
+	}
+	
+	public static void zoomIn(){
+		double rationX = View.putInRationX(GamePane.player.getX());
+		double rationY = View.putInRationY(GamePane.player.getY());
+		GamePane.v.zoom++;
+		GamePane.v.update();
+		GamePane.player.setX(View.getFromRationX(rationX));
+		GamePane.player.setY(View.getFromRationX(rationY));
+	}
+	
+	public static void zoomOut(){
+		double rationX = View.putInRationX(GamePane.player.getX());
+		double rationY = View.putInRationY(GamePane.player.getY());
+		GamePane.v.zoom--;
+		GamePane.v.update();
+		GamePane.player.setX(View.getFromRationX(rationX));
+		GamePane.player.setY(View.getFromRationX(rationY));
+	}
 }
 
 //TODO move Cursor from GamePane to View
