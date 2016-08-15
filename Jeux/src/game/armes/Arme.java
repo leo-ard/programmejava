@@ -7,6 +7,8 @@ public abstract class Arme {
 	protected int domage;
 	
 	/**
+	 * Constructeur de la classe arme
+	 * 
 	 * @param nom
 	 * @param type
 	 * @param domage

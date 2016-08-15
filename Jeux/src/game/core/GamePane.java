@@ -91,11 +91,20 @@ public class GamePane extends JPanel implements Runnable{
 		requestFocus();
 	}
 	
+	/**
+	 * restart the thread of this class, restart the game :)
+	 * 
+	 */
 	public void restart(){
 		thread = new Thread(this);
 		thread.start();
 	}
 	
+	/**
+	 * Initialise tout les varriables necessaire au lancement du jeux
+	 * 
+	 * 
+	 */
 	public void initiate(){
 		//import images
 		textureImport();
@@ -121,6 +130,10 @@ public class GamePane extends JPanel implements Runnable{
 		
 	}
 	
+	/**
+	 * ce qui est oubligatoire a Initialiser, tres utile pour les classe qui hérite de celle ci
+	 * 
+	 */
 	public void AbsolutInit(){
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		gGame = (Graphics2D) image.getGraphics();
@@ -136,6 +149,9 @@ public class GamePane extends JPanel implements Runnable{
 		this.addMouseWheelListener(l);
 	}
 	
+	/**
+	 * Importe les textures
+	 */
 	public void textureImport(){
 		texturesBlock[1] = new ImageIcon("assets/textures/map/Grass.png").getImage();
 		texturesBlock[2] = new ImageIcon("assets/textures/map/Eau.png").getImage();
@@ -162,7 +178,7 @@ public class GamePane extends JPanel implements Runnable{
 	
 
 	/**
-	 * run the game thread
+	 * lancement du thread de GamePane
 	 */
 	public void run() {
 		
@@ -235,12 +251,14 @@ public class GamePane extends JPanel implements Runnable{
 		return running;
 	}
 	
+	/**
+	 * Tout ce qui est dans cette fonction est update  chaque frame
+	 * 
+	 */
 	public void GameUpdate(){
 		player.update();
 		map.update();
-		//v.zoom(Listener.getWhellRotation());
 		
-		//System.out.println(GamePane.getAngleOfTheMouseAndThePlayer());
 		v.update();
 		
 		//---- Map Update ----//
@@ -251,14 +269,11 @@ public class GamePane extends JPanel implements Runnable{
 		for(int i = 0; i< corrompus.size(); i++){
 			corrompus.get(i).update();
 		}
-		
-		
-		//to delete
-		//System.out.println(map.getSelectedBlock().getEdge());
-		
-		//System.out.println(map.selectedBlock.getX()+" "+map.selectedBlock.getX());
 	}
 	
+	/**
+	 * ce qui est oubligatoire de dessiner, tres utiles pour les classe qui herite de celle ci
+	 */
 	public void GameRenderPalet(){
 		gGame.setColor(Color.gray);
 		gGame.fillRect(0, 0, WIDTH, HEIGHT);
@@ -275,6 +290,9 @@ public class GamePane extends JPanel implements Runnable{
 		
 	}
 	
+	/**
+	 * Dessine le jeux
+	 */
 	public void GameRender(){
 		//----MAP----//
 		map.draw(gGame);
@@ -294,6 +312,9 @@ public class GamePane extends JPanel implements Runnable{
 		gUI.fillRect(0, 0, GamePane.WIDTH, GamePane.HEIGHT);
 	}
 	
+	/**
+	 * applique le dessin du jeu fait plus haut et le met sur lecran
+	 */
 	public void GameDraw(){
 		Graphics g2 = this.getGraphics();
 		g2.drawImage(image, 0,0, null);
@@ -302,6 +323,9 @@ public class GamePane extends JPanel implements Runnable{
 		
 	}
 	
+	/**
+	 * @return L'angle entre le joueur et la sourie
+	 */
 	public static double getAngleOfTheMouseAndThePlayer(){
 		double AB = mousePosX - GamePane.player.getX();
 		double AC = mousePosY - GamePane.player.getY();
@@ -309,6 +333,17 @@ public class GamePane extends JPanel implements Runnable{
 		return Math.toDegrees(Math.atan2(AC,AB));
 	}
 	
+	/**
+	 * angle entre deux point 
+	 * 
+	 * p1 (x1, y1)
+	 * p2 (x2, y2)
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return
+	 */
 	public static double getAngle(double x1, double y1, double x2, double y2){
 		double AB =  x1 - x2;
 		double AC =  y1 - y2;
@@ -316,6 +351,11 @@ public class GamePane extends JPanel implements Runnable{
 		return Math.toDegrees(Math.atan2(AC,AB));
 	}
 	
+	/**
+	 * chaque block possede un x et un y sur la map, pour convertir ces possition en x, y absolut, il faut utiiser cette fonction
+	 * 
+	 * @param t
+	 */
 	public static int getXOfMapByPixel(Point t){
 		return map.getBlockByPixel((int)t.getX(), (int)t.getY()).getX();
 	}

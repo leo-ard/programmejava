@@ -19,6 +19,11 @@ public class Gun extends Arme{
 	public static ArrayList<Gun> GUNS = new ArrayList<Gun>();
 	public static int loaded;
 	
+	/**
+	 * fonction qui va dans le fichier assets/Guns et qui load les guns a linterieur
+	 * 
+	 * Les Guns sont ensuite placer dans l'arrayList GUNS
+	 */
 	public static void loadGuns(){
 		Gun.getGuns().clear();
 		Main.windows.armeList.removeAll();
@@ -43,7 +48,12 @@ public class Gun extends Arme{
 			return;
 		}
 	}
-
+	
+	
+	/**
+	 * fonction utiliser par lediteur de gun et qui permet de loader les gun dans le paneau droit.
+	 * 
+	 */
 	public static void loadGunIntoPanel() {
 		if(Main.windows.armeList.getSelectedIndex() == -1){
 			return;
@@ -65,6 +75,10 @@ public class Gun extends Arme{
 		return GUNS;
 	}
 	
+	/**
+	 * Modifi le fichier assets/gun pour y mettre les changements de Gun qe lon aurais pu faire
+	 * 
+	 */
 	public static void saveGuns(){
 		PrintWriter writer;
 		try {
@@ -104,16 +118,18 @@ public class Gun extends Arme{
 	public long lastTimeShoot;
 
 	/**
-	 * @param nom
-	 * @param type
-	 * @param domage
-	 * @param precision
-	 * @param speed
-	 * @param nbDeBalleParSeconde
-	 * @param durabilite
-	 * @param knockback
-	 * @param explosif
-	 * @param automatique
+	 * cnstructeur de Gun
+	 * 
+	 * @param nom du Gun
+	 * @param type de Gun
+	 * @param domage du Gun
+	 * @param precision, de 100 a 0, modifi la possibilite de tirer des balles un peu plus haut ou bas de notre curseur
+	 * @param speed, vitesse des balles tirer
+	 * @param nbDeBalleParSeconde, délais, en milliseconde, entre deux balles tirer
+	 * @param durabilite, durabilite de la balle, possibilite de passer a travers les objets ou les enemies
+	 * @param knockback, pousser arriere lorsque la balle touche un enemie
+	 * @param explosif, es ce que ca explose ??
+	 * @param automatique, si le gun est automatique ou non
 	 */
 	private Gun(String nom, String type, int domage, int precision, int speed, int nbDeBalleParMilieme, int durabilite,
 			double knockback, boolean explosif,boolean auto) {
@@ -145,6 +161,11 @@ public class Gun extends Arme{
 		}
 	}
 	
+	/**
+	 * 
+	 * classe qui cree une balles, avec les parametre du gun, avec langle du curseur de la sourie et du personnage
+	 * 
+	 */
 	public void shoot(){
 		long difference = System.currentTimeMillis() - lastTimeShoot;
 		

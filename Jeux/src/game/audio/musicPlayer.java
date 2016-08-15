@@ -12,7 +12,10 @@ public class musicPlayer implements Runnable {
 		this.filePath = filePath;
 		isRunning = false;
 	}
-	
+	/**
+	 * commence la musique
+	 * 
+	 */
 	public void play(){
 		isRunning = true;
 		try {

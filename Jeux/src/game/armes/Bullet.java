@@ -25,6 +25,8 @@ public class Bullet extends Entity{
 	private int speedY;
 	
 	/**
+	 * constructeur de la classe Bullet
+	 * 
 	 * @param angle
 	 * @param x
 	 * @param y
@@ -40,6 +42,7 @@ public class Bullet extends Entity{
 		this.gun = gun;
 		this.r = 2;
 		
+		//calcule la distance a parcourir depensdament de langle et de la vitesse
 		this.rad = Math.toRadians(angle);
 		this.dx = (int)(Math.cos(rad)*gun.getSpeed());
 		this.dy = (int)(Math.sin(rad)*gun.getSpeed());
@@ -60,10 +63,12 @@ public class Bullet extends Entity{
 	public boolean update(){
 		x+=dx;
 		y+=dy;
+		
+		//Verifie les collisions avec les murs
 		try{
 			if(this.collision(x-(int)dx, y-(int)dy, speedX, speedY)){
 				return true;
-			}
+		}
 		}catch(NullPointerException e){};
 		
 		if(this.x < 0||this.y < 0||this.x > GamePane.map.getSizeX()*GamePane.v.blockPixelWidth||this.y > GamePane.map.getSizeY()*GamePane.v.blockPixelHeight)
@@ -86,13 +91,28 @@ public class Bullet extends Entity{
 		g.fillOval((int)this.x+bx-this.r, (int)this.y+by-this.r, this.r*2 , this.r*2);*/
 	}
 	
+	/**
+	 * 
+	 * Classe qui permet de savoir si un objet est rentrer dans un objets
+	 * 
+	 * 
+	 * @param xOld ancien x, soit la position avant lupdate
+	 * @param yOld 
+	 * @param speedX dirrection x, peu etre soit 1, 0 ou -1
+	 * @param speedY
+	 * @return
+	 * @throws NullPointerException
+	 */
 	public boolean collision(int xOld, int yOld, int speedX, int speedY) throws NullPointerException{
 		/*
-		 *    a1       a2             b1         b2
+		 * position de la			position prevu de lentite
+		 * derniere update			
+		 * 
+		 *    a1       a2             b1        b2
 		 *                        
 		 *         a                       b
 		 * 
-		 *    a3       a4             b3         b4
+		 *    a3       a4             b3        b4
 		 */
 		
 		//Point a = new Point(xOld, yOld);
@@ -107,6 +127,7 @@ public class Bullet extends Entity{
 		Point b3 = new Point(this.x-this.WIDTH/2, yOld+this.HEIGHT/2);
 		Point b4 = new Point(this.x+this.WIDTH/2, yOld+this.HEIGHT/2);
 		
+		//va a droite
 		if(speedX == 1){
 			if(GamePane.getXOfMapByPixel(a1) != GamePane.getXOfMapByPixel(b2)){
 				if(GamePane.map.getBlockByPixel(b2).isSolid()){
@@ -120,6 +141,7 @@ public class Bullet extends Entity{
 				}
 			}
 		}
+		//va a gauche
 		if(speedX == -1){
 			if(GamePane.getXOfMapByPixel(a2) != GamePane.getXOfMapByPixel(b1)){
 				if(GamePane.map.getBlockByPixel(b1).isSolid()){
@@ -143,6 +165,7 @@ public class Bullet extends Entity{
 		b3 = new Point(xOld-this.WIDTH/2, this.y+this.HEIGHT/2);
 		b4 = new Point(xOld+this.WIDTH/2, this.y+this.HEIGHT/2);
 		
+		//va en bas
 		if(speedY == 1){
 			if(GamePane.getYOfMapByPixel(a1) != GamePane.getYOfMapByPixel(b3)){
 				if(GamePane.map.getBlockByPixel(b3).isSolid()){
@@ -156,6 +179,7 @@ public class Bullet extends Entity{
 				}
 			}
 		}
+		// va en haut
 		if(speedY == -1){
 			if(GamePane.getYOfMapByPixel(a3) != GamePane.getYOfMapByPixel(b1)){
 				if(GamePane.map.getBlockByPixel(b1).isSolid()){
