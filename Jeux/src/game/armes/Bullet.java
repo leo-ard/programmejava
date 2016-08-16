@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 import game.core.GamePane;
-import game.map.View;
 import game.mobs.Entity;
 
 public class Bullet extends Entity{

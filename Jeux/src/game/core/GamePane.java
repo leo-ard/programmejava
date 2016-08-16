@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import com.jhlabs.image.PerspectiveFilter;
+
 import game.armes.Gun;
 import game.audio.musicPlayer;
 import game.map.*;
@@ -167,12 +169,6 @@ public class GamePane extends JPanel implements Runnable{
 	
 	public void addNotify(){
 		super.addNotify();
-		/*if(thread == null){
-			thread.start();
-		}*/
-		
-		//System.out.println("HHHEEEYYY");
-
 	}
 	
 	
@@ -308,6 +304,9 @@ public class GamePane extends JPanel implements Runnable{
 		}
 		
 		map.drawAfter(gGame);
+		
+		
+		
 		gUI.setColor(filtre);
 		gUI.fillRect(0, 0, GamePane.WIDTH, GamePane.HEIGHT);
 	}

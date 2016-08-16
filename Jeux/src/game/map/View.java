@@ -101,7 +101,6 @@ public class View {
 		double rationX = vi.putInRationX((int)p.getX());
 		double rationY = vi.putInRationY((int)p.getY());
 		Point pt = new Point(this.getFromRationX(rationX), this.getFromRationY(rationY));
-		System.out.println(p.getX()+" "+p.getY()+" "+pt.getX()+" "+pt.getY());
 		return pt;
 	
 	}

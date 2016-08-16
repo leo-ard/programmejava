@@ -6,16 +6,14 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.TexturePaint;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 //import java.util.Vector;
 
+import com.jhlabs.image.PerspectiveFilter;
+
 import game.core.GamePane;
 import game.core.Main;
-import game.mobs.Line;
 
 public class Block {
 	
@@ -61,6 +59,8 @@ public class Block {
 	private int show;
 	public boolean isPortal;
 	private Portal portal;
+	
+	private Point HG, HD, BG, BD;
 	
 	
 	/**
@@ -122,7 +122,6 @@ public class Block {
 	public void draw(Graphics2D g, int x, int y){
 		if(!this.isSolid){
 			if(x > -GamePane.v.x-GamePane.v.blockPixelWidth&&x < -GamePane.v.x+GamePane.WIDTH &&y > -GamePane.v.y-GamePane.v.blockPixelHeight&&y < -GamePane.v.y+GamePane.HEIGHT){
-				//System.out.println(this.getId());
 				g.drawImage(GamePane.texturesBlock[id], x, y,GamePane.v.blockPixelWidth, GamePane.v.blockPixelHeight, null);
 			}
 			if(this.x == Map.selectedBlock.getX()&&this.y == Map.selectedBlock.getY() && !GamePane.player.isRunning()){
@@ -142,85 +141,106 @@ public class Block {
 	
 	}
 	
-	public void drawAfter(Graphics2D g){
+	public void drawWalls(Graphics2D g){
 		g.setColor(Color.darkGray);
 		//Haut Gauche
-		Point HG = this.getPoint(0, 0, this.hauteur);
+		HG = this.getPoint(0, 0, Block.hauteur);
 		g.drawLine(this.x*GamePane.v.blockPixelWidth, this.y*GamePane.v.blockPixelHeight,(int)HG.getX(), (int)HG.getY());
 		
 		//Haut droite
-		Point HD = this.getPoint(1, 0,this.hauteur);
+		HD = this.getPoint(1, 0,Block.hauteur);
 		g.drawLine((this.x+1)*GamePane.v.blockPixelWidth, this.y*GamePane.v.blockPixelHeight,(int)HD.getX(), (int)HD.getY());
 		
 		
 		//bas gauche
-		Point BG = this.getPoint(1, 1,this.hauteur);
-		g.drawLine((this.x+1)*GamePane.v.blockPixelWidth, (this.y+1)*GamePane.v.blockPixelHeight,(int)BG.getX(), (int)BG.getY());
+		BG = this.getPoint(0, 1,Block.hauteur);
+		g.drawLine((this.x)*GamePane.v.blockPixelWidth, (this.y+1)*GamePane.v.blockPixelHeight,(int)BG.getX(), (int)BG.getY());
 		
 		//bas droite
-		Point BD = this.getPoint(0, 1,this.hauteur);
-		g.drawLine(this.x*GamePane.v.blockPixelWidth, (this.y+1)*GamePane.v.blockPixelHeight,(int)BD.getX(), (int)BD.getY());
+		BD = this.getPoint(1, 1,Block.hauteur);
+		g.drawLine((this.x+1)*GamePane.v.blockPixelWidth, (this.y+1)*GamePane.v.blockPixelHeight,(int)BD.getX(), (int)BD.getY());
 		
-		Polygon p = new Polygon();
-		/*p.addPoint((int)HG.getX(), (int)HG.getY());
-		p.addPoint((int)HD.getX(), (int)HD.getY());
+		//mur haut
+		try{
+			Block b = GamePane.map.getBlockByPosition(new Point(this.x, this.y-1));
+			if(b != null && !b.isSolid&&GamePane.player.getY()<this.getYPosition(0)){
+				PerspectiveFilter pf = new PerspectiveFilter();
+				pf.setCorners(this.getXPosition(0), this.getYPosition(0), this.getXPosition(1), this.getYPosition(0), (int)HD.getX(), (int)HD.getY(), (int)HG.getX(), (int)HG.getY());
+				g.drawImage(pf.filter(Block.toBufferedImage(GamePane.texturesBlock[2]), null), (int) ((this.getXPosition(0) > GamePane.player.getX())?this.getXPosition(0):HG.getX()), this.getYPosition(0), null);	
+			}
+		}catch(Exception e){}
+		
+		//mur bas
+		try{
+			Block b = GamePane.map.getBlockByPosition(new Point(this.x, this.y+1));
+			if(b != null && !b.isSolid&&GamePane.player.getY()>this.getYPosition(1)){
+				PerspectiveFilter pf = new PerspectiveFilter();
+				pf.setCorners((int)BD.getX(), (int)BD.getY(), (int)BG.getX(), (int)BG.getY(), this.getXPosition(0), this.getYPosition(1),this.getXPosition(1), this.getYPosition(1));
+				g.drawImage(pf.filter(Block.toBufferedImage(GamePane.texturesBlock[2]), null), (int)((this.getXPosition(0) > GamePane.player.getX())?this.getXPosition(0):HG.getX()), (int)BG.getY(), null);	
+			}
+		}catch(Exception e){}
+		
+		//mur droite
+		try{
+			Block b = GamePane.map.getBlockByPosition(new Point(this.x-1, this.y));
+			if(b != null && !b.isSolid&&GamePane.player.getX()<this.getXPosition(0)){
+				PerspectiveFilter pf = new PerspectiveFilter();
+				pf.setCorners(this.getXPosition(0), this.getYPosition(0),(int)HG.getX(), (int)HG.getY(), (int)BG.getX(), (int)BG.getY(), this.getXPosition(0), this.getYPosition(1));
+				g.drawImage(pf.filter(Block.toBufferedImage(GamePane.texturesBlock[2]), null), (int)this.getXPosition(0), (int)((this.getYPosition(0) > GamePane.player.getY())?this.getYPosition(0):HG.getY()), null);	
+			}
+		}catch(Exception e){}
+		
+		/*Polygon p = new Polygon(); 
+		p.addPoint(this.getXPosition(0), this.getYPosition(0));
+		p.addPoint((int)HG.getX(), (int)HG.getY());
 		p.addPoint((int)BG.getX(), (int)BG.getY());
-		p.addPoint((int)BD.getX(), (int)BD.getY());*/
+		p.addPoint(this.getXPosition(0), this.getYPosition(1));
+		g.fillPolygon(p);*/
+		//mur gauche
+		try{
+			Block b = GamePane.map.getBlockByPosition(new Point(this.x+1, this.y));
+			if(b != null && !b.isSolid&&GamePane.player.getX()>this.getXPosition(1)){
+				PerspectiveFilter pf = new PerspectiveFilter();
+				pf.setCorners(this.getXPosition(1), this.getYPosition(0),(int)HD.getX(), (int)HD.getY(), (int)BD.getX(), (int)BD.getY(), this.getXPosition(1), this.getYPosition(1));
+				g.drawImage(pf.filter(Block.toBufferedImage(GamePane.texturesBlock[2]), null), (int)HD.getX(), (int)((this.getYPosition(0) > GamePane.player.getY())?this.getYPosition(0):HG.getY()), null);	
+			}
+		}catch(Exception e){}
 		
-		//multiple de 4
 		
-		/*//----MUR BAS----//
-		g.setColor(new Color(100,100,100));
-		for(int i = 0; i < nbParLigne; i++){
-			Point pt;
-			pt = this.getPoint((1.0/nbParLigne)*i, 0,this.hauteur);				
-			p.addPoint((int)pt.getX(), (int)pt.getY());
-		}
-		p.addPoint((int)this.getPoint(1,0,this.hauteur).getX(),(int)this.getPoint(1,0,this.hauteur).getY());
-		p.addPoint((this.x+1)*View.blockPixelWidth,(this.y)*View.blockPixelHeight);
-		p.addPoint(this.x*View.blockPixelWidth,(this.y)*View.blockPixelHeight);
-		g.fillPolygon(p);
-		p = new Polygon();
-		*/
-		//----TOIT----//
-		g.fillRect(HG.x, HG.y, HD.x-HG.x, BG.y-HG.y);
-		//g.setPaint(new TexturePaint(GamePane.texturesBlock, null));
-		//ImagePartern ip = new ImagePartern();
-		//TexturePaint tp = new TexturePaint(GamePane.texturesBlock[1], p);
-		//g.drawImage
-		//g.setClip(p);
-		//g.setPaint(new TexturePaint(Block.toBufferedImage(GamePane.texturesBlock[3]), (new Rectangle(this.x, this.y, View.blockPixelHeight, View.blockPixelHeight))));
-		//g.fill(p);*/
+	}
+	
+	public void drawTop(Graphics2D g){
+		g.drawImage(GamePane.texturesBlock[id],HG.x, HG.y, HD.x-HG.x, BG.y-HG.y, null);
 	}
 	
 	public Point getPoint(double mx, double my, int hauteur){
-		//double rad = Math.toRadians(GamePane.getAngle((this.x+mx)*View.blockPixelWidth, (this.y+my)*View.blockPixelHeight,GamePane.player.getX(),GamePane.player.getY()));
-		//Line l = new Line((int)((this.x+mx)*View.blockPixelWidth), (int)(this.y+my)*View.blockPixelHeight, GamePane.player.getX(), GamePane.player.getY());
-		
-		//hauteur = (int) Math.pow(l.lenght(), 1.0/3.0)*this.hauteur;
-		//hauteur = (int) (Math.cos(rad)/this.hauteur);
-		//System.out.println(rad);
-		//double dx = (int)((double)Math.cos(rad)*(double)this.hauteur);
-		//double dy = (int)((double)Math.sin(rad)*(double)this.hauteur);
 		vi.setHeight(100-Block.hauteur);
-		if(GamePane.l.F3){
-
-		}
-		if(GamePane.l.F4){
-			
-		}
 		vi.x = (int)((double)GamePane.player.getX()/(100.0*(1.0/(double)(GamePane.v.blockPixelWidth - vi.blockPixelWidth))));
 		vi.y = (int)((double)GamePane.player.getY()/(100.0*(1.0/(double)(GamePane.v.blockPixelWidth - vi.blockPixelWidth))));
-		int gx = vi.getFromRationX(GamePane.v.putInRationX(GamePane.player.getX()));
-		int gy = vi.getFromRationY(GamePane.v.putInRationY(GamePane.player.getY()));
 		return GamePane.v.getPointByPoint(new Point((int)(this.x+mx)*GamePane.v.blockPixelWidth-vi.x, (int)(this.y+my)*GamePane.v.blockPixelHeight-vi.y),vi );
-		//return new Point((int)((this.x+mx)*GamePane.v.blockPixelWidth+dx), (int)((this.y+my)*GamePane.v.blockPixelHeight+dy));
-		//g.drawLine((this.x+mx)*GamePane.v.blockPixelWidth, (this.y+my)*GamePane.v.blockPixelHeight,(this.x)*GamePane.v.blockPixelWidth+dx, (this.y)*GamePane.v.blockPixelHeight+dy);
+	}
+	
+	/**
+	 * Fonction to get the absolut positions of the block
+	 *  
+	 * 
+	 * @param x the nuber to add to the x valu of this block before returning it. 
+	 * @param y
+	 * @return the position of the block
+	 */
+	public Point getPosition(int mx, int my){
+		return new Point((this.x+mx)*GamePane.v.blockPixelWidth, (this.y+my)*GamePane.v.blockPixelHeight);
+	}
+	
+	public int getXPosition(int mx){
+		return (this.x+mx)*GamePane.v.blockPixelWidth;
+	}
+	public int getYPosition(int my){
+		return (this.y+my)*GamePane.v.blockPixelHeight;
 	}
 	
 	public void editorDraw(Graphics2D g, int x, int y){
 		if(x > -GamePane.v.x-GamePane.v.blockPixelWidth&&x < -GamePane.v.x+GamePane.WIDTH &&y > -GamePane.v.y-GamePane.v.blockPixelHeight&&y < -GamePane.v.y+GamePane.HEIGHT){
-			//System.out.println(this.getId());
 			g.drawImage(GamePane.texturesBlock[show != 0?show:id], x, y,GamePane.v.blockPixelWidth, GamePane.v.blockPixelHeight, null);
 		}
 		if(show != 0){
@@ -356,7 +376,6 @@ public class Block {
 	    {
 	        return (BufferedImage) img;
 	    }
-
 	    // Create a buffered image with transparency
 	    BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
@@ -369,6 +388,8 @@ public class Block {
 	    return bimage;
 	}
 }
+
+
 
 
 

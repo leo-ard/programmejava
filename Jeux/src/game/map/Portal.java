@@ -1,8 +1,6 @@
 package game.map;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Portal {
 	

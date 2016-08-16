@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="javazomm/commons-logging-1.2/commons-logging-1.2-javadoc.jar"/>
 	<classpathentry kind="lib" path="javazomm/commons-logging-1.2/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="javazomm/JLayer1.0.1/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Léonard/Desktop/filters/dist/Filters.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

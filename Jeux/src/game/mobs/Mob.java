@@ -1,8 +1,5 @@
 package game.mobs;
 
-import game.core.GamePane;
-import game.core.Main;
-
 public abstract class Mob extends Character{
 
 

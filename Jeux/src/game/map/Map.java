@@ -2,8 +2,6 @@ package game.map;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Label;
-import java.awt.List;
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,17 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListModel;
-import javax.swing.text.JTextComponent;
-
 import game.armes.Bullet;
 import game.core.Frame;
 import game.core.GamePane;
-import game.core.Listener;
 import game.core.Main;
-import game.mobs.Mob;
 
 public class Map {
 	
@@ -131,7 +122,6 @@ public class Map {
 				
 				for(int i = 0;(Map.selectedBlock.getX()-saveFirstPos.getX() > 0)? i < Map.selectedBlock.getX()-saveFirstPos.getX()+1:i > Map.selectedBlock.getX()-saveFirstPos.getX()-1;){
 					for(int j = 0; (Map.selectedBlock.getY()-saveFirstPos.getY() > 0)? j < Map.selectedBlock.getY()-saveFirstPos.getY()+1:j > Map.selectedBlock.getY()-saveFirstPos.getY()-1;){
-						System.out.println('H');
 						this.setBlockByPosition((int)saveFirstPos.getX()+i, (int)saveFirstPos.getY()+j, new Block(Block.getById(id), (int)saveFirstPos.getX()+i, (int)saveFirstPos.getY()+j));
 						if(Map.selectedBlock.getY()-saveFirstPos.getY() > 0)
 							j++;
@@ -201,7 +191,10 @@ public class Map {
 	
 	public void drawAfter(Graphics2D g){
 		for(int i = 0; i < Block.toDrawAfter.size(); i++){
-			Block.toDrawAfter.get(i).drawAfter(g);
+			Block.toDrawAfter.get(i).drawWalls(g);
+		}
+		for(int i = 0; i < Block.toDrawAfter.size(); i++){
+			Block.toDrawAfter.get(i).drawTop(g);
 		}
 		weather.draw(g);
 		Block.toDrawAfter.clear();
@@ -595,7 +588,7 @@ public class Map {
 				return portals.get(i);
 			}
 		}
-		System.out.println("ERRORORORORORO");
+		System.out.println("Error with portals");
 		return null;
 	}
 

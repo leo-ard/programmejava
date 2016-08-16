@@ -2,11 +2,6 @@ package game.mobs.enemies;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
-
-import javax.sound.sampled.Line;
-
-import game.core.GamePane;
 import game.mobs.Mob;
 
 

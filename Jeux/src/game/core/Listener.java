@@ -8,7 +8,6 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import game.map.Block;
-import game.map.View;
 import game.map.Weather;
 
 public class Listener implements KeyListener, MouseListener, MouseWheelListener{
