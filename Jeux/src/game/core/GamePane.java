@@ -197,8 +197,6 @@ public class GamePane extends JPanel implements Runnable{
 			GamePane.WIDTH = Frame.frame.getContentPane().getWidth();
 			GamePane.HEIGHT = Frame.frame.getContentPane().getHeight();
 			
-			System.out.println(GamePane.WIDTH +" "+ GamePane.HEIGHT);
-			
 			image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 			gGame = (Graphics2D) image.getGraphics();
 			gUI = (Graphics2D) image.getGraphics();

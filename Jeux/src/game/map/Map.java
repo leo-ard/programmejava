@@ -174,8 +174,6 @@ public class Map {
 	}
 	
 	public void draw(Graphics2D g){
-		//this.getBlockByPosition(2, 2).draw(g, 0, 0);
-		
 		for(int i = GamePane.player.getX()/GamePane.v.blockPixelWidth-10; i < GamePane.player.getX()/GamePane.v.blockPixelWidth+10&&i<sizeX; i++){
 			for(int j = GamePane.player.getY()/GamePane.v.blockPixelWidth-10; j < GamePane.player.getY()/GamePane.v.blockPixelWidth+10&&j<sizeY; j++){
 				if(this.getBlockByPosition(i,j) != null)
