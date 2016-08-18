@@ -76,6 +76,10 @@ public class GamePane extends JPanel implements Runnable{
 	public boolean running;
 	
 	public static Color filtre;
+	
+	public static boolean WB = false;
+	
+	public static BufferedImage lastImage = new BufferedImage(GamePane.WIDTH, GamePane.HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
 	
 
@@ -137,14 +141,6 @@ public class GamePane extends JPanel implements Runnable{
 	 * 
 	 */
 	public void AbsolutInit(){
-		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		gGame = (Graphics2D) image.getGraphics();
-		gUI = (Graphics2D) image.getGraphics();
-		gGame.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		gGame.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		gUI.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		gUI.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		
 		l = new Listener();
 		this.addKeyListener(l);
 		this.addMouseListener(l);
@@ -198,12 +194,27 @@ public class GamePane extends JPanel implements Runnable{
 		while(true){
 			startTime = System.nanoTime();
 			
+			GamePane.WIDTH = Frame.frame.getContentPane().getWidth();
+			GamePane.HEIGHT = Frame.frame.getContentPane().getHeight();
+			
+			System.out.println(GamePane.WIDTH +" "+ GamePane.HEIGHT);
+			
+			image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+			gGame = (Graphics2D) image.getGraphics();
+			gUI = (Graphics2D) image.getGraphics();
+			gGame.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			gGame.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			gUI.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			gUI.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			
 			if(running){
-				
 				GameUpdate();
 				GameRenderPalet();
 				GameDraw();
 			}
+			//PauseMenu
+			Frame.pPause.update();
+			
 			//---- System for the fps ----//
 			
 			URDTimeMillis = (System.nanoTime() - startTime) / 1000000;
@@ -305,8 +316,6 @@ public class GamePane extends JPanel implements Runnable{
 		
 		map.drawAfter(gGame);
 		
-		
-		
 		gUI.setColor(filtre);
 		gUI.fillRect(0, 0, GamePane.WIDTH, GamePane.HEIGHT);
 	}
@@ -317,7 +326,7 @@ public class GamePane extends JPanel implements Runnable{
 	public void GameDraw(){
 		Graphics g2 = this.getGraphics();
 		g2.drawImage(image, 0,0, null);
-		
+		lastImage = image;
 		g2.dispose();
 		
 	}

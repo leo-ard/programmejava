@@ -47,8 +47,10 @@ import java.awt.Point;
 //import javax.swing.border.CompoundBorder;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import java.awt.Rectangle;
+import java.awt.Window;
 
-public class Frame {
+public class Frame{
 
 	public static JFrame frame;
 	public JPanel Menu;
@@ -107,7 +109,6 @@ public class Frame {
 	private JButton bBackO;
 	private JButton bBackC;
 	public JPanel pGame;
-	public PauseMenu pPause;
 	private JLabel lblPause;
 	private JPanel EastPanel;
 	private JButton btnGunTest;
@@ -128,6 +129,7 @@ public class Frame {
 	public JButton bLoadGun;
 	public JButton btnSaveGun;
 	private JButton bCreateGun;
+	public static  PauseMenu pPause;
 	
 
 	/**
@@ -541,27 +543,27 @@ public class Frame {
 		gl_pMenu.setHorizontalGroup(
 			gl_pMenu.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pMenu.createSequentialGroup()
-					.addGap(294)
+					.addGap(315)
 					.addGroup(gl_pMenu.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pMenu.createSequentialGroup()
-							.addComponent(bEditor, GroupLayout.PREFERRED_SIZE, 307, GroupLayout.PREFERRED_SIZE)
+							.addComponent(bEditor, GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
 							.addGap(18)
-							.addComponent(bOption, GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE))
-						.addComponent(lNameOfGame, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
-						.addComponent(bStart, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE))
-					.addGap(340))
+							.addComponent(bOption, GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE))
+						.addComponent(lNameOfGame, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(bStart, GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE))
+					.addGap(315))
 		);
 		gl_pMenu.setVerticalGroup(
 			gl_pMenu.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pMenu.createSequentialGroup()
 					.addGap(61)
-					.addComponent(lNameOfGame, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lNameOfGame, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
 					.addGap(18)
-					.addComponent(bStart, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+					.addComponent(bStart, GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
 					.addGap(18)
 					.addGroup(gl_pMenu.createParallelGroup(Alignment.BASELINE)
-						.addComponent(bEditor, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
-						.addComponent(bOption, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
+						.addComponent(bEditor, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+						.addComponent(bOption, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
 					.addGap(159))
 		);
 		pMenu.setLayout(gl_pMenu);
@@ -626,32 +628,34 @@ public class Frame {
 		pOptions.setLayout(gl_pOptions);
 		
 		pGame = new JPanel();
+		pGame.setBounds(new Rectangle(0, 0, 10000, 10000));
 		card.add(pGame, "Game");
 		pGame.setLayout(new BorderLayout(0, 0));
-		
 		pPause = new PauseMenu();
-		pGame.add(pPause, BorderLayout.CENTER);
+		pPause.setBounds(new Rectangle(0, 0,GamePane.WIDTH, GamePane.HEIGHT));
+		
 		
 		lblPause = new JLabel("Pause");
 		lblPause.setFont(new Font("Corbel", Font.BOLD, 30));
 		lblPause.setForeground(Color.LIGHT_GRAY);
 		GroupLayout gl_pPause = new GroupLayout(pPause);
 		gl_pPause.setHorizontalGroup(
-			gl_pPause.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_pPause.createSequentialGroup()
-					.addContainerGap(592, Short.MAX_VALUE)
-					.addComponent(lblPause)
-					.addGap(587))
+			gl_pPause.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_pPause.createSequentialGroup()
+					.addGap(578)
+					.addComponent(lblPause, GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+					.addGap(578))
 		);
 		gl_pPause.setVerticalGroup(
 			gl_pPause.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pPause.createSequentialGroup()
 					.addGap(170)
-					.addComponent(lblPause)
-					.addContainerGap(594, Short.MAX_VALUE))
+					.addComponent(lblPause, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(593))
 		);
 		pPause.setLayout(gl_pPause);
 		pPause.setVisible(false);
+		pGame.add(pPause, BorderLayout.CENTER);
 		gp = new GamePane();
 		pGame.add(gp);
 		gp.thread.interrupt();
@@ -776,6 +780,7 @@ public class Frame {
 			public void actionPerformed(ActionEvent arg0) {
 				cardLayout.show(card, "Game");
 				gp.thread.start();
+				GamePane.WB = true;
 			}
 		});
 		bEditor.addActionListener(new ActionListener() {

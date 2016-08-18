@@ -191,6 +191,7 @@ public class Map {
 	
 	public void drawAfter(Graphics2D g){
 		for(int i = 0; i < Block.toDrawAfter.size(); i++){
+			Block.toDrawAfter.get(i).setVI();
 			Block.toDrawAfter.get(i).drawWalls(g);
 		}
 		for(int i = 0; i < Block.toDrawAfter.size(); i++){

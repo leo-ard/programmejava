@@ -37,6 +37,8 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 	public boolean F11;
 	public boolean F12;
 	
+	public boolean ESC;
+	
 	public Listener(){
 		super();
 	}
@@ -150,17 +152,7 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 		}
 		
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-			if(Main.windows.pPause.isShowing() == true){
-				Frame.gp.resume();
-				Main.windows.pPause.setVisible(false);
-				
-			}
-			else{
-				Frame.gp.pause();
-				Main.windows.pPause.setVisible(true);
-				
-			}
-			
+			ESC = true;
 		}
 	}
 
@@ -218,6 +210,10 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 		}
 		if(e.getKeyCode() == KeyEvent.VK_F12){
 			F12 = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+			ESC = false;
+			Frame.pPause.refresh();
 		}
 	}
 

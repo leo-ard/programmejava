@@ -161,50 +161,37 @@ public class Block {
 		g.drawLine((this.x+1)*GamePane.v.blockPixelWidth, (this.y+1)*GamePane.v.blockPixelHeight,(int)BD.getX(), (int)BD.getY());
 		
 		//mur haut
-		try{
-			Block b = GamePane.map.getBlockByPosition(new Point(this.x, this.y-1));
-			if(b != null && !b.isSolid&&GamePane.player.getY()<this.getYPosition(0)){
-				PerspectiveFilter pf = new PerspectiveFilter();
-				pf.setCorners(this.getXPosition(0), this.getYPosition(0), this.getXPosition(1), this.getYPosition(0), (int)HD.getX(), (int)HD.getY(), (int)HG.getX(), (int)HG.getY());
-				g.drawImage(pf.filter(Block.toBufferedImage(GamePane.texturesBlock[2]), null), (int) ((this.getXPosition(0) > GamePane.player.getX())?this.getXPosition(0):HG.getX()), this.getYPosition(0), null);	
-			}
-		}catch(Exception e){}
+
+		Block b = GamePane.map.getBlockByPosition(new Point(this.x, this.y-1));
+		if(b != null && !b.isSolid&&GamePane.player.getY()<this.getYPosition(0)){
+			PerspectiveFilter pf = new PerspectiveFilter();
+			pf.setCorners(this.getXPosition(0), this.getYPosition(0), this.getXPosition(1), this.getYPosition(0), (int)HD.getX(), (int)HD.getY(), (int)HG.getX(), (int)HG.getY());
+			g.drawImage(pf.filter(Block.toBufferedImage(GamePane.texturesBlock[2]), null), (int) ((this.getXPosition(0) > GamePane.player.getX())?this.getXPosition(0):HG.getX()), this.getYPosition(0), null);	
+		}
+		
 		
 		//mur bas
-		try{
-			Block b = GamePane.map.getBlockByPosition(new Point(this.x, this.y+1));
-			if(b != null && !b.isSolid&&GamePane.player.getY()>this.getYPosition(1)){
-				PerspectiveFilter pf = new PerspectiveFilter();
-				pf.setCorners((int)BD.getX(), (int)BD.getY(), (int)BG.getX(), (int)BG.getY(), this.getXPosition(0), this.getYPosition(1),this.getXPosition(1), this.getYPosition(1));
-				g.drawImage(pf.filter(Block.toBufferedImage(GamePane.texturesBlock[2]), null), (int)((this.getXPosition(0) > GamePane.player.getX())?this.getXPosition(0):HG.getX()), (int)BG.getY(), null);	
-			}
-		}catch(Exception e){}
+		b = GamePane.map.getBlockByPosition(new Point(this.x, this.y+1));
+		if(b != null && !b.isSolid&&GamePane.player.getY()>this.getYPosition(1)){
+			PerspectiveFilter pf = new PerspectiveFilter();
+			pf.setCorners((int)BD.getX(), (int)BD.getY(), (int)BG.getX(), (int)BG.getY(), this.getXPosition(0), this.getYPosition(1),this.getXPosition(1), this.getYPosition(1));
+			g.drawImage(pf.filter(Block.toBufferedImage(GamePane.texturesBlock[2]), null), (int)((this.getXPosition(0) > GamePane.player.getX())?this.getXPosition(0):HG.getX()), (int)BG.getY(), null);	
+		}
 		
 		//mur droite
-		try{
-			Block b = GamePane.map.getBlockByPosition(new Point(this.x-1, this.y));
-			if(b != null && !b.isSolid&&GamePane.player.getX()<this.getXPosition(0)){
-				PerspectiveFilter pf = new PerspectiveFilter();
-				pf.setCorners(this.getXPosition(0), this.getYPosition(0),(int)HG.getX(), (int)HG.getY(), (int)BG.getX(), (int)BG.getY(), this.getXPosition(0), this.getYPosition(1));
-				g.drawImage(pf.filter(Block.toBufferedImage(GamePane.texturesBlock[2]), null), (int)this.getXPosition(0), (int)((this.getYPosition(0) > GamePane.player.getY())?this.getYPosition(0):HG.getY()), null);	
-			}
-		}catch(Exception e){}
-		
-		/*Polygon p = new Polygon(); 
-		p.addPoint(this.getXPosition(0), this.getYPosition(0));
-		p.addPoint((int)HG.getX(), (int)HG.getY());
-		p.addPoint((int)BG.getX(), (int)BG.getY());
-		p.addPoint(this.getXPosition(0), this.getYPosition(1));
-		g.fillPolygon(p);*/
+		b = GamePane.map.getBlockByPosition(new Point(this.x-1, this.y));
+		if(b != null && !b.isSolid&&GamePane.player.getX()<this.getXPosition(0)){
+			PerspectiveFilter pf = new PerspectiveFilter();
+			pf.setCorners(this.getXPosition(0), this.getYPosition(0),(int)HG.getX(), (int)HG.getY(), (int)BG.getX(), (int)BG.getY(), this.getXPosition(0), this.getYPosition(1));
+			g.drawImage(pf.filter(Block.toBufferedImage(GamePane.texturesBlock[2]), null), (int)this.getXPosition(0), (int)((this.getYPosition(0) > GamePane.player.getY())?this.getYPosition(0):HG.getY()), null);	
+		}
 		//mur gauche
-		try{
-			Block b = GamePane.map.getBlockByPosition(new Point(this.x+1, this.y));
-			if(b != null && !b.isSolid&&GamePane.player.getX()>this.getXPosition(1)){
-				PerspectiveFilter pf = new PerspectiveFilter();
-				pf.setCorners(this.getXPosition(1), this.getYPosition(0),(int)HD.getX(), (int)HD.getY(), (int)BD.getX(), (int)BD.getY(), this.getXPosition(1), this.getYPosition(1));
-				g.drawImage(pf.filter(Block.toBufferedImage(GamePane.texturesBlock[2]), null), (int)HD.getX(), (int)((this.getYPosition(0) > GamePane.player.getY())?this.getYPosition(0):HG.getY()), null);	
-			}
-		}catch(Exception e){}
+		b = GamePane.map.getBlockByPosition(new Point(this.x+1, this.y));
+		if(b != null && !b.isSolid&&GamePane.player.getX()>this.getXPosition(1)){
+			PerspectiveFilter pf = new PerspectiveFilter();
+			pf.setCorners(this.getXPosition(1), this.getYPosition(0),(int)HD.getX(), (int)HD.getY(), (int)BD.getX(), (int)BD.getY(), this.getXPosition(1), this.getYPosition(1));
+			g.drawImage(pf.filter(Block.toBufferedImage(GamePane.texturesBlock[2]), null), (int)HD.getX(), (int)((this.getYPosition(0) > GamePane.player.getY())?this.getYPosition(0):HG.getY()), null);	
+		}
 		
 		
 	}
@@ -213,10 +200,13 @@ public class Block {
 		g.drawImage(GamePane.texturesBlock[id],HG.x, HG.y, HD.x-HG.x, BG.y-HG.y, null);
 	}
 	
-	public Point getPoint(double mx, double my, int hauteur){
+	public void setVI(){
 		vi.setHeight(100-Block.hauteur);
 		vi.x = (int)((double)GamePane.player.getX()/(100.0*(1.0/(double)(GamePane.v.blockPixelWidth - vi.blockPixelWidth))));
 		vi.y = (int)((double)GamePane.player.getY()/(100.0*(1.0/(double)(GamePane.v.blockPixelWidth - vi.blockPixelWidth))));
+	}
+	
+	public Point getPoint(double mx, double my, int hauteur){
 		return GamePane.v.getPointByPoint(new Point((int)(this.x+mx)*GamePane.v.blockPixelWidth-vi.x, (int)(this.y+my)*GamePane.v.blockPixelHeight-vi.y),vi );
 	}
 	
