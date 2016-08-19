@@ -13,6 +13,7 @@ import game.audio.musicPlayer;
 import game.map.*;
 import game.mobs.*;
 import game.mobs.enemies.Corrompu;
+import gui.GUI;
 
 public class GamePane extends JPanel implements Runnable{
 	
@@ -50,7 +51,7 @@ public class GamePane extends JPanel implements Runnable{
 	 * 1 : redSelected block
 	 * 2 : pauseMenu
 	 */
-	public static Image[] texturesGUI = new Image[3];
+	public static Image[] texturesGUI = new Image[4];
 	/**
 	 * 
 	 */
@@ -159,6 +160,7 @@ public class GamePane extends JPanel implements Runnable{
 		texturesGUI[0] = new ImageIcon("assets/textures/gui/Selected.png").getImage();
 		texturesGUI[1] = new ImageIcon("assets/textures/gui/redSelection.png").getImage();
 		texturesGUI[2] = new ImageIcon("assets/textures/gui/pauseMenu.png").getImage();
+		texturesGUI[3] = new ImageIcon("assets/textures/gui/barreDeVie.png").getImage();
 		
 		personnageTexture[0] = new ImageIcon("assets/textures/player/tetes.png").getImage();
 	}
@@ -303,8 +305,7 @@ public class GamePane extends JPanel implements Runnable{
 		map.draw(gGame);
 		gGame.setColor(new Color(0,0,0));
 		gGame.fillRect(GamePane.mousePosX, GamePane.mousePosY, 2, 2);
-		//----INFO----//
-		//gGame.drawString("Pos: "+View.x+":"+View.y+" Chunck Pos: "+c.getX()+":"+c.getY(), 30, 30);
+		map.drawAfter(gGame);
 		
 		//----MOBS----//
 		player.draw(gGame);
@@ -312,7 +313,8 @@ public class GamePane extends JPanel implements Runnable{
 			corrompus.get(i).draw(gGame);
 		}
 		
-		map.drawAfter(gGame);
+		//----GUI----//
+		GUI.draw(gUI);
 		
 		gUI.setColor(filtre);
 		gUI.fillRect(0, 0, GamePane.WIDTH, GamePane.HEIGHT);

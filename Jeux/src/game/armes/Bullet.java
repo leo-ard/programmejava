@@ -104,6 +104,4 @@ public class Bullet extends Entity{
 		g.setColor(Color.red);
 		g.fillOval((int)this.x+bx-this.r, (int)this.y+by-this.r, this.r*2 , this.r*2);*/
 	}
-	
-	
 }
