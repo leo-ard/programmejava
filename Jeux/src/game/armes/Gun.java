@@ -142,6 +142,7 @@ public class Gun extends Arme{
 		this.knockback = knockback;
 		this.explosif = explosif;
 		this.auto = auto;
+		this.isGun = true;
 	}
 	
 	public Gun(){
@@ -153,10 +154,11 @@ public class Gun extends Arme{
 		this.knockback = 0;
 		this.explosif = false;
 		this.auto = false;
+		this.isGun = true;
 	}
 	
 	public void update(){
-		if(GamePane.l.RIGHT_CLICK&&canshoot){
+		if(GamePane.l.RIGHT_CLICK){
 			this.shoot();
 		}
 	}
@@ -178,7 +180,7 @@ public class Gun extends Arme{
 			
 			
 			if(!this.auto){
-				canshoot = false;
+				GamePane.l.RIGHT_CLICK = false;
 			}
 		}
 	}

@@ -55,7 +55,7 @@ public class Listener implements KeyListener, MouseListener, MouseWheelListener{
 		//Right Click
 		if(e.getButton() == MouseEvent.BUTTON1){
 			RIGHT_CLICK = true;
-			GamePane.player.getGun().canshoot = true;
+			//GamePane.player.getArme().canshoot = true;
 		}
 		
 		//left click

@@ -6,6 +6,7 @@ import java.awt.Point;
 
 import game.armes.Arme;
 import game.armes.Gun;
+import game.armes.Mele;
 import game.core.Frame;
 import game.core.GamePane;
 import game.core.Main;
@@ -19,7 +20,7 @@ public class Player extends Character{
 
 	public Player(int x, int y) {
 		super(x, y, 30, 22, 100, 5, 10);
-		Arme = Gun.HANDGUN;
+		Arme = Mele.EPEE;
 	}
 	
 	public void update(){
@@ -310,13 +311,13 @@ public class Player extends Character{
 		Arme = arme;
 	}
 	
-	public Gun getGun() {
+	/*public Gun getGun() {
 		return (Gun)Arme;
 	}
 
 	public void setGun(Arme arme) {
 		Arme = arme;
-	}
+	}*/
 
 	
 

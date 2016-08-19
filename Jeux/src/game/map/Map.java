@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import game.armes.Bullet;
+import game.armes.Slash;
 import game.core.Frame;
 import game.core.GamePane;
 import game.core.Main;
@@ -46,6 +47,7 @@ public class Map {
 	//Portals
 	public ArrayList<Portal> portals;
 	public ArrayList<Bullet> bullets;
+	public ArrayList<Slash> slashs;
 	
 	public Map(String FileName){
 		weather = new Weather(Weather.CLEAR);
@@ -58,6 +60,7 @@ public class Map {
 		loaded = false;
 		portals = new ArrayList<Portal>();
 		bullets = new ArrayList<Bullet>();
+		slashs = new ArrayList<Slash>();
 		try {
 			this.load(FileName);
 		}catch (IOException e) {
@@ -88,6 +91,12 @@ public class Map {
 		for(int i = 0; i < bullets.size(); i++){
 			if(bullets.get(i).update() == true){
 				bullets.remove(i);
+			}
+		}
+		
+		for(int i = 0; i < slashs.size(); i++){
+			if(slashs.get(i).update() == true){
+				slashs.remove(i);
 			}
 		}
 	}
@@ -183,6 +192,10 @@ public class Map {
 		
 		for(int i = 0; i < bullets.size(); i++){
 			bullets.get(i).draw(g);
+		}
+		
+		for(int i = 0; i < slashs.size(); i++){
+			slashs.get(i).draw(g);
 		}
 
 	}

@@ -21,7 +21,7 @@ import game.core.GamePane;
 public class GUI{
 	
 	public static void draw(Graphics2D g){
-		drawHpBarre(g, 20, 20,Color.white, new Color(29,117,208,150), GamePane.player.getMaxHP(), GamePane.player.getHp() );
+		drawHpBarre(g, 20, 20,Color.white, new Color(255, 0, 0,150), GamePane.player.getMaxHP(), GamePane.player.getHp() );
 		
 	}
 	
