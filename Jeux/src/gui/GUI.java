@@ -77,6 +77,10 @@ public class GUI{
 		int p2 = 15;
 		int p3 = 170;
 		
+		if(pourcentage < 0){
+			pourcentage = 0;
+		}
+		
 		if(pourcentage > 0.925){
 			p2 = (int) (((1.0-pourcentage)/0.075)*15.0);
 		}
