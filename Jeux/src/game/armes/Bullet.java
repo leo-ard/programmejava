@@ -140,6 +140,7 @@ public class Bullet extends Entity{
 				}
 			}
 		}
+		
 		//va a gauche
 		if(speedX == -1){
 			if(GamePane.getXOfMapByPixel(a2) != GamePane.getXOfMapByPixel(b1)){
@@ -153,7 +154,7 @@ public class Bullet extends Entity{
 				}
 			}
 		}
-		
+	
 		a1 = new Point(xOld-this.WIDTH/2, yOld-this.HEIGHT/2);
 		a2 = new Point(xOld+this.WIDTH/2, yOld-this.HEIGHT/2);
 		a3 = new Point(xOld-this.WIDTH/2, yOld+this.HEIGHT/2);
@@ -178,6 +179,7 @@ public class Bullet extends Entity{
 				}
 			}
 		}
+		
 		// va en haut
 		if(speedY == -1){
 			if(GamePane.getYOfMapByPixel(a3) != GamePane.getYOfMapByPixel(b1)){
