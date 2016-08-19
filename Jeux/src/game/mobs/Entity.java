@@ -27,7 +27,7 @@ public abstract class Entity {
 	
 	/**
 	 * 
-	 * Methode qui permet de savoir si un objet est rentrer dans un block solide
+	 * Methode qui permet de savoir si un objet est rentrer dans un block solide et dans quelle direction
 	 * Hitbox carrees
 	 * 
 	 * 
@@ -35,10 +35,10 @@ public abstract class Entity {
 	 * @param yOld 
 	 * @param directionX direction x, peut etre soit 1, 0 ou -1
 	 * @param directionY
-	 * @return boolean
+	 * @return collisionDirection[] {collisionRight, collisionLeft, collisionUp, collisionDown}
 	 * @throws NullPointerException
 	 */
-	public boolean wallCollision(int xOld, int yOld, int directionX, int directionY) throws NullPointerException{
+	public boolean[] wallCollision(int xOld, int yOld, int directionX, int directionY) throws NullPointerException{
 		/*
 		 * position de la			position prevu de l'entite
 		 * derniere update			
@@ -63,17 +63,20 @@ public abstract class Entity {
 		Point b3 = new Point(this.x-this.WIDTH/2, yOld+this.HEIGHT/2);
 		Point b4 = new Point(this.x+this.WIDTH/2, yOld+this.HEIGHT/2);
 		
+		//array qui represente ou il y a des collisions
+		boolean[] collisionDirection = {false, false, false, false};
+		
 		//verifie a droite
 		if(directionX == 1){
 			if(GamePane.getXOfMapByPixel(a1) != GamePane.getXOfMapByPixel(b2)){
 				if(GamePane.map.getBlockByPixel(b2).isSolid()){
-					return true;
+					collisionDirection[0] = true;
 				}
 			}
 			
 			if(GamePane.getXOfMapByPixel(a3) != GamePane.getXOfMapByPixel(b4)){
 				if(GamePane.map.getBlockByPixel(b4).isSolid()){
-					return true;
+					collisionDirection[0] = true;
 				}
 			}
 		}
@@ -81,12 +84,12 @@ public abstract class Entity {
 		if(directionX == -1){
 			if(GamePane.getXOfMapByPixel(a2) != GamePane.getXOfMapByPixel(b1)){
 				if(GamePane.map.getBlockByPixel(b1).isSolid()){
-					return true;
+					collisionDirection[1] = true;
 				}
 			}
 			if(GamePane.getXOfMapByPixel(a4) != GamePane.getXOfMapByPixel(b3)){
 				if(GamePane.map.getBlockByPixel(b3).isSolid()){
-					return true;
+					collisionDirection[1] = true;
 				}
 			}
 		}
@@ -101,13 +104,13 @@ public abstract class Entity {
 		if(directionY == 1){
 			if(GamePane.getYOfMapByPixel(a1) != GamePane.getYOfMapByPixel(b3)){
 				if(GamePane.map.getBlockByPixel(b3).isSolid()){
-					return true;
+					collisionDirection[2] = true;
 				}
 			}
 			
 			if(GamePane.getYOfMapByPixel(a2) != GamePane.getYOfMapByPixel(b4)){
 				if(GamePane.map.getBlockByPixel(b4).isSolid()){
-					return true;
+					collisionDirection[2] = true;
 				}
 			}
 		}
@@ -115,32 +118,33 @@ public abstract class Entity {
 		if(directionY == -1){
 			if(GamePane.getYOfMapByPixel(a3) != GamePane.getYOfMapByPixel(b1)){
 				if(GamePane.map.getBlockByPixel(b1).isSolid()){
-					return true;
+					collisionDirection[3] = true;
 				}
 			}
 			
 			if(GamePane.getYOfMapByPixel(a4) != GamePane.getYOfMapByPixel(b2)){
 				if(GamePane.map.getBlockByPixel(b2).isSolid()){
-					return true;
+					collisionDirection[3] = true;
 				}
 			}
 		}
-		return false;
+		return collisionDirection;
 	}
 	
 	/**
 	 * 
-	 * Methode qui permet de verifier la collision avec les cotes de la map
+	 * Methode qui permet de verifier la collision avec les cotes de la map et dans quelle direction
 	 * @param x
 	 * @param y
-	 * @return boolean
+	 * @return boolean[] {collisionRight, collisionLeft, collisionUp, collisionDown}
 	 */
-	public boolean boundCollision(int x, int y){
-		if(this.x < 0||this.y < 0||this.x > GamePane.map.getSizeX()*GamePane.v.blockPixelWidth||this.y > GamePane.map.getSizeY()*GamePane.v.blockPixelHeight){
-			return true;
-		} else {
-			return false;
-		}
+	public boolean[] boundCollision(int x, int y){
+		boolean[] collisionDirection = {false, false, false, false};
+		if(this.x > GamePane.map.getSizeX()*GamePane.v.blockPixelWidth){ collisionDirection[0] = true; }
+		if(this.x < 0){ collisionDirection[1] = true; }
+		if(this.y < 0){ collisionDirection[3] = true; }
+		if(this.y > GamePane.map.getSizeY()*GamePane.v.blockPixelHeight){ collisionDirection[4] = true; }
+		return collisionDirection;
 	}
 	
 	
