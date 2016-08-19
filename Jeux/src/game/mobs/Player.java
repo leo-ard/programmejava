@@ -23,7 +23,7 @@ public class Player extends Character{
 	}
 	
 	public void update(){
-		int speedX = 0, speedY = 0;
+		int directionX = 0, directionY = 0;
 		
 		if (GamePane.l.SHIFT){
 			setRunning(true);
@@ -36,22 +36,22 @@ public class Player extends Character{
 			setSpeed(getBaseSpeed());
 		}
 		if(GamePane.l.AOrLeft){
-			speedX = -1;
+			directionX = -1;
 		}
 		if(GamePane.l.DOrRight){
-			speedX = 1;
+			directionX = 1;
 		}
 		if(GamePane.l.SOrDown){
-			speedY = 1;
+			directionY = 1;
 		}
 		if(GamePane.l.WOrUp){
-			speedY = -1;
+			directionY = -1;
 		}
 		int xOld = this.x;
 		int yOld = this.y;
 		
-		this.x += this.speed*speedX;
-		this.y += this.speed*speedY;
+		this.x += this.speed*directionX;
+		this.y += this.speed*directionY;
 		if(this.x < WIDTH/2){
 			this.x = WIDTH/2;
 		}
@@ -65,7 +65,7 @@ public class Player extends Character{
 			this.y = GamePane.map.getSizeY()*GamePane.v.blockPixelHeight-HEIGHT/2;
 		}
 		
-		if(speedX == 1  || speedY == 1 || speedX == -1||speedY == -1){
+		if(directionX == 1  || directionY == 1 || directionX == -1||directionY == -1){
 			if(GamePane.l.F10){
 				GamePane.l.WOrUp = false;
 				GamePane.l.AOrLeft = false;
@@ -74,16 +74,22 @@ public class Player extends Character{
 			}
 		}
 		try{
-			this.collision(xOld, yOld, speedX, speedY);
+			this.collision(xOld, yOld, directionX, directionY);
 		}catch(NullPointerException e){
 			
 		}
+		/*try{
+			if(this.wallCollision(xOld, yOld, directionX, directionY) || this.boundCollision(this.x, this.y)){
+				this.x = xOld;
+				this.y = yOld;
+			}
+		}catch(NullPointerException e){}*/
 		
 		Arme.update();
 	}
 	
 	public void editorUpdate(){
-		int speedX = 0, speedY = 0;
+		int directionX = 0, directionY = 0;
 		
 		if (GamePane.l.SHIFT){
 			setRunning(true);
@@ -96,22 +102,22 @@ public class Player extends Character{
 			setSpeed(getBaseSpeed());
 		}
 		if(GamePane.l.AOrLeft){
-			speedX = -1;
+			directionX = -1;
 		}
 		if(GamePane.l.DOrRight){
-			speedX = 1;
+			directionX = 1;
 		}
 		if(GamePane.l.SOrDown){
-			speedY = 1;
+			directionY = 1;
 		}
 		if(GamePane.l.WOrUp){
-			speedY = -1;
+			directionY = -1;
 		}
 		int xOld = this.x;
 		int yOld = this.y;
 		
-		this.x += this.speed*speedX;
-		this.y += this.speed*speedY;
+		this.x += this.speed*directionX;
+		this.y += this.speed*directionY;
 		if(this.x < WIDTH/2){
 			this.x = WIDTH/2;
 		}
@@ -124,7 +130,7 @@ public class Player extends Character{
 		if(this.y > GamePane.map.getSizeY()*GamePane.v.blockPixelHeight-HEIGHT/2){
 			this.y = GamePane.map.getSizeY()*GamePane.v.blockPixelHeight-HEIGHT/2;
 		}
-		if(speedX == 1  || speedY == 1 || speedX == -1||speedY == -1){
+		if(directionX == 1  || directionY == 1 || directionX == -1||directionY == -1){
 			if(GamePane.l.F10){
 				GamePane.l.WOrUp = false;
 				GamePane.l.AOrLeft = false;
@@ -135,9 +141,16 @@ public class Player extends Character{
 		//COLLISION
 		if(Main.windows.cColision.isSelected()){
 			try{
-				collision(xOld, yOld, speedX, speedY);
+				this.collision(xOld, yOld, directionX, directionY);
+			}catch(NullPointerException e){
+				
 			}
-			catch(NullPointerException e){}
+			/*try{
+				if(this.wallCollision(xOld, yOld, directionX, directionY) || this.boundCollision(this.x, this.y)){
+					this.x = xOld;
+					this.y = yOld;
+				}
+			}catch(NullPointerException e){}*/
 		}
 	}
 	
@@ -151,7 +164,7 @@ public class Player extends Character{
 	}
 	
 	
-	public boolean collision(int xOld, int yOld, int speedX, int speedY) throws NullPointerException{
+	public boolean collision(int xOld, int yOld, int directionX, int directionY) throws NullPointerException{
 		/*
 		 *    a1       a2             b1         b2
 		 *                        
@@ -166,13 +179,13 @@ public class Player extends Character{
 		Point a3 = new Point(xOld-this.WIDTH/2, yOld+this.HEIGHT/2);
 		Point a4 = new Point(xOld+this.WIDTH/2, yOld+this.HEIGHT/2);
 		
-		Point b = new Point(this.x, this.y);
+		//Point b = new Point(this.x, this.y);
 		Point b1 = new Point(this.x-this.WIDTH/2, yOld-this.HEIGHT/2);
 		Point b2 = new Point(this.x+this.WIDTH/2, yOld-this.HEIGHT/2);
 		Point b3 = new Point(this.x-this.WIDTH/2, yOld+this.HEIGHT/2);
 		Point b4 = new Point(this.x+this.WIDTH/2, yOld+this.HEIGHT/2);
 		
-		if(speedX == 1){
+		if(directionX == 1){
 			if(GamePane.getXOfMapByPixel(a1) != GamePane.getXOfMapByPixel(b2)){
 				if(GamePane.map.getBlockByPixel(b2).isSolid()){
 					this.x = GamePane.getXOfMapByPixel(b2)*GamePane.v.blockPixelWidth-this.WIDTH/2-1;
@@ -187,7 +200,7 @@ public class Player extends Character{
 				portal(b4);
 			}
 		}
-		if(speedX == -1){
+		if(directionX == -1){
 			if(GamePane.getXOfMapByPixel(a2) != GamePane.getXOfMapByPixel(b1)){
 				if(GamePane.map.getBlockByPixel(b1).isSolid()){
 					this.x = (GamePane.getXOfMapByPixel(b1)+1)*GamePane.v.blockPixelWidth+this.WIDTH/2;
@@ -212,7 +225,7 @@ public class Player extends Character{
 		b3 = new Point(xOld-this.WIDTH/2, this.y+this.HEIGHT/2);
 		b4 = new Point(xOld+this.WIDTH/2, this.y+this.HEIGHT/2);
 		
-		if(speedY == 1){
+		if(directionY == 1){
 			if(GamePane.getYOfMapByPixel(a1) != GamePane.getYOfMapByPixel(b3)){
 				if(GamePane.map.getBlockByPixel(b3).isSolid()){
 					this.y = GamePane.getYOfMapByPixel(b3)*GamePane.v.blockPixelHeight-this.HEIGHT/2-1;
@@ -227,7 +240,7 @@ public class Player extends Character{
 				portal(b4);
 			}
 		}
-		if(speedY == -1){
+		if(directionY == -1){
 			if(GamePane.getYOfMapByPixel(a3) != GamePane.getYOfMapByPixel(b1)){
 				if(GamePane.map.getBlockByPixel(b1).isSolid()){
 					this.y = (GamePane.getYOfMapByPixel(b1)+1)*GamePane.v.blockPixelHeight+this.HEIGHT/2;
