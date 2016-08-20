@@ -36,6 +36,10 @@ public class Mele extends Arme{
 	public void update(){
 		if(GamePane.l.RIGHT_CLICK){
 			hit();
+			this.isUsed = true;
+		}
+		else{
+			isUsed = false;
 		}
 	}
 	

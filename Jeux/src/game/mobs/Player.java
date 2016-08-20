@@ -15,12 +15,18 @@ import game.map.Map;
 public class Player extends Character{
 	
 	private boolean running;
-	private final int RUNNING_SPEED = 20;
+	private final int RUNNING_SPEED = 10;
 	private Arme Arme;
+	
+	private int maxStamina;
+	private double stamina;
+	private long lastTimeStaminaUsed;
 
 	public Player(int x, int y) {
-		super(x, y, 30, 22, 100, 5, 10);
-		Arme = Mele.EPEE;
+		super(x, y, 30, 22, 100, 3, 10);
+		Arme = Gun.HANDGUN;
+		this.maxStamina = 200;
+		this.stamina = this.maxStamina;
 	}
 	
 	public void update(){
@@ -31,6 +37,9 @@ public class Player extends Character{
 		} else {
 			setRunning(false);
 		}
+		
+		updateStamina();
+		
 		if(isRunning()){
 			this.setSpeed(RUNNING_SPEED);
 		} else {
@@ -48,11 +57,10 @@ public class Player extends Character{
 		if(GamePane.l.WOrUp){
 			directionY = -1;
 		}
-		int xOld = this.x;
-		int yOld = this.y;
+		int xOld = this.getX();
+		int yOld = this.getY();
 		
-		this.x += this.speed*directionX;
-		this.y += this.speed*directionY;
+		this.go(this.speed*directionX,this.speed*directionY);
 		if(this.x < WIDTH/2){
 			this.x = WIDTH/2;
 		}
@@ -114,11 +122,11 @@ public class Player extends Character{
 		if(GamePane.l.WOrUp){
 			directionY = -1;
 		}
-		int xOld = this.x;
-		int yOld = this.y;
+		int xOld = this.getX();
+		int yOld = this.getY();
 		
-		this.x += this.speed*directionX;
-		this.y += this.speed*directionY;
+		this.go(this.speed*directionX, this.speed*directionY);
+		
 		if(this.x < WIDTH/2){
 			this.x = WIDTH/2;
 		}
@@ -156,12 +164,33 @@ public class Player extends Character{
 	}
 	
 	public void draw(Graphics2D g){
-		g.drawImage(GamePane.personnageTexture[0], x-this.WIDTH/2, y-this.HEIGHT/2,this.WIDTH, this.HEIGHT, null);
+		g.drawImage(GamePane.personnageTexture[0], this.getX()-this.WIDTH/2, this.getY()-this.HEIGHT/2,this.WIDTH, this.HEIGHT, null);
 	}
 	
 	public void editorDraw(Graphics2D g){
 		g.setColor(new Color(0,0,0, 50));
-		g.fillOval(x-WIDTH/2, y-(HEIGHT)/2, WIDTH, HEIGHT);
+		g.fillOval(this.getX()-WIDTH/2, this.getY()-(HEIGHT)/2, WIDTH, HEIGHT);
+	}
+	
+	public void updateStamina(){
+		if(this.isRunning()){
+			stamina-= Frame.gp.averageFPS/60;
+			lastTimeStaminaUsed = System.currentTimeMillis();
+			
+		}
+		//apres 3 seconde que tu cours pas
+		if(System.currentTimeMillis()-lastTimeStaminaUsed > 3000){
+			stamina += Frame.gp.averageFPS/120;
+			if(stamina > maxStamina){
+				stamina = maxStamina;
+			}
+		}
+		
+		if(stamina <= 0 ){
+			stamina = 0;
+			this.running = false;
+		}
+		
 	}
 	
 	
@@ -181,10 +210,10 @@ public class Player extends Character{
 		Point a4 = new Point(xOld+this.WIDTH/2, yOld+this.HEIGHT/2);
 		
 		//Point b = new Point(this.x, this.y);
-		Point b1 = new Point(this.x-this.WIDTH/2, yOld-this.HEIGHT/2);
-		Point b2 = new Point(this.x+this.WIDTH/2, yOld-this.HEIGHT/2);
-		Point b3 = new Point(this.x-this.WIDTH/2, yOld+this.HEIGHT/2);
-		Point b4 = new Point(this.x+this.WIDTH/2, yOld+this.HEIGHT/2);
+		Point b1 = new Point(this.getX()-this.WIDTH/2, yOld-this.HEIGHT/2);
+		Point b2 = new Point(this.getX()+this.WIDTH/2, yOld-this.HEIGHT/2);
+		Point b3 = new Point(this.getX()-this.WIDTH/2, yOld+this.HEIGHT/2);
+		Point b4 = new Point(this.getX()+this.WIDTH/2, yOld+this.HEIGHT/2);
 		
 		if(directionX == 1){
 			if(GamePane.getXOfMapByPixel(a1) != GamePane.getXOfMapByPixel(b2)){
@@ -221,10 +250,10 @@ public class Player extends Character{
 		a3 = new Point(xOld-this.WIDTH/2, yOld+this.HEIGHT/2);
 		a4 = new Point(xOld+this.WIDTH/2, yOld+this.HEIGHT/2);
 		
-		b1 = new Point(xOld-this.WIDTH/2, this.y-this.HEIGHT/2);
-		b2 = new Point(xOld+this.WIDTH/2, this.y-this.HEIGHT/2);
-		b3 = new Point(xOld-this.WIDTH/2, this.y+this.HEIGHT/2);
-		b4 = new Point(xOld+this.WIDTH/2, this.y+this.HEIGHT/2);
+		b1 = new Point(xOld-this.WIDTH/2, this.getY()-this.HEIGHT/2);
+		b2 = new Point(xOld+this.WIDTH/2, this.getY()-this.HEIGHT/2);
+		b3 = new Point(xOld-this.WIDTH/2, this.getY()+this.HEIGHT/2);
+		b4 = new Point(xOld+this.WIDTH/2, this.getY()+this.HEIGHT/2);
 		
 		if(directionY == 1){
 			if(GamePane.getYOfMapByPixel(a1) != GamePane.getYOfMapByPixel(b3)){
@@ -309,6 +338,22 @@ public class Player extends Character{
 
 	public void setArme(Arme arme) {
 		Arme = arme;
+	}
+
+	public double getStamina() {
+		return stamina;
+	}
+
+	public void setStamina(int stamina) {
+		this.stamina = stamina;
+	}
+
+	public int getMaxStamina() {
+		return maxStamina;
+	}
+
+	public void setMaxStamina(int maxStamina) {
+		this.maxStamina = maxStamina;
 	}
 	
 	/*public Gun getGun() {

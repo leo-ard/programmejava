@@ -160,6 +160,10 @@ public class Gun extends Arme{
 	public void update(){
 		if(GamePane.l.RIGHT_CLICK){
 			this.shoot();
+			this.isUsed = true;
+		}
+		else{
+			this.isUsed = false;
 		}
 	}
 	

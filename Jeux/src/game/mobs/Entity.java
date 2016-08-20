@@ -2,7 +2,9 @@ package game.mobs;
 
 import java.awt.Point;
 
+import game.core.Frame;
 import game.core.GamePane;
+import game.core.Main;
 
 public abstract class Entity {
 	
@@ -24,6 +26,20 @@ public abstract class Entity {
 	 * @param y
 	 */
 	protected abstract void move(int x, int y);
+	
+	/**
+	 * Cette classe reajuste tout les deplacement pour matcher avec FPS, soit qun jour qui joue a 60 fps nes pa 2x plus vitte quun joureur jouant a 30 FPS
+	 * 
+	 * @param x deplacement x
+	 * @param y deplacement y
+	 * 
+	 */
+	public void go(double x, double y){
+		try{
+			this.x += x*(Frame.gp.averageFPS/60);
+			this.y += y*(Frame.gp.averageFPS/60);
+		}catch(IllegalArgumentException e){};
+	}
 	
 	/**
 	 * 
@@ -58,10 +74,10 @@ public abstract class Entity {
 		
 		//avant de verifier les collisions horizontales, on assume que la position prevue est au meme y que la derniere update
 		//Point b = new Point(this.x, this.y);
-		Point b1 = new Point(this.x-this.WIDTH/2, yOld-this.HEIGHT/2);
-		Point b2 = new Point(this.x+this.WIDTH/2, yOld-this.HEIGHT/2);
-		Point b3 = new Point(this.x-this.WIDTH/2, yOld+this.HEIGHT/2);
-		Point b4 = new Point(this.x+this.WIDTH/2, yOld+this.HEIGHT/2);
+		Point b1 = new Point(this.getX()-this.WIDTH/2, yOld-this.HEIGHT/2);
+		Point b2 = new Point(this.getX()+this.WIDTH/2, yOld-this.HEIGHT/2);
+		Point b3 = new Point(this.getX()-this.WIDTH/2, yOld+this.HEIGHT/2);
+		Point b4 = new Point(this.getX()+this.WIDTH/2, yOld+this.HEIGHT/2);
 		
 		//array qui represente ou il y a des collisions
 		boolean[] collisionDirection = {false, false, false, false};
@@ -95,10 +111,10 @@ public abstract class Entity {
 		}
 		
 		//avant de verifier les collisions horizontales, on assume que la position prevue est au meme y que la derniere update
-		b1 = new Point(xOld-this.WIDTH/2, this.y-this.HEIGHT/2);
-		b2 = new Point(xOld+this.WIDTH/2, this.y-this.HEIGHT/2);
-		b3 = new Point(xOld-this.WIDTH/2, this.y+this.HEIGHT/2);
-		b4 = new Point(xOld+this.WIDTH/2, this.y+this.HEIGHT/2);
+		b1 = new Point(xOld-this.WIDTH/2, this.getY()-this.HEIGHT/2);
+		b2 = new Point(xOld+this.WIDTH/2, this.getY()-this.HEIGHT/2);
+		b3 = new Point(xOld-this.WIDTH/2, this.getY()+this.HEIGHT/2);
+		b4 = new Point(xOld+this.WIDTH/2, this.getY()+this.HEIGHT/2);
 		
 		//verifie en bas
 		if(directionY == 1){
@@ -151,13 +167,13 @@ public abstract class Entity {
 	//----GETTERS AND SETTERS----//
 	
 	public int getX() {
-		return x;
+		return (int) x;
 	}
 	public void setX(int x) {
 		this.x = x;
 	}
 	public int getY() {
-		return y;
+		return (int) y;
 	}
 	public void setY(int y) {
 		this.y = y;

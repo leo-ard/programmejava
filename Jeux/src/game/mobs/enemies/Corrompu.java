@@ -51,7 +51,7 @@ public class Corrompu extends Mob{
 	
 	public void draw(Graphics2D g){
 		g.setColor(Color.black);
-		g.fillOval(x-WIDTH/2, y-(HEIGHT)/2, WIDTH, HEIGHT);
+		g.fillOval(this.getX()-WIDTH/2, this.getY()-(HEIGHT)/2, WIDTH, HEIGHT);
 		
 	}
 	

@@ -31,7 +31,7 @@ public class GamePane extends JPanel implements Runnable{
 	
 	//frame
 	protected final int FPS = 60;
-	protected double averageFPS = 0;
+	public double averageFPS = 0;
 	
 	//map
 	public static Map map;

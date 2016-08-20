@@ -6,6 +6,7 @@ public abstract class Arme {
 	protected String type;
 	protected int domage;
 	protected boolean isGun;
+	protected boolean isUsed;
 	
 	/**
 	 * Constructeur de la classe arme
