@@ -8,7 +8,7 @@ import game.core.Main;
 
 public abstract class Entity {
 	
-	protected int x, y;
+	protected double x, y;
 	protected int WIDTH, HEIGHT;
 	
 	public Entity(int x, int y, int WIDTH, int HEIGHT){
@@ -36,8 +36,10 @@ public abstract class Entity {
 	 */
 	public void go(double x, double y){
 		try{
-			this.x += x*(Frame.gp.averageFPS/60);
-			this.y += y*(Frame.gp.averageFPS/60);
+			if(Frame.gp.averageFPS > 5){
+				this.x += x/(Frame.gp.averageFPS/30);
+				this.y += y/(Frame.gp.averageFPS/30);
+			}
 		}catch(IllegalArgumentException e){};
 	}
 	
@@ -54,7 +56,7 @@ public abstract class Entity {
 	 * @return collisionDirection[] {collisionRight, collisionLeft, collisionUp, collisionDown}
 	 * @throws NullPointerException
 	 */
-	public boolean[] wallCollision(int xOld, int yOld, int directionX, int directionY) throws NullPointerException{
+	public boolean[] wallCollision(int xOld, int yOld, double directionX, double directionY) throws NullPointerException{
 		/*
 		 * position de la			position prevu de l'entite
 		 * derniere update			

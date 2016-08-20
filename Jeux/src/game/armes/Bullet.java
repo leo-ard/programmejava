@@ -59,14 +59,13 @@ public class Bullet extends Entity{
 	}
 	
 	public boolean update(){
-		x+=dx;
-		y+=dy;
+		this.go(dx, dy);
 		
 		
 		//verifie si il y a une collision avec un mur
 		boolean[] wallCollisionDirection;
 		try {
-			wallCollisionDirection = this.wallCollision(x-dx, y-dy, directionX, directionY);
+			wallCollisionDirection = this.wallCollision(this.getX()-dx, this.getY()-dy, directionX, directionY);
 		} catch(NullPointerException e){ return true;}
 		boolean hasWallCollision = false;
 		for (boolean b : wallCollisionDirection){
@@ -76,7 +75,7 @@ public class Bullet extends Entity{
 		}
 		
 		//verifie si ca sort de la map (collision avec un bound
-		boolean[] boundCollisionDirection = this.boundCollision(x, y);
+		boolean[] boundCollisionDirection = this.boundCollision(this.getX(), this.getY());
 		boolean hasBoundCollision = false;
 		for (boolean b : boundCollisionDirection){
 			if (!hasBoundCollision){

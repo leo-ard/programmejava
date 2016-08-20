@@ -30,8 +30,8 @@ public class GamePane extends JPanel implements Runnable{
 	public static int mousePosY;
 	
 	//frame
-	protected final int FPS = 60;
-	public double averageFPS = 0;
+	protected final int FPS = 100;
+	public double averageFPS = FPS;
 	
 	//map
 	public static Map map;
@@ -180,59 +180,57 @@ public class GamePane extends JPanel implements Runnable{
 		
 		initiate();
 		//---- field for the fps system ----//
-		long startTime = 0;
-		long URDTimeMillis;
-		long waitTime;
-		long totalTime = 0;
-		
-		int frameCount = 0;
-		int maxFrameCount = 30;
-		
-		long targetTime = 1000/FPS;
-		
+		long initialTime = System.nanoTime();
+		final double timeU = 1000000000 / FPS;
+		final double timeF = 1000000000 / FPS;
+		double deltaU = 0, deltaF = 0;
+		int frames = 0, ticks = 0;
+		long timer = System.currentTimeMillis();
 		//----Thread----//
 
 		requestFocus();
 		while(true){
-			startTime = System.nanoTime();
 			
-			GamePane.WIDTH = Frame.frame.getContentPane().getWidth();
-			GamePane.HEIGHT = Frame.frame.getContentPane().getHeight();
-			
-			image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
-			gGame = (Graphics2D) image.getGraphics();
-			gUI = (Graphics2D) image.getGraphics();
-			gGame.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			gGame.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			gUI.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			gUI.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			
-			if(running){
-				GameUpdate();
-				GameRenderPalet();
-				GameDraw();
-			}
-			//PauseMenu
-			Frame.pPause.update();
-			
-			//---- System for the fps ----//
-			
-			URDTimeMillis = (System.nanoTime() - startTime) / 1000000;
-			
-			waitTime = targetTime - URDTimeMillis;
-			if(waitTime <0){waitTime = 0;}
-			try {
-				Thread.sleep(waitTime);
-			} catch (InterruptedException e) {}
-			
-			totalTime += System.nanoTime() - startTime;
-			frameCount++;
-			
-			if(frameCount == maxFrameCount){
-				averageFPS = 1000.0 / ((totalTime / frameCount)/1000000);
-				frameCount = 0;
-				totalTime = 0;
-			}
+	        long currentTime = System.nanoTime();
+	        deltaU += (currentTime - initialTime) / timeU;
+	        deltaF += (currentTime - initialTime) / timeF;
+	        initialTime = currentTime;
+
+	        if (deltaU >= 1) {
+				//PauseMenu
+				Frame.pPause.update();
+	        	
+				if(running){
+					GameUpdate();
+
+				}
+	            ticks++;
+	            deltaU--;
+	        }
+
+	        if (deltaF >= 1) {
+	        	GamePane.WIDTH = Frame.frame.getContentPane().getWidth();
+				GamePane.HEIGHT = Frame.frame.getContentPane().getHeight();
+	        	if(running){
+	        		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+					gGame = (Graphics2D) image.getGraphics();
+					gUI = (Graphics2D) image.getGraphics();
+					gGame.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+					gGame.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+					gUI.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+					gUI.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+					GameRenderPalet();
+					GameDraw();
+	        	}
+	            frames++;
+	            deltaF--;
+	        }
+	        if (System.currentTimeMillis() - timer > 1000) {
+	        	averageFPS = frames;
+	            frames = 0;
+	            ticks = 0;
+	            timer += 1000;
+	        }
 		}
 		
 	}

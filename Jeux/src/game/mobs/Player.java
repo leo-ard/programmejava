@@ -15,7 +15,7 @@ import game.map.Map;
 public class Player extends Character{
 	
 	private boolean running;
-	private final int RUNNING_SPEED = 10;
+	private final int RUNNING_SPEED = 15;
 	private Arme Arme;
 	
 	private int maxStamina;
@@ -23,7 +23,7 @@ public class Player extends Character{
 	private long lastTimeStaminaUsed;
 
 	public Player(int x, int y) {
-		super(x, y, 30, 22, 100, 3, 10);
+		super(x, y, 30, 22, 100, 8, 10);
 		Arme = Gun.HANDGUN;
 		this.maxStamina = 200;
 		this.stamina = this.maxStamina;
