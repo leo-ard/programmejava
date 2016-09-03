@@ -173,23 +173,26 @@ public class Player extends Character{
 	}
 	
 	public void updateStamina(){
-		if(this.isRunning()){
-			stamina-= Frame.gp.averageFPS/60;
-			lastTimeStaminaUsed = System.currentTimeMillis();
-			
+		if(GamePane.l.AOrLeft||GamePane.l.WOrUp||GamePane.l.SOrDown||GamePane.l.DOrRight){
+			if(this.isRunning()){
+				stamina-= Frame.gp.averageFPS/60;
+				lastTimeStaminaUsed = System.currentTimeMillis();
+				
+			}
 		}
-		//apres 3 seconde que tu cours pas
+			//apres 3 seconde que tu cours pas
 		if(System.currentTimeMillis()-lastTimeStaminaUsed > 3000){
 			stamina += Frame.gp.averageFPS/120;
 			if(stamina > maxStamina){
 				stamina = maxStamina;
 			}
 		}
-		
+			
 		if(stamina <= 0 ){
 			stamina = 0;
 			this.running = false;
 		}
+		
 		
 	}
 	

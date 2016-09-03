@@ -344,6 +344,10 @@ public class Map {
 		}
 	}
 	
+	public boolean isBlockInPosition(Point p){
+		return map.containsKey(p);
+	}
+	
 	
 	public Block getBlockByPosition(Point p){
 		try{

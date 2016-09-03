@@ -1,10 +1,12 @@
 package game.mobs;
 
 import java.awt.Point;
+import java.util.HashMap;
 
 import game.core.Frame;
 import game.core.GamePane;
 import game.core.Main;
+import game.mobs.ai.Nodes;
 
 public abstract class Entity {
 	
@@ -164,7 +166,6 @@ public abstract class Entity {
 		if(this.y > GamePane.map.getSizeY()*GamePane.v.blockPixelHeight){ collisionDirection[4] = true; }
 		return collisionDirection;
 	}
-	
 	
 	//----GETTERS AND SETTERS----//
 	

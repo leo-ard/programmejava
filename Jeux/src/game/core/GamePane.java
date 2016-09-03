@@ -12,6 +12,7 @@ import game.armes.Gun;
 import game.audio.musicPlayer;
 import game.map.*;
 import game.mobs.*;
+import game.mobs.ai.Nodes;
 import game.mobs.enemies.Corrompu;
 import gui.GUI;
 
@@ -30,7 +31,7 @@ public class GamePane extends JPanel implements Runnable{
 	public static int mousePosY;
 	
 	//frame
-	protected final int FPS = 100;
+	protected final int FPS = 60;
 	public double averageFPS = FPS;
 	
 	//map
@@ -134,6 +135,11 @@ public class GamePane extends JPanel implements Runnable{
 		corrompus = new ArrayList<Corrompu>();
 		corrompus.add(new Corrompu(1280,800));
 		running = true;
+		
+		//TEST CODE
+		Nodes n = new Nodes(1,0,new Nodes(0,1));
+		n.calculate(4,1);
+		System.out.println(n.getF()+" "+n.getG()+" "+n.getH());
 		
 	}
 	
