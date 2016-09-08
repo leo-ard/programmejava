@@ -174,13 +174,13 @@ public class Player extends Character{
 	
 	public void updateStamina(){
 		if(this.isRunning()){
-			stamina-= Frame.gp.averageFPS/60;
+			stamina-= 60/Frame.gp.averageFPS;
 			lastTimeStaminaUsed = System.currentTimeMillis();
 			
 		}
 		//apres 3 seconde que tu cours pas
 		if(System.currentTimeMillis()-lastTimeStaminaUsed > 3000){
-			stamina += Frame.gp.averageFPS/120;
+			stamina += 30/Frame.gp.averageFPS;
 			if(stamina > maxStamina){
 				stamina = maxStamina;
 			}
