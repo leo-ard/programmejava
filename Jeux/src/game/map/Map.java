@@ -345,7 +345,7 @@ public class Map {
 	}
 	
 	public boolean isBlockInPosition(Point p){
-		return map.containsKey(p);
+		return p.getX()>=0&&p.getY()>=0&&p.getX()<=this.getSizeX()&&p.getY()<=this.getSizeY();
 	}
 	
 	

@@ -78,8 +78,19 @@ public class Nodes {
 		//f Calcul
 		f = g+h;
 	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
 	
-	
+	public Nodes resetF(){
+		f = 0;
+		return this;
+	}
 	
 
 }

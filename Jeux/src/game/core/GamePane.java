@@ -133,14 +133,8 @@ public class GamePane extends JPanel implements Runnable{
 		//TODO change the position by the saved one
 		player = new Player(0,0);
 		corrompus = new ArrayList<Corrompu>();
-		corrompus.add(new Corrompu(1280,800));
+		corrompus.add(new Corrompu(100,100));
 		running = true;
-		
-		//TEST CODE
-		Nodes n = new Nodes(1,0,new Nodes(0,1));
-		n.calculate(4,1);
-		System.out.println(n.getF()+" "+n.getG()+" "+n.getH());
-		
 	}
 	
 	/**

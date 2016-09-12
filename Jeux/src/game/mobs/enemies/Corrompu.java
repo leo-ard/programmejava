@@ -2,6 +2,10 @@ package game.mobs.enemies;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
+
+import game.core.GamePane;
+import game.map.Block;
 import game.mobs.Mob;
 
 
@@ -20,6 +24,7 @@ public class Corrompu extends Mob{
 	 */
 	private int state; 
 
+	
 	public Corrompu(int x, int y) {
 		super(x, y, 15, 15, 50, 5, 5);
 		this.angerDamage = damage*2;
@@ -28,8 +33,8 @@ public class Corrompu extends Mob{
 	
 	//TODO AI des mouvements du mob en overridant la methode .move() de Mob
 	@Override
-	protected void move(int x, int y){
-		
+	public void move(int x, int y){
+		ai.getIndication(x, y);
 	}
 	
 	public void update(){
@@ -45,6 +50,14 @@ public class Corrompu extends Mob{
 			this.damage = baseDamage;
 			setSpeed(baseSpeed);
 		}
+		this.moveInStraitLine(ai.getIndication(GamePane.player.getX(), GamePane.player.getY()));
+		if(this.x < 0){
+			this.x = 0;
+		}
+		if(this.y < 0){
+			this.y = 0;
+		}
+		
 		this.isSeeingThePlayer();
 		
 	}
