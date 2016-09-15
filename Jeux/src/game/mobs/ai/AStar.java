@@ -34,9 +34,6 @@ public class AStar {
 		while(!found){
 			
 		}
-		
-		
-		
 	}
 	
 	public Nodes getHightestF(){
