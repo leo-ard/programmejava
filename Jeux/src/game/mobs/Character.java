@@ -1,11 +1,17 @@
 package game.mobs;
 
+import java.awt.Point;
+
+import game.core.GamePane;
+import game.mobs.ai.AStar;
+
 public abstract class Character extends Entity {
 
 	protected int maxHP, hp;
 	protected int baseDamage, damage;
 	protected int baseSpeed, speed;
 	protected boolean isAlive = true;
+	protected AStar ai;
 	
 	public Character(int x, int y, int WIDTH, int HEIGHT, int maxHP, int baseSpeed, int baseDamage) {
 		super(x, y, WIDTH, HEIGHT);
@@ -15,11 +21,12 @@ public abstract class Character extends Entity {
 		this.speed = baseSpeed;
 		this.baseDamage = baseDamage;
 		this.damage = baseDamage;
+		ai = new AStar(this);
 	}
 
 	/**
 	 * 
-	 * Move the entity to the point(x,y) using AI, to be overriden
+	 * Move the entity to the point(x,y) using AI, to be overridden
 	 * 
 	 * @param x
 	 * @param y
@@ -27,6 +34,21 @@ public abstract class Character extends Entity {
 	@Override
 	protected abstract void move(int x, int y);
 	
+	/**
+	 * Move the chararter in streit line to eventually go to this place.
+	 * 
+	 * @param p the wanted point
+	 * @return true, the point is reach false the point is not yet reach
+	 */
+	protected boolean moveInStraitLineToBlock(Point p){
+		p.setLocation(p.getX()*GamePane.v.blockPixelWidth,p.getY()*GamePane.v.blockPixelHeight);
+		double rad = Math.toRadians(GamePane.getAngle(p.x, p.y, this.x, this.y));
+		dx = Math.cos(rad)*this.speed;
+		dy = Math.sin(rad)*this.speed;
+		this.go(dx, dy);
+		return false;
+		//TODO return something else that always false
+	}
 	
 	//---- GETTERS AND SETTERS----//
 

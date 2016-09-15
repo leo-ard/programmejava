@@ -12,6 +12,8 @@ public abstract class Entity {
 	
 	protected double x, y;
 	protected int WIDTH, HEIGHT;
+	protected double dx, dy;
+	
 	
 	public Entity(int x, int y, int WIDTH, int HEIGHT){
 		this.x = x;
